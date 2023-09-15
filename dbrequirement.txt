@@ -1,0 +1,43 @@
+#1 Database MVP 1
+   - Tabel Roles
+     * id (bigInteger, primaryKey)
+     * name (varchar, 20)
+
+   - Tabel Users
+     * id (bigInteger, primaryKey)
+     * fullname (varchar, 100)
+     * email (varchar, 100)
+     * date_of_birth (date)
+     * gender (varchar, 10)
+     * contact (varchar, 13)
+     * religion (varchar, 100)
+     * role_id (foreign, [one to many]) relasi dengan tabel role
+
+   - Tabel Employment
+     * id (integer)
+     * user_id (integer [one to many]) relasi ke tabel user
+     * company_id (integer)
+     * department_id(integer,  default)
+     * job_position_id (integer)
+     * job_level_id(integer)
+     * join_date(date)
+     * end_date(date)
+
+   - Tabel Attendances
+      * id (bigInteger, primaryKey)
+      * schedule_id (integer, [default])
+      * shift_id (integer, [default])
+      * user_id (foreign, [one to one]) relasi dengan tabel users
+      * clock_in (datetime)
+      * clock_out (datetime)
+      * photo (varchar)
+      * shift_schedule (date)
+      * shift_schedule (date)
+      * shift (varchar)
+      * location (point)
+      * notes (text)
+
+Database name : Absensi
+// ketentuan penamaan migrasi dan model disesuaikan dengan nama tabel yang dibuat
+// pendefinisian relasi di tempatkan di model untuk memudahkan perbaikan jika terjadi error
+
