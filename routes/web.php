@@ -17,3 +17,19 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('login', 'AuthenticationController@login');
+    $router->post('logout', 'AuthenticationController@logout');
+    $router->post('refresh', 'AuthenticationController@refresh');
+    $router->post('me', 'AuthenticationController@me');
+
+    $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
+        $router->get('project-manager', 'ProjectManagerController@index');
+    });
+    $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
+        $router->get('member', 'MemberController@index');
+    });
+});
+
+
+
