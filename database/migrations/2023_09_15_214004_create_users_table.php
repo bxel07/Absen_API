@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('fullname', 100);
             $table->string('email', 100)->unique();
             $table->string('password');
-            $table->date('date_of_birth')->nullable();
-            $table->string('gender', 20)->nullable();
-            $table->string('contact', 13)->nullable();
-            $table->string('religion', 20)->nullable();
+            $table->date('date_of_birth');
+            $table->string('gender', 20);
+            $table->string('contact', 13);
+            $table->string('religion', 20);
             $table->foreignId('role_id')->constrained('roles');
             $table->timestamps();
         });
