@@ -31,5 +31,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 });
 
-
-
+$router->get('/auth/google', 'GAuthController@redirectToGoogle');
+$router->get('/auth/google/callback', 'GAuthController@handleGoogleCallback');
