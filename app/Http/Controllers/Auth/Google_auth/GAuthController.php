@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth\Google_auth;
 
-use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use function App\Http\Controllers\bcrypt;
 
 class GAuthController extends Controller
 {
@@ -66,9 +68,8 @@ class GAuthController extends Controller
             $password = $request->input('password'); // Gantilah dengan input sesuai dengan nama input Anda
             $user->password = bcrypt($password); // Kolom password dienkripsi
         }
-        
-        $user->save();
 
+        $user->save();
         return $user_info->getBody();
-    }   
+    }
 }

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('password');
             $table->date('date_of_birth')->nullable();
-            $table->string('gender', 20)->nullable();
+            $table->enum('gender',['laki-laki', 'perempuan'])->nullable();
             $table->string('contact', 13)->nullable();
-            $table->string('religion', 20)->nullable();
+            $table->enum('religion', ['Islam', 'Kristen', 'Hindu', 'Budha', 'Konghucu'])->nullable();
             $table->foreignId('role_id')->constrained('roles');
             $table->timestamps();
         });

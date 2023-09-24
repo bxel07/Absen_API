@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('schedule_id');
             $table->integer('shift_id');
             $table->bigInteger('user_id');
-            $table->dateTime('clock_in');
-            $table->dateTime('clock_out');
+            $table->dateTime('clock_in')->nullable();
+            $table->dateTime('clock_out')->nullable();
             $table->string('photo');
             $table->date('shift_schedule');
             $table->string('shift');
