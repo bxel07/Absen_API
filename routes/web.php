@@ -40,12 +40,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
     });
 
-    /**
-     * Google Auth Router
-     */
-
-    $router->get('/google/login', 'Auth\Google_auth\GAuthController@redirectToGoogle');
-    $router->get('/google/callback', 'Auth\Google_auth\GAuthController@handleGoogleCallback');
 
     /**
      * Attendance Router
@@ -60,3 +54,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      */
 });
 
+ /**
+     * Google Auth Router
+     */
+
+     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController@redirectToGoogle');
+     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController@handleGoogleCallback');
