@@ -5,23 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AttendanceRequest extends Model
+class ScheduleShift extends Model
 {
     protected $fillable = [
+        'shift_id',
+        'schedule_id',
         'user_id',
-        'shift',
-        'clock_in',
-        'clock_out',
-        'description',
-        'upload_file',
-        'point'
-
+        'initial_shift'
     ];
-
-    protected $casts = [
-        'location' => 'Geometry'
-    ];
-
 
     public function users(): BelongsTo
     {
