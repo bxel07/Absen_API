@@ -58,7 +58,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function attendance_request(): HasMany
     {
-        return $this->hasMany(AttendenceRequest::class);
+        return $this->hasMany(AttendanceRequest::class);
     }
 
     public function leave_request(): HasMany
@@ -68,6 +68,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function shift_request(): HasMany {
         return $this->hasMany(ShiftRequest::class);
+    }
+
+    public function shift_schedule(): HasMany
+    {
+        return $this->hasMany(ScheduleShift::class);
     }
 
     public function approved_request(): HasMany {
