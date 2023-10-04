@@ -22,4 +22,5 @@ class Attendances extends Model
     protected $casts = [
         'location' => 'Geometry'
     ];
+
 }
