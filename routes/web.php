@@ -17,10 +17,18 @@ use App\Http\Controllers\Auth\Google_auth\GAuthController;
 use App\Http\Controllers\Auth\JWT_Auth\AuthenticationController;
 use App\Http\Controllers\Attendance;
 use App\Http\Controllers\Attendance\History\UserAttendenceHistory;
+use App\Http\Controllers\MailController;
+use FastRoute\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
+use App\Http\Controllers\PasswordResetController;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+
 
 /**
  * JWT AUTH ROUTER
@@ -30,6 +38,13 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->post('/logout', 'Auth\JWT_Auth\AuthenticationController@logout');
     $router->post('/refresh', 'Auth\JWT_Auth\AuthenticationController@refresh');
     $router->post('/me', 'Auth\JWT_Auth\AuthenticationController@me');
+    $router->get('/forgot-password', 'Auth\Email_Verification\sendMailController@pageForgotPassword');
+    $router->post('/send-mail', 'Auth\Email_Verification\sendMailController@sendMailVerification');
+    $router->post('/verify-otp', 'Auth\Email_Verification\sendMailController@verifyOtp');
+    $router->post('/update-password', 'Auth\Email_Verification\UpdatePasswordController@updatePassword');
+    $router->get('/reset-password', 'Auth\Email_Verification\sendMailController@pageResetPassword');
+
+
 
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->get('project-manager', 'ProjectManagerController@index');
@@ -40,12 +55,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
     });
 
-    /**
-     * Google Auth Router
-     */
-
-    $router->get('/google/login', 'Auth\Google_auth\GAuthController@redirectToGoogle');
-    $router->get('/google/callback', 'Auth\Google_auth\GAuthController@handleGoogleCallback');
 
     /**
      * Attendance Router
@@ -60,3 +69,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      */
 });
 
+ /**
+     * Google Auth Router
+     */
+
+     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController@redirectToGoogle');
+     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController@handleGoogleCallback');
