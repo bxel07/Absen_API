@@ -38,13 +38,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->post('/logout', 'Auth\JWT_Auth\AuthenticationController@logout');
     $router->post('/refresh', 'Auth\JWT_Auth\AuthenticationController@refresh');
     $router->post('/me', 'Auth\JWT_Auth\AuthenticationController@me');
-    $router->get('/forgot-password', 'Auth\Email_Verification\sendMailController@pageForgotPassword');
     $router->post('/send-mail', 'Auth\Email_Verification\sendMailController@sendMailVerification');
     $router->post('/verify-otp', 'Auth\Email_Verification\sendMailController@verifyOtp');
     $router->post('/update-password', 'Auth\Email_Verification\UpdatePasswordController@updatePassword');
-    $router->get('/reset-password', 'Auth\Email_Verification\sendMailController@pageResetPassword');
-
-
 
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->get('project-manager', 'ProjectManagerController@index');
