@@ -34,7 +34,18 @@ class UserSeeder extends Seeder
                 'contact' => '081234567890',
                 'religion' => 'Islam',
                 'role_id' => 2,
-            ]
+            ],
+           [
+               'fullname' => 'Member',
+               'email' => 'yogipratama.ut@gmail.com',
+               'password' => Hash::make('password'),
+               'date_of_birth' => '1980-01-01',
+               'gender' => 'laki-laki',
+               'contact' => '081234567890',
+               'religion' => 'Islam',
+               'role_id' => 2,
+           ],
+
         ]);
     }
 }
