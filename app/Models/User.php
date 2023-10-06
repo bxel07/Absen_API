@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -55,4 +56,31 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo(Roles::class, 'role_id');
     }
 
+    public function attendance_request(): HasMany
+    {
+        return $this->hasMany(AttendanceRequest::class);
+    }
+
+    public function leave_request(): HasMany
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
+    public function shift_request(): HasMany {
+        return $this->hasMany(ShiftRequest::class);
+    }
+
+    public function shift_schedule(): HasMany
+    {
+        return $this->hasMany(ScheduleShift::class);
+    }
+
+    public function approved_request(): HasMany {
+        return $this->hasMany(ApprovedRequest::class);
+    }
+
+    public function employment(): HasMany
+    {
+        return $this->hasMany(Employment::class);
+    }
 }
