@@ -8,6 +8,7 @@
         "php": "^8.1",
         "flipbox/lumen-generator": "^9.2",
         "guzzlehttp/guzzle": "^7.8",
+        "illuminate/mail": "^10.26",
         "laravel/lumen-framework": "^10.0",
         "league/flysystem": "^3.16",
         "tymon/jwt-auth": "*"
