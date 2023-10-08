@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('attendance_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('shift');
-            $table->time('clock_in');
-            $table->time('clock_out');
-            $table->text('description');
-            $table->string('upload_file');
-            $table->point('point');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('shift')->nullable();
+            $table->time('clock_in')->nullable();
+            $table->time('clock_out')->nullable();
+            $table->text('description')->nullable();
+            $table->string('upload_file')->nullable();
+            $table->point('point')->nullable();
             $table->timestamps();
         });
     }
