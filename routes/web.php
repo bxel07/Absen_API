@@ -57,6 +57,19 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
     });
 
+    $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
+        /**
+         * Router for Option shift, leave, attendance Request
+         */
+        $router->post('/shift-request', 'Attendance\UserRequestOptions\UserShiftRequest@ShiftRequestProcess');
+        $router->post('/leave-request', 'Attendance\UserRequestOptions\UserLeaveRequest@LeaveRequestProcess');
+        $router->post('/clock-in-request', 'Attendance\UserRequestOptions\UserAttendanceRequest@ClockIn_Rev');
+        $router->post('/clock-out-request', 'Attendance\UserRequestOptions\UserAttendanceRequest@ClockOut');
+    });
+
+
+
+
     /**
      * Attendance Router
      */
@@ -65,7 +78,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
     $router->post('/clockIn', 'Attendance\AttenderController@ClockIn_Rev');
     $router->post('/clockOut', 'Attendance\AttenderController@ClockOut');
-
     /**
      * User Login History
      */
