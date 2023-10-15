@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Attendance\UserRequestOptions;
 
 use App\Http\Controllers\Controller;
+use App\Models\ScheduleShift;
+use App\Models\Shift;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -14,10 +17,120 @@ class UserAttendanceRequest extends Controller
     private float $OfficeLatitude = -7.219900;
     private float $OfficeLongitude = 112.750069;
     private float $MaxRadius = 200.0;
+
+    /**
+     * Get schedule for the authenticated user.
+     *
+     * @OA\Get(
+     *     path="/api/get-shift-schedules",
+     *     summary="Get user's schedule",
+     *     description="Retrieve the schedule of the authenticated user.",
+     *     tags={"Attendance Request"},
+     *     @OA\Response(
+     *         response=201,
+     *         description="Success: User schedule retrieved successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="object"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: Data not found.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="error", type="string"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }}
+     * )
+     */
+    public function getSchedule (): JsonResponse
+    {
+        $user_id = Auth::user()->id;
+
+      if (!$user_id) {
+          return response()->json([
+                  'success' => false,
+                  'error' => "Data not found"
+              ], 400);
+      }
+        /**
+         * Getting schedule time
+         */
+        $results = DB::table('schedule_shift')
+            ->select('shifts.name as shift_name', 'shifts.schedule_in', 'shifts.schedule_out')
+            ->join('shifts', 'schedule_shift.shift_id', '=', 'shifts.id')
+            ->join('schedules', 'schedule_shift.schedule_id', '=', 'schedules.id')
+            ->join('users', 'schedule_shift.user_id', '=', 'users.id')
+            ->where('users.id', $user_id)
+            ->get();
+
+        return response()->json([
+           'success' => true,
+           'data' => $results
+        ],201);
+
+    }
+
+
+
+    /**
+     * Clock in for user attendance.
+     *
+     * @OA\Post(
+     *     path="/api/clock-in",
+     *     summary="Clock in for user attendance",
+     *     description="Clock in for user attendance at the office location. Requires proper shift, time, description, and location within a specified radius.",
+     *     tags={"Attendance Request"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="shift", type="string", description="User's shift."),
+     *             @OA\Property(property="clock_in", type="string", description="Clock-in time."),
+     *             @OA\Property(property="description", type="string", description="Clock-in description."),
+     *             @OA\Property(property="upload_file", type="string", format="binary", description="Image file for clock-in."),
+     *             @OA\Property(property="point", type="array", @OA\Items(type="number"), description="User's current location [latitude, longitude]."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Success: User clocked in successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="object"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Invalid input data.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: User location outside of the specified radius.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="null"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }}
+     * )
+     */
+
     public function ClockIn_Rev(Request $request): JsonResponse
     {
         $credential = Validator::make($request->all(), [
-            'shift' => 'required',
             'clock_in' => 'required',
             'description' => 'required',
             'upload_file' => 'required|image|mimes:png,jpg,jpeg',
@@ -40,24 +153,43 @@ class UserAttendanceRequest extends Controller
             $getAllRequest = $this->getArr($request);
 
             /**
+             * get user shift time id
+             */
+            $schedule_shift = ScheduleShift::where('user_id' ,Auth::user()->id)->pluck('id');
+
+            /**
              * Insert to DB
              */
-
-
-            DB::table('attendance_requests')->insert([
+            $RequestId = DB::table('attendance_requests')->insertGetId([
                 'user_id' => Auth::user()->id,
-                'shift' => $getAllRequest['shift'],
+                'shift' => $schedule_shift->first(),
                 'clock_in' => $getAllRequest['clock_in'],
                 'description' => $getAllRequest['description'],
                 'upload_file' => $getAllRequest['upload_file'],
-                'point' => DB::raw('ST_PointFromText("POINT(' . $getAllRequest['point'][0] . ' ' . $getAllRequest['point'][1] . ')")')
+                'point' => DB::raw('ST_PointFromText("POINT(' . $getAllRequest['point'][0] . ' ' . $getAllRequest['point'][1] . ')")'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            /**
+             * Entry to Approved Request
+             */
+            DB::table('approved_requests')->insert([
+                'user_id' => Auth::user()->id,
+                'attendance_request_id' => $RequestId,
+                'status' => 'pending',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' =>'Anda Berhasil Clock_in',
+                'message' =>'Anda Berhasil Clock in !',
                 'data'    => $getAllRequest
             ], 201);
+
+
+
         } else {
             return response()->json([
                 'success' => true,
@@ -66,10 +198,61 @@ class UserAttendanceRequest extends Controller
             ], 201);
        }
     }
+
+
+    /**
+     * Clock out for user attendance.
+     *
+     * @OA\Post(
+     *     path="/api/clock-out",
+     *     summary="Clock out for user attendance",
+     *     description="Clock in for user attendance at the office location. Requires proper shift, time, description, and location within a specified radius.",
+     *     tags={"Attendance Request"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="shift", type="string", description="User's shift."),
+     *             @OA\Property(property="clock_out", type="string", description="Clock-out time."),
+     *             @OA\Property(property="description", type="string", description="Clock-in description."),
+     *             @OA\Property(property="upload_file", type="string", format="binary", description="Image file for clock-in."),
+     *             @OA\Property(property="point", type="array", @OA\Items(type="number"), description="User's current location [latitude, longitude]."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Success: User clockout in successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="object"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Invalid input data.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: User location outside of the specified radius.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="null"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }}
+     * )
+     */
     public function ClockOut(Request $request): JsonResponse
     {
         $credential = Validator::make($request->all(), [
-            'shift' => 'required',
             'clock_out' => 'required',
             'description' => 'required',
             'upload_file' => 'required|image|mimes:png,jpg,jpeg',
@@ -92,15 +275,34 @@ class UserAttendanceRequest extends Controller
         if($this->RadiusCalc($data->latitude, $data->longitude, $this->OfficeLatitude, $this->OfficeLongitude) <= $this->MaxRadius){
             $getAllRequest = $this->getArr($request);
             /**
+             * get user shift time id
+             */
+            $schedule_shift = ScheduleShift::where('user_id' ,Auth::user()->id)->pluck('id');
+
+            /**
              * Insert to DB
              */
-            DB::table('attendance_requests')->insert([
+            $RequestId = DB::table('attendance_requests')->insertGetId([
                 'user_id' => Auth::user()->id,
-                'shift' => $getAllRequest['shift'],
+                'shift' => $schedule_shift->first(),
                 'clock_out' => $getAllRequest['clock_out'],
                 'description' => $getAllRequest['description'],
                 'upload_file' => $getAllRequest['upload_file'],
-                'point' => DB::raw('ST_PointFromText("POINT(' . $getAllRequest['point'][0] . ' ' . $getAllRequest['point'][1] . ')")') ]);
+                'point' => DB::raw('ST_PointFromText("POINT(' . $getAllRequest['point'][0] . ' ' . $getAllRequest['point'][1] . ')")'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            /**
+             * Entry to Approved Request
+             */
+            DB::table('approved_requests')->insert([
+                'user_id' => Auth::user()->id,
+                'attendance_request_id' => $RequestId,
+                'status' => 'pending',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
             return response()->json([
                 'success' => true,
                 'message' =>'Anda berhasil ClockOut!!',

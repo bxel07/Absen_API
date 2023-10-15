@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('shift_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('shift');
-            $table->date('shift_type');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->date('on_date');
+            $table->time('old_shift_start');
+            $table->time('old_shift_end');
+            $table->time('new_shift_start');
+            $table->time('new_shift_end');
             $table->text('reason');
             $table->timestamps();
         });

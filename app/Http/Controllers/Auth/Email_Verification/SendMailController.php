@@ -20,6 +20,39 @@ class SendMailController extends Controller
          return view('forgot-password');
      }
 
+    /**
+     * Send email verification with OTP for password reset.
+     *
+     * @OA\Post(
+     *     path="/api/send-mail",
+     *     summary="Send email verification for password reset",
+     *     description="Send an email verification containing OTP for password reset.",
+     *     tags={"Password Reset"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="email", type="string", format="email", description="User's email."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Email sent.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Invalid email or other validation errors.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
     public function sendMailVerification(Request $request): JsonResponse
     {
         $this->validate($request, [
@@ -55,7 +88,38 @@ class SendMailController extends Controller
     // }
 
     /**
-     * @throws ValidationException
+     * Verify the OTP sent to the user's email.
+     *
+     * @OA\Post(
+     *     path="/api/verify-otp",
+     *     summary="Verify OTP for password reset",
+     *     description="Verify the OTP for the password reset process.",
+     *     tags={"Password Reset"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="email", type="string", format="email", description="User's email."),
+     *             @OA\Property(property="otp", type="integer", description="OTP sent to the user's email."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: OTP verified.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: Invalid OTP or expired OTP.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
      */
     public function verifyOtp(Request $request): JsonResponse
     {

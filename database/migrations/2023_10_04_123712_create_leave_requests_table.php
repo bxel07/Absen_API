@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->string('type');
             $table->date('start_date');
             $table->date('start_end');
             $table->text('reason');
-            $table->string('delegations');
+            $table->string('delegations')->nullable();
             $table->string('upload_file');
             $table->timestamps();
         });

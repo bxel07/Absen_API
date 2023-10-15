@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\JWT_Auth\AuthenticationController;
 use App\Http\Controllers\Attendance;
 use App\Http\Controllers\Attendance\History\UserAttendenceHistory;
 use App\Http\Controllers\Auth\Email_Verification\SendMailController;
+use OpenApi\Annotations\OpenApi as OA;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
@@ -65,7 +66,30 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post('/leave-request', 'Attendance\UserRequestOptions\UserLeaveRequest@LeaveRequestProcess');
         $router->post('/clock-in-request', 'Attendance\UserRequestOptions\UserAttendanceRequest@ClockIn_Rev');
         $router->post('/clock-out-request', 'Attendance\UserRequestOptions\UserAttendanceRequest@ClockOut');
+
+        /**
+         * Get shift schedules
+         */
+        $router->get('/get-shift-schedules', 'Attendance\UserRequestOptions\UserAttendanceRequest@getSchedule');
+
+        /**
+         * Router Informasi Akun
+         */
+        $router->get('/user-info', 'Dashboard\Profile\UserProfile@show');
+        $router->post('/update-profile', 'Dashboard\Profile\UserProfile@update');
+        /**
+         * Router Informasi Point
+         */
+
+        $router->get('/point', 'Dashboard\Profile\PointController@index');
+        /**
+         * Router Informasi Pekerjaan dari status user di perusahaan
+         *
+         */
+        $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
     });
+
+
 
 
 
@@ -89,3 +113,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
      $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
      $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+
+     /**
+      * API DOCS
+      */
+
+
