@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  title: 'My First API'
+  version: '0.1'
+paths:
+  /api/users:
+    get:
+      operationId: 0058a950719705ec33c52ab68d37a130
+      responses:
+        '200':
+          description: AOK
+        '401':
+          description: 'Not allowed'

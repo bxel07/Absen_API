@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Http\Redirector;
 use function App\Http\Controllers\bcrypt;
@@ -15,7 +16,23 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class GAuthController_rev extends Controller
 {
-    public function redirectToGoogle(): Redirector|\Illuminate\Http\RedirectResponse
+    /**
+     * @OA\Get(
+     *     path="/auth/google/login",
+     *     summary="Redirect to Google for authentication",
+     *     description="Redirects to Google for authentication using OAuth2.",
+     *     tags={"Authentication login with google"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             example="https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=email"
+     *         )
+     *     )
+     * )
+     */
+    public function redirectToGoogle()
     {
         $clientId = env('GOOGLE_CLIENT_ID');
         $redirectUri = env('GOOGLE_REDIRECT');
@@ -27,9 +44,32 @@ class GAuthController_rev extends Controller
             'scope' => 'email',
         ];
 
-        return redirect("$url?" . http_build_query($params));
+        //return redirect("$url?" . http_build_query($params));
+        $redirectUrl = "$url?" . http_build_query($params);
+
+        return response()->json($redirectUrl);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/auth/google/callback",
+     *     summary="Handle Google Callback",
+     *     description="Handles the Google callback after authentication using OAuth2.",
+     *     tags={"Authentication login with google"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error"
+     *     )
+     * )
+     */
     public function handleGoogleCallback(Request $request): JsonResponse
     {
         $code = $request->input('code');
