@@ -36,6 +36,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->post('/refresh', 'Auth\JWT_Auth\AuthenticationController@refresh');
     $router->post('/me', 'Auth\JWT_Auth\AuthenticationController@me');
 
+
     /**
      * Router reset password
      */
@@ -50,12 +51,18 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      * Redirect to Dashboard Interface
      */
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
-        $router->get('project-manager', 'ProjectManagerController@index');
+        $router->get('project-manager', 'Dashboard\ProjectManager\ProjectManagerController@index');
         $router->get('/projectmanager/history', 'Attendance\History\UserAttendenceHistory@ManagerLog');
+        $router->get('data-points', 'Dashboard\Profile\PointController@getData');
+        $router->post('/add-main-points', 'Dashboard\Profile\PointController@addMainPoint');
+        $router->post('/add-reward-points', 'Dashboard\Profile\PointController@addRewardPoint');
+
+
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
-        $router->get('/member', 'MemberController@index');
+        $router->get('/member', 'Dashboard\Member\MemberController@index');
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
+        $router->post('/transfer-points', 'Dashboard\Profile\PointController@transferPoint');
     });
 
     $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
@@ -82,6 +89,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
 
         $router->get('/point', 'Dashboard\Profile\PointController@index');
+
         /**
          * Router Informasi Pekerjaan dari status user di perusahaan
          *
