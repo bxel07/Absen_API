@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Profile;
+namespace App\Http\Controllers\Dashboard\Point;
 
 use App\Http\Controllers\Controller;
-use App\Models\Point;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Models\Point;
 use Illuminate\Support\Facades\Auth;
 
-
-class PointController extends Controller
+class MemberController extends Controller
 {
-    /**
+     /**
      * Retrieve the point associated with the current user.
      *
      * @return JsonResponse
@@ -32,10 +31,11 @@ class PointController extends Controller
      *     ),
      * )
      */
+
     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
-        $point = Point::find($user); // Find the point associated with the current user
+        $point = Point::where('user_id', $user)->first();
 
         return response()->json([
             'success' => true,
@@ -44,60 +44,34 @@ class PointController extends Controller
 
     }
 
-
-    public function getData()
+    public function claimReward(Request $request)
     {
-        point::all();
-        return response()->json([
-            'success'=> true,
-            'data'=> Point::all()
-            ],200);
-    }
+        $user = Auth::user()->id;
 
-    public function addMainPoint(Request $request)
-    {
-        $user_id = $request->user_id;
-        $main_points = $request->main_points;
+        if($user){
+            $reward_point_before_claims = $request->reward_point_before_claims;
+            $point = Point::where('user_id', $user)->first();
 
-        $point = Point::where('user_id', $user_id)->first();
+            if  ($point) {
+                if($point->reward_point_before_claims >= $reward_point_before_claims){
+                    $point->reward_point_before_claims -= $reward_point_before_claims;
+                    $point->flag_reward_points = false;
+                    $point->reward_points += $reward_point_before_claims;
+                    $point->save();
 
-        if($point){
-            $point->main_points += $main_points;
-            $point->save();
-        } else {
-            $userData = [
-                'user_id' => $user_id,
-                'main_points' => $main_points,
-            ];
-            $point = Point::create($userData);
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Claim successful',
+                        'data' => $point
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Not enough points to claim'
+                    ], 400);
+                }
+            }
         }
-        return response()->json([
-            'success' => true,
-            'data' => $point
-        ], 200);
-
-    }
-
-    public function addRewardPoint(Request $request)
-    {
-        $user_id = $request->user_id;
-        $reward_points = $request->reward_points;
-
-        $point = Point::where('user_id', $user_id)->first();
-        if($point){
-            $point->reward_points += $reward_points;
-            $point->save();
-        } else {
-            $userData = [
-                'user_id' => $user_id,
-                'reward_points' => $reward_points,
-            ];
-            $point = Point::create($userData);
-        }
-        return response()->json([
-            'success' => true,
-            'data' => $point
-        ], 200);
     }
 
     public function transferPoint(Request $request)
@@ -144,5 +118,6 @@ class PointController extends Controller
             ], 401);
         }
     }
+
 
 }

@@ -53,16 +53,22 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->get('project-manager', 'Dashboard\ProjectManager\ProjectManagerController@index');
         $router->get('/projectmanager/history', 'Attendance\History\UserAttendenceHistory@ManagerLog');
-        $router->get('data-points', 'Dashboard\Profile\PointController@getData');
-        $router->post('/add-main-points', 'Dashboard\Profile\PointController@addMainPoint');
-        $router->post('/add-reward-points', 'Dashboard\Profile\PointController@addRewardPoint');
+
+        // Router Informasi Point Project Manager
+        $router->get('data-points', 'Dashboard\Point\ProjectManagerController@getData');
+        $router->post('/add-main-points', 'Dashboard\Point\ProjectManagerController@addMainPoint');
+        $router->post('/add-reward', 'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
 
 
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         $router->get('/member', 'Dashboard\Member\MemberController@index');
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
-        $router->post('/transfer-points', 'Dashboard\Profile\PointController@transferPoint');
+
+        // Router Informasi Point Member
+        $router->get('/point', 'Dashboard\Point\MemberController@index');
+        $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
+        $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
     });
 
     $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
@@ -84,11 +90,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
         $router->get('/user-info', 'Dashboard\Profile\UserProfile@show');
         $router->post('/update-profile', 'Dashboard\Profile\UserProfile@update');
-        /**
-         * Router Informasi Point
-         */
-
-        $router->get('/point', 'Dashboard\Profile\PointController@index');
 
         /**
          * Router Informasi Pekerjaan dari status user di perusahaan
