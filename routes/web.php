@@ -53,9 +53,16 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->get('project-manager', 'Dashboard\ProjectManager\ProjectManagerController@index');
         $router->get('/projectmanager/history', 'Attendance\History\UserAttendenceHistory@ManagerLog');
+
+        // Proses Point
         $router->get('data-points', 'Dashboard\Profile\PointController@getData');
         $router->post('/add-main-points', 'Dashboard\Profile\PointController@addMainPoint');
         $router->post('/add-reward-points', 'Dashboard\Profile\PointController@addRewardPoint');
+
+        // Acc Tugas
+        $router->get('all-task', 'ApprovedTaskController@index');
+        $router->get('task/{id}', 'ApprovedTaskController@show');
+        $router->post('/approved-tasks', 'ApprovedTaskController@update');
 
 
     });
