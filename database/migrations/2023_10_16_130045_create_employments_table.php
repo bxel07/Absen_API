@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('employments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('company_id');
-            $table->integer('department_id');
-            $table->integer('job_position_id');
-            $table->integer('job_level_id');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('company_id')->nullable()->references('id')->on('companies');
+            $table->foreignId('branch_id')->nullable()->references('id')->on('branches');
+            $table->foreignId('department_id')->references('id')->on('departments');
             $table->date('join_date');
             $table->date('end_date');
             $table->timestamps();

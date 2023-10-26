@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname', 100);
-            $table->string('email', 100)->unique();
-            $table->string('password');
+            $table->string('fullname', 100)->nullable();
+            $table->string('email', 100)->unique()->nullable();
+            $table->string('password')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->enum('gender',['laki-laki', 'perempuan'])->nullable();
             $table->string('contact', 13)->nullable();
             $table->enum('religion', ['Islam', 'Kristen', 'Hindu', 'Budha', 'Konghucu'])->nullable();
-            $table->foreignId('role_id')->constrained('roles');
+            $table->string('image_profile')->nullable();
+            $table->foreignId('role_id')->nullable()->constrained('roles');
             $table->timestamps();
         });
     }

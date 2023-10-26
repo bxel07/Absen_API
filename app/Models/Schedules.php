@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Schedules extends Model
 {
+
+    protected $table = 'schedules';
+
+    protected $fillable = [
+      'schedule_shift',
+      'effective'
+    ];
     public function Schedule(): HasMany
     {
         return $this->hasMany(Shift::class, 'schedule_id');

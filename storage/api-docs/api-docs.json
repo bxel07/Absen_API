@@ -1,0 +1,1241 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/get-shift-schedules": {
+            "get": {
+                "tags": [
+                    "Attendance Request"
+                ],
+                "summary": "Get user's schedule",
+                "description": "Retrieve the schedule of the authenticated user.",
+                "operationId": "App\\Http\\Controllers\\Attendance\\UserRequestOptions\\UserAttendanceRequest::getSchedule",
+                "responses": {
+                    "201": {
+                        "description": "Success: User schedule retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get schedule for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "description": "Get schedule for the authenticated user.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Data not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get schedule for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "error": {
+                                            "description": "Get schedule for the authenticated user.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clock-in": {
+            "post": {
+                "tags": [
+                    "Attendance Request"
+                ],
+                "summary": "Clock in for user attendance",
+                "description": "Clock in for user attendance at the office location. Requires proper shift, time, description, and location within a specified radius.",
+                "operationId": "App\\Http\\Controllers\\Attendance\\UserRequestOptions\\UserAttendanceRequest::ClockIn_Rev",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "shift": {
+                                        "description": "User's shift.",
+                                        "type": "string"
+                                    },
+                                    "clock_in": {
+                                        "description": "Clock-in time.",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Clock-in description.",
+                                        "type": "string"
+                                    },
+                                    "upload_file": {
+                                        "description": "Image file for clock-in.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "point": {
+                                        "description": "User's current location [latitude, longitude].",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success: User clocked in successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Invalid input data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: User location outside of the specified radius.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Clock in for user attendance.",
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clock-out": {
+            "post": {
+                "tags": [
+                    "Attendance Request"
+                ],
+                "summary": "Clock out for user attendance",
+                "description": "Clock in for user attendance at the office location. Requires proper shift, time, description, and location within a specified radius.",
+                "operationId": "App\\Http\\Controllers\\Attendance\\UserRequestOptions\\UserAttendanceRequest::ClockOut",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "shift": {
+                                        "description": "User's shift.",
+                                        "type": "string"
+                                    },
+                                    "clock_out": {
+                                        "description": "Clock-out time.",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Clock-in description.",
+                                        "type": "string"
+                                    },
+                                    "upload_file": {
+                                        "description": "Image file for clock-in.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "point": {
+                                        "description": "User's current location [latitude, longitude].",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success: User clockout in successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Invalid input data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: User location outside of the specified radius.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Clock out for user attendance.",
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/leave-request": {
+            "post": {
+                "tags": [
+                    "Leave Request"
+                ],
+                "summary": "Process leave request",
+                "description": "Process leave request for the authenticated user. Requires the type, start date, end date, reason, and upload of a PDF document.",
+                "operationId": "App\\Http\\Controllers\\Attendance\\UserRequestOptions\\UserLeaveRequest::LeaveRequestProcess",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "Type of leave request.",
+                                        "type": "string"
+                                    },
+                                    "start_date": {
+                                        "description": "Start date of the leave.",
+                                        "type": "string"
+                                    },
+                                    "start_end": {
+                                        "description": "End date of the leave.",
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "description": "Reason for the leave request.",
+                                        "type": "string"
+                                    },
+                                    "upload_file": {
+                                        "description": "PDF document for the leave request.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Incomplete input data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Process leave request for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Process leave request for the authenticated user.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Process leave request for the authenticated user.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Leave request processed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Process leave request for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Process leave request for the authenticated user.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shift-request": {
+            "post": {
+                "tags": [
+                    "Shift Request"
+                ],
+                "summary": "Process shift request",
+                "description": "Process shift request for the authenticated user. Requires the on date, old shift start and end times, new shift start and end times, and reason.",
+                "operationId": "App\\Http\\Controllers\\Attendance\\UserRequestOptions\\UserShiftRequest::ShiftRequestProcess",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "on_date": {
+                                        "description": "Date of the shift change.",
+                                        "type": "string"
+                                    },
+                                    "old_shift_start": {
+                                        "description": "Start time of the old shift.",
+                                        "type": "string"
+                                    },
+                                    "old_shift_end": {
+                                        "description": "End time of the old shift.",
+                                        "type": "string"
+                                    },
+                                    "new_shift_start": {
+                                        "description": "Start time of the new shift.",
+                                        "type": "string"
+                                    },
+                                    "new_shift_end": {
+                                        "description": "End time of the new shift.",
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "description": "Reason for the shift request.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Incomplete input data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Shift request processed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Process shift request for the authenticated user.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/send-mail": {
+            "post": {
+                "tags": [
+                    "Password Reset"
+                ],
+                "summary": "Send email verification for password reset",
+                "description": "Send an email verification containing OTP for password reset.",
+                "operationId": "App\\Http\\Controllers\\Auth\\Email_Verification\\SendMailController::sendMailVerification",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email.",
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: Email sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Send email verification with OTP for password reset.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Invalid email or other validation errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Send email verification with OTP for password reset.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/verify-otp": {
+            "post": {
+                "tags": [
+                    "Password Reset"
+                ],
+                "summary": "Verify OTP for password reset",
+                "description": "Verify the OTP for the password reset process.",
+                "operationId": "App\\Http\\Controllers\\Auth\\Email_Verification\\SendMailController::verifyOtp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email.",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "otp": {
+                                        "description": "OTP sent to the user's email.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: OTP verified.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Verify the OTP sent to the user's email.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Invalid OTP or expired OTP.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Verify the OTP sent to the user's email.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/update-password": {
+            "post": {
+                "tags": [
+                    "Password Update"
+                ],
+                "summary": "Update user's password",
+                "description": "Update the user's password with a new one.",
+                "operationId": "App\\Http\\Controllers\\Auth\\Email_Verification\\UpdatePasswordController::updatePassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email.",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "new_password": {
+                                        "description": "New password for the user.",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: Password updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Update the user's password.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Email not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Update the user's password.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Validation errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Update the user's password.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/google/login": {
+            "get": {
+                "tags": [
+                    "Authentication login with google"
+                ],
+                "summary": "Redirect to Google for authentication",
+                "description": "Redirects to Google for authentication using OAuth2.",
+                "operationId": "App\\Http\\Controllers\\Auth\\Google_auth\\GAuthController_rev::redirectToGoogle",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=email"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/google/callback": {
+            "get": {
+                "tags": [
+                    "Authentication login with google"
+                ],
+                "summary": "Handle Google Callback",
+                "description": "Handles the Google callback after authentication using OAuth2.",
+                "operationId": "App\\Http\\Controllers\\Auth\\Google_auth\\GAuthController_rev::handleGoogleCallback",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Authenticate user and get the JWT token",
+                "description": "Authenticate the user and return a JWT token for authentication.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Get a JWT via given credentials.",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Get a JWT via given credentials.",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "Get a JWT via given credentials.",
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "description": "Get a JWT via given credentials.",
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "expires_in": {
+                                            "description": "Get a JWT via given credentials.",
+                                            "type": "integer",
+                                            "example": "2880"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Get a JWT via given credentials.",
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get the authenticated user",
+                "description": "Retrieve the authenticated user's information.",
+                "operationId": "App\\Http\\Controllers\\Auth\\JWT_Auth\\AuthenticationController::me",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Log the user out",
+                "description": "Invalidate the current token and log the user out.",
+                "operationId": "App\\Http\\Controllers\\Auth\\JWT_Auth\\AuthenticationController::logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Log the user out (Invalidate the token).",
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/refresh": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refresh a token",
+                "description": "Refresh the current token and return a new token.",
+                "operationId": "App\\Http\\Controllers\\Auth\\JWT_Auth\\AuthenticationController::refresh",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "Refresh a token.",
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "description": "Refresh a token.",
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "expires_in": {
+                                            "description": "Refresh a token.",
+                                            "type": "integer",
+                                            "example": "2880"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/point": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Retrieve the point associated with the current user",
+                "description": "Retrieve the point associated with the current user based on the user's ID.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\PointController::index",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve the point associated with the current user.",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "description": "Retrieve the point associated with the current user."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user-employment": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Retrieve employment details for the authenticated user",
+                "description": "Retrieve employment details for the authenticated user based on the user's ID.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserEmployment::index",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user-info": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get user info",
+                "description": "Retrieve information about the logged-in user. Requires authentication.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserProfile::show",
+                "responses": {
+                    "200": {
+                        "description": "Success: User information retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve user information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Retrieve user information.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Retrieve user information.",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Retrieve user information.",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: User data not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve user information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Retrieve user information.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-profile": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update the user's profile information",
+                "description": "Update the user's profile information based on the provided request data.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserProfile::update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "fullname": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "date_of_birth": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "religion": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string"
+                                    },
+                                    "image_profile": {
+                                        "description": "Update the user's profile information.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Data update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Required fields missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Update the user's profile information.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User",
+                "required": [
+                    "id",
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

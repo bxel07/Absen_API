@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Job_Level;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,9 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(UserSeeder::class);
         $this->call(RolesSeeder::class);
         $this->call(UserSeeder::class);
+<<<<<<< HEAD
         $this->call(ProjectsTableSeeder::class);
+=======
+
+        $this->call(job_levels ::class);
+        $this->call(job_positions::class);
+        $this->call(job_departments::class);
+
+        $this->call(companies::class);
+        $this->call(branch::class);
+        $this->call(employment::class);
+
+        $this->call(schedule_seeder::class);
+        $this->call(shift_seeder::class);
+        $this->call(schedule_shift_seeder::class);
+        $this->call(point_seed::class);
+>>>>>>> b037021c085f02f40397a825f0693256233f553a
     }
 }
