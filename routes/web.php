@@ -86,17 +86,25 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     /**
      * Project Router
      */
-    $router->group(['middleware' => 'checkRole:Project Manager,Member'], function () use ($router) {
+    $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         // Semua List Task
-        $router->get('/project-manager/list-task', 'Task\TaskController@getTaskList');
+        $router->get('/project-manager/pm/list-task', 'Task\TaskController@getTaskList');
         // List Task by Project
-        $router->get('/project-manager/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
+        $router->get('/project-manager/pm/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
         // List Comment by Task
-        $router->get('/project-manager/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
-        // Add Task by Project
-        $router->post('/project-manager/{project_id}/add-task', 'Task\TaskController@addTaskToProject');
+        $router->get('/project-manager/pm/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
         // Add Comment by Task
-        $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+        $router->post('/project-manager/pm/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+    });
+    $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
+        // Semua List Task
+        $router->get('/project-manager/member/list-task', 'Task\TaskController@getTaskList');
+        // List Task by Project
+        $router->get('/project-manager/member/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
+        // List Comment by Task
+        $router->get('/project-manager/member/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
+        // Add Task by Project
+        $router->post('/project-manager/member/{project_id}/add-task', 'Task\TaskController@addTaskToProject');
     });
 });
 

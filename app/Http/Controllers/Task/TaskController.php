@@ -26,14 +26,10 @@ class TaskController extends Controller
             return [
                 'id' => $task->id,
                 'user_id' => $task->user_id,
-                'approved_tasks_id' => $task->approved_tasks_id,
                 'name' => $task->name,
                 'project_id' => $task->project_id,
                 'project_title' => $task->project_title,
-                'deadline' => $task->deadline,
                 'description' => $task->description,
-                'file' => $task->file,
-                'status' => $task->status,
                 'comment' => $comment,
                 'created_at' => $task->created_at,
                 'updated_at' => $task->updated_at,
@@ -54,6 +50,37 @@ class TaskController extends Controller
         return response()->json(['comment' => $comment], 200);
     }
 
+    // public function addTaskToProject(Request $request, $project_id)
+    // {
+    //     // Validasi data yang diterima dari permintaan
+    //     $validator = \Validator::make($request->all(), [
+    //         'name' => 'required|string',
+    //         'description' => 'required|string',
+    //     ]);
+
+    //     // Temukan proyek yang sesuai dengan $project_id
+    //     $project = Project::find($project_id);
+
+    //     if (!$project) {
+    //         return response()->json(['message' => 'Proyek tidak ditemukan'], 404);
+    //     }
+
+    //     // Pastikan pengguna yang melakukan permintaan adalah admin proyek
+    //     if ($project->user_id !== auth()->user()->id) {
+    //         return response()->json(['message' => 'Anda tidak memiliki izin untuk menambahkan tugas ke proyek ini.'], 403);
+    //     }
+
+    //     // Buat tugas baru
+    //     $task = new Task();
+    //     $task->name = $request->input('name');
+    //     $task->description = $request->input('description');
+    //     $task->user_id = auth()->user()->id;
+    //     $task->project_id = $project_id;
+    //     $task->project_title = $project->project_title;
+    //     $task->save();
+
+    //     return response()->json(['message' => 'Tugas berhasil ditambahkan'], 201);
+    // }
     public function addTaskToProject(Request $request, $project_id)
     {
         // Validasi data yang diterima dari permintaan
@@ -61,30 +88,34 @@ class TaskController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
         ]);
-
+    
         // Temukan proyek yang sesuai dengan $project_id
         $project = Project::find($project_id);
-
+    
         if (!$project) {
             return response()->json(['message' => 'Proyek tidak ditemukan'], 404);
         }
-
-        // Pastikan pengguna yang melakukan permintaan adalah admin proyek
-        if ($project->user_id !== auth()->user()->id) {
+    
+        // Pastikan pengguna yang melakukan permintaan adalah anggota proyek yang sah
+        $user = auth()->user();
+        $isMember = $project->task_member_id == $user->id;
+    
+        if (!$isMember) {
             return response()->json(['message' => 'Anda tidak memiliki izin untuk menambahkan tugas ke proyek ini.'], 403);
         }
-
+    
         // Buat tugas baru
         $task = new Task();
         $task->name = $request->input('name');
         $task->description = $request->input('description');
-        $task->user_id = auth()->user()->id;
+        $task->user_id = $user->id;
         $task->project_id = $project_id;
         $task->project_title = $project->project_title;
         $task->save();
-
+    
         return response()->json(['message' => 'Tugas berhasil ditambahkan'], 201);
     }
+    
 
     public function addCommentToTask(Request $request, $task_id)
     {
