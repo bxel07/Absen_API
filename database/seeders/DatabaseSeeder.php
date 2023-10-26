@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(schedule_shift_seeder::class);
         $this->call(point_seed::class);
 >>>>>>> b037021c085f02f40397a825f0693256233f553a
+        $this->call(Task_MemberSeeder::class);
     }
 }
