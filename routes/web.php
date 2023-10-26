@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\JWT_Auth\AuthenticationController;
 use App\Http\Controllers\Attendance;
 use App\Http\Controllers\Attendance\History\UserAttendenceHistory;
 use App\Http\Controllers\Auth\Email_Verification\SendMailController;
+use App\Http\Controllers\Task\TaskController;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
@@ -81,6 +82,22 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     /**
      * User Login History
      */
+
+    /**
+     * Project Router
+     */
+    $router->group(['middleware' => 'checkRole:Project Manager,Member'], function () use ($router) {
+        // Semua List Task
+        $router->get('/project-manager/list-task', 'Task\TaskController@getTaskList');
+        // List Task by Project
+        $router->get('/project-manager/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
+        // List Comment by Task
+        $router->get('/project-manager/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
+        // Add Task by Project
+        $router->post('/project-manager/{project_id}/add-task', 'Task\TaskController@addTaskToProject');
+        // Add Comment by Task
+        $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+    });
 });
 
  /**
@@ -89,3 +106,5 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
      $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
      $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+
+
