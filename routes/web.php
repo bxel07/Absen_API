@@ -119,6 +119,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/project-manager/pm/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
         // Add Comment by Task
         $router->post('/project-manager/pm/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+
+        // get Approved Task
+        $router->get('task-all', 'Task\ApprovedTaskController@index');
+
+        $router->post('approve-task/{id}',  'Task\ApprovedTaskController@edit');
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         // Semua List Task
