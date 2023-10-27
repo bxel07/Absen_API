@@ -53,6 +53,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->get('project-manager', 'ProjectManagerController@index');
         $router->get('/projectmanager/history', 'Attendance\History\UserAttendenceHistory@ManagerLog');
+
+        $router->get('task-all', 'Task\ApprovedTaskController@index');
+        $router->post('approve-task', 'Task\ApprovedTaskController@edit');
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         $router->get('/member', 'MemberController@index');

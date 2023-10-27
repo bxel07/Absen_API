@@ -15,10 +15,10 @@ class ApprovedTaskController extends Controller
     }
     public function index()
     {
-        ApprovedTask::all();
+        ApprovedTask::join('tasks', 'approved_tasks.task_id','=','tasks.id')->get();
        return response()->json([
         'success' => true,
-        'data' => ApprovedTask::all()
+        'data' =>  ApprovedTask::join('tasks', 'approved_tasks.task_id','=','tasks.id')->get()
        ], 200);
     }
 

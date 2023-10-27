@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Project;
+use App\Models\ApprovedTask;
 
 class TaskController extends Controller
 {
@@ -65,6 +66,11 @@ class TaskController extends Controller
         $task->user_id = $user->id;
         $task->project_id = $project_id;
         $task->save();
+
+        $approval = new ApprovedTask();
+        $approval->task_id = $task->id;
+        $approval->save();
+
         return response()->json(['message' => 'Tugas berhasil ditambahkan'], 201);
     }
 
@@ -96,5 +102,5 @@ class TaskController extends Controller
         $task->save();
         return response()->json(['message' => 'Komentar berhasil ditambahkan'], 201);
     }
-    
+
 }
