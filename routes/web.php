@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\JWT_Auth\AuthenticationController;
 use App\Http\Controllers\Attendance;
 use App\Http\Controllers\Attendance\History\UserAttendenceHistory;
 use App\Http\Controllers\Auth\Email_Verification\SendMailController;
+use App\Http\Controllers\ProjectManagement\ProjectManager\ProjectController;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
@@ -83,9 +84,18 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      */
 });
 
- /**
-     * Google Auth Router
-     */
+/**
+ * Google Auth Router
+ */
 
-     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
-     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+$router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
+$router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+
+$router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
+    $router->post('/create-project', 'ProjectManagement\ProjectManager\ProjectController@createProject');
+    $router->post('/edit-project', 'ProjectManagement\ProjectManager\ProjectController@editProject');
+    $router->post('/delete-project', 'ProjectManagement\ProjectManager\ProjectController@deleteProject');
+    $router->get('/project/{id}', 'ProjectManagement\ProjectManager\ProjectController@detailProject');
+    $router->get('/status-projects', 'ProjectManagement\ProjectManager\ProjectController@statusProjects');
+    $router->get('/all-projects', 'ProjectManagement\ProjectManager\ProjectController@allProjects');
+});
