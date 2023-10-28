@@ -88,11 +88,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
         $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
     });
-
-
-
-
-
+    
 
     /**
      * Attendance Router

@@ -77,7 +77,7 @@ class UserLeaveRequest extends Controller
              */
 
             $FileUpload = $request->file('upload_file');
-            $FileUpload->storeAs('public/images', $FileUpload->hashName());
+            $FileUpload->storeAs('public/leave_document', $FileUpload->hashName());
 
             $LeaveRequestData = LeaveRequest::create([
                 'user_id' => Auth::user()->id,

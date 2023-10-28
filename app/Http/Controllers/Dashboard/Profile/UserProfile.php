@@ -168,12 +168,13 @@ class UserProfile extends Controller
             ];
 
             if ($request->hasFile('image_profile')) {
-                $image_profile = $request->file('image_profile');
-                $image_hash  = $image_profile->hashName();
-                $imagePath = 'public/profile/'.$image_hash;
-                $image_profile->storeAs('public/profile', $image_hash);
-                $imageUrl = asset($imagePath);
-                $updateData['image_profile'] = $imageUrl;
+//                $image_profile = $request->file('image_profile');
+//                $imagePath = 'public/profile/'.$image_profile->hashName();
+//                $image_profile->storeAs('public/profile/', $image_profile->hashName());
+//                $imageUrl = asset($imagePath);
+//                $updateData['image_profile'] = $imageUrl;
+                $selfie = $request->file('image_profile');
+                $selfie->storeAs('public/attendance', $selfie->hashName());
             }
 
             $update = $user->update($updateData);
