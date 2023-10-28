@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\JWT_Auth\AuthenticationController;
 use App\Http\Controllers\Attendance;
 use App\Http\Controllers\Attendance\History\UserAttendenceHistory;
 use App\Http\Controllers\Auth\Email_Verification\SendMailController;
+use App\Http\Controllers\Task\TaskController;
 use OpenApi\Annotations\OpenApi as OA;
 
 $router->get('/', function () use ($router) {
@@ -59,6 +60,8 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post('/add-main-points', 'Dashboard\Point\ProjectManagerController@addMainPoint');
         $router->post('/add-reward', 'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
 
+        $router->get('task-all', 'Task\ApprovedTaskController@index');
+        $router->post('approve-task', 'Task\ApprovedTaskController@edit');
 
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
@@ -99,10 +102,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     });
 
 
-
-
-
-
     /**
      * Attendance Router
      */
@@ -114,6 +113,23 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     /**
      * User Login History
      */
+
+    /**
+     * Project Router
+     */
+    $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
+        // Semua List Task
+        $router->get('/project-manager/list-task', 'Task\TaskController@getTaskList');
+        // List Task by Project
+        $router->get('/project-manager/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
+        // List Comment by Task
+        $router->get('/project-manager/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
+        // Add Task by Project
+        $router->post('/project-manager/{project_id}/add-task', 'Task\TaskController@addTaskToProject');
+    });
+    $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
+        $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+    });
 });
 
  /**
@@ -126,5 +142,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      /**
       * API DOCS
       */
+
+
 
 
