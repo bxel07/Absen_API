@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->bigInteger('main_points')->nullable();
             $table->bigInteger('reward_points')->nullable();
+            $table->boolean('flag_reward_points')->default(true);
+            $table->bigInteger('reward_point_before_claims')->nullable();
             $table->timestamps();
         });
     }

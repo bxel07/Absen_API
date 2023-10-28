@@ -11,6 +11,8 @@ class Point extends Model
     protected $fillable = [
         'user_id',
         'main_points',
-        'reward_points'
+        'reward_points',
+        'flag_reward_points',
+        'reward_point_before_claims'
     ];
 }
