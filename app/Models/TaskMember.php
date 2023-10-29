@@ -14,4 +14,9 @@ class TaskMember extends Model
     {
         return $this->BelongsTo(User::class, 'task_member_id');
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'task_member_id', 'user_id');
+    }
 }

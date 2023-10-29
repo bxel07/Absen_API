@@ -91,11 +91,18 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
 $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
 
+// Route group untuk endpoint project yang hanya dapat diakses oleh pengguna dengan role `Project Manager`.
 $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
+    // Route untuk membuat project baru.
     $router->post('/create-project', 'ProjectManagement\ProjectManager\ProjectController@createProject');
+    // Route untuk mengedit project.
     $router->post('/edit-project', 'ProjectManagement\ProjectManager\ProjectController@editProject');
+    // Route untuk menghapus project.
     $router->post('/delete-project', 'ProjectManagement\ProjectManager\ProjectController@deleteProject');
+    // Route untuk menampilkan detail project.
     $router->get('/project/{id}', 'ProjectManagement\ProjectManager\ProjectController@detailProject');
+    // Route untuk menampilkan daftar project berdasarkan status.
     $router->get('/status-projects', 'ProjectManagement\ProjectManager\ProjectController@statusProjects');
+    // Route untuk menampilkan daftar semua project.
     $router->get('/all-projects', 'ProjectManagement\ProjectManager\ProjectController@allProjects');
 });

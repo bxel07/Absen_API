@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->string('project_title');
-            $table->date('deadline');
+            $table->dateTime('deadline');
             $table->text('description');
             $table->integer('jumlah_poin');
             $table->string('file')->nullable();
