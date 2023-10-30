@@ -105,6 +105,21 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     /**
      * Attendance Router
      */
+    /**
+     * 
+     * Pengumuman
+     */
+    $router->get('/list-announcements', 'Dashboard\Notifications\AnnouncementController@index');
+    $router->post('/add-announcement', 'Dashboard\Notifications\AnnouncementController@store');
+    $router->put('/update-announcement/{announcementId}', 'Dashboard\Notifications\AnnouncementController@update');
+    $router->delete('/delete-announcement/{announcementId}', 'Dashboard\Notifications\AnnouncementController@destroy');
+
+
+    /**
+     * Notifications
+     */
+    $router->get('/all-notifications', 'Dashboard\Notifications\NotificationController@allNotifications');
+    $router->get('/user-notifications/{user_id}', 'Dashboard\Notifications\NotificationController@userNotifications');
 
     //$router->post('/clockInOld', 'Attendance\AttenderController@ClockIn');
 
