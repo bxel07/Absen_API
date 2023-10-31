@@ -61,7 +61,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post('/add-reward', 'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
 
         $router->get('task-all', 'Task\ApprovedTaskController@index');
-        $router->post('approve-task', 'Task\ApprovedTaskController@edit');
+        $router->post('approve-task/{id}', 'Task\ApprovedTaskController@edit');
+        $router->get('/task-pending', 'Task\ApprovedTaskController@taskPending');
+        $router->get('task-approved', 'Task\ApprovedTaskController@taskApproved');
 
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
