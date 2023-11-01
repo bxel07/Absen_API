@@ -130,19 +130,22 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
     });
+
+    /**
+     * Project Management [For Management Creating Project ]
+     */
+    $router->post('/create-project', 'Project_Management\ProjectController@createProject');
+    $router->post('/edit-project/{id}', 'Project_Management\ProjectController@editProject');
+    $router->post('/delete-project/{id}', 'Project_Management\ProjectController@deleteProject');
+    $router->get('/project/{id}', 'Project_Management\ProjectController@detailProject');
+    $router->get('/status-projects', 'Project_Management\ProjectController@statusProjects');
+    $router->get('/all-projects', 'Project_Management\ProjectController@allProjects');
 });
 
- /**
+  /**
      * Google Auth Router
-     */
+  * */
 
      $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
      $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
-
-     /**
-      * API DOCS
-      */
-
-
-
 
