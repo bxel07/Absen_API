@@ -40,13 +40,18 @@ class AnnouncementController extends Controller
 
             $getAllRequest = $request->all();
             $getAllRequest['picture'] = $picture->hashName();
+            $url = Storage::url('public/images/' . $getAllRequest['picture']);
 
-            $createAnnouncement = Announcement::create($getAllRequest);
+//            $createAnnouncement = Announcement::create($getAllRequest);
+            $createAnnouncement = Announcement::create([
+                'picture' => $url,
+                'message' => $request->message
+            ]);
             if ($createAnnouncement) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Berhasil membuat pengumuman baru!',
-                    'data' => $request->all(),
+                    'data' =>[ 'picture' => $url, 'message' => $request->message]
                 ], 201);
             } else {
                 return response()->json([
@@ -104,7 +109,8 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::where('id', $announcementId)->first();
         if (!is_null($announcement->picture)) {
-            Storage::delete('public/images/' . $announcement->picture);
+            $data = basename($announcement->picture);
+            Storage::delete('public/images/'.$data);
         }
         $delAnnouncement = Announcement::find($announcementId)->delete();
         if ($delAnnouncement) {

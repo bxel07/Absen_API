@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserLeaveRequest extends Controller
@@ -77,7 +78,9 @@ class UserLeaveRequest extends Controller
              */
 
             $FileUpload = $request->file('upload_file');
-            $FileUpload->storeAs('public/images', $FileUpload->hashName());
+            $FileUpload->storeAs('public/leave', $FileUpload->hashName());
+            $url = Storage::url('public/leave/' . $FileUpload->hashName());
+
 
             $LeaveRequestData = LeaveRequest::create([
                 'user_id' => Auth::user()->id,
@@ -86,7 +89,7 @@ class UserLeaveRequest extends Controller
                 'start_end' => $request->start_end,
                 'reason' => $request->reason,
                 'delegations' => $request->delegations ?? null,
-                'upload_file' => $FileUpload->hashName(),
+                'upload_file' => $url,
             ]);
 
             /**
