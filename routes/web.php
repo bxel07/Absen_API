@@ -62,7 +62,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
         $router->get('task-all', 'Task\ApprovedTaskController@index');
         $router->post('approve-task', 'Task\ApprovedTaskController@edit');
-
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         $router->get('/member', 'Dashboard\Member\MemberController@index');
@@ -99,6 +98,12 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          *
          */
         $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
+
+        /**
+         * Router data data project dan task setiap user
+         *
+         */
+        $router->get('/get-projects-and-tasks/{user_id}', 'Dashboard\Project\ProjectController@getProjectsAndTasks');
     });
 
 
@@ -132,17 +137,13 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     });
 });
 
- /**
-     * Google Auth Router
-     */
+/**
+ * Google Auth Router
+ */
 
-     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
-     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+$router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
+$router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
 
-     /**
-      * API DOCS
-      */
-
-
-
-
+/**
+ * API DOCS
+ */
