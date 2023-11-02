@@ -93,7 +93,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
         $router->get('/user-info', 'Dashboard\Profile\UserProfile@show');
         $router->post('/update-profile', 'Dashboard\Profile\UserProfile@update');
-
+        $router->put('/change-password', 'Dashboard\Profile\UserProfile@changePassword');
         /**
          * Router Informasi Pekerjaan dari status user di perusahaan
          *
@@ -106,7 +106,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      * Attendance Router
      */
     /**
-     * 
+     *
      * Pengumuman
      */
     $router->get('/list-announcements', 'Dashboard\Notifications\AnnouncementController@index');
@@ -155,6 +155,15 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->get('/project/{id}', 'Project_Management\ProjectController@detailProject');
     $router->get('/status-projects', 'Project_Management\ProjectController@statusProjects');
     $router->get('/all-projects', 'Project_Management\ProjectController@allProjects');
+
+    /**
+     * FAQ Controller
+     */
+    $router->get('/faq', 'Dashboard\Profile\FAQController@index');
+    $router->get('/faq/{id}', 'Dashboard\Profile\FAQController@show');
+    $router->post('/faq', 'Dashboard\Profile\FAQController@store');
+    $router->put('/faq/{id}', 'Dashboard\Profile\FAQController@update');
+    $router->delete('/faq/{id}', 'Dashboard\Profile\FAQController@destroy');
 });
 
   /**

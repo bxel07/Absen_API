@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserProfile extends Controller
 {
@@ -190,5 +192,44 @@ class UserProfile extends Controller
                 ], 400);
             }
         }
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function changePassword(Request $request): JsonResponse
+    {
+        $userid = Auth::user()->id;
+        $this->validate($request, [
+            'old_password' => 'required',
+            'new_password' => 'required|min:6',
+            'repeat_new_password' => 'required|min:6',
+        ]);
+
+        $user = User::find($userid);
+        if (!Hash::check($request->input('old_password'), $user->password)){
+            return response()->json([
+                'success' => false,
+                'message' => 'Kata sandi lama salah'
+            ]);
+        }
+
+        if ($request->input('new_password') !== $request->input('repeat_new_password')){
+            return response()->json([
+                'success' => false,
+                'message' => 'Kata sandi tidak sama'
+            ]);
+        }
+        $newPassword = Hash::make($request->input('new_password'));
+
+
+
+        if (!$user) {
+            return response()->json(['message' => 'Email tidak ditemukan'], 404);
+        }
+
+        $user->update(['password' => $newPassword]);
+
+        return response()->json(['message' => 'Kata sandi berhasil diubah']);
     }
 }
