@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserAttendanceRequest extends Controller
@@ -391,9 +392,10 @@ class UserAttendanceRequest extends Controller
     {
         $selfie = $request->file('upload_file');
         $selfie->storeAs('public/attendance', $selfie->hashName());
+        $url = Storage::url('public/images/' . $selfie->hashName());
 
         $getAllRequest = $request->all();
-        $getAllRequest['upload_file'] = $selfie->hashName();
+        $getAllRequest['upload_file'] = $url;
 
         return $getAllRequest;
     }

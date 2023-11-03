@@ -62,6 +62,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
         $router->get('task-all', 'Task\ApprovedTaskController@index');
         $router->post('approve-task', 'Task\ApprovedTaskController@edit');
+        $router->post('approve-task/{id}', 'Task\ApprovedTaskController@edit');
+
+        $router->get('/task-pending', 'Task\ApprovedTaskController@taskPending');
+        $router->get('task-approved', 'Task\ApprovedTaskController@taskApproved');
+
     });
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         $router->get('/member', 'Dashboard\Member\MemberController@index');
@@ -92,7 +97,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
         $router->get('/user-info', 'Dashboard\Profile\UserProfile@show');
         $router->post('/update-profile', 'Dashboard\Profile\UserProfile@update');
-
+        $router->put('/change-password', 'Dashboard\Profile\UserProfile@changePassword');
         /**
          * Router Informasi Pekerjaan dari status user di perusahaan
          *
@@ -110,6 +115,21 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     /**
      * Attendance Router
      */
+    /**
+     *
+     * Pengumuman
+     */
+    $router->get('/list-announcements', 'Dashboard\Notifications\AnnouncementController@index');
+    $router->post('/add-announcement', 'Dashboard\Notifications\AnnouncementController@store');
+    $router->put('/update-announcement/{announcementId}', 'Dashboard\Notifications\AnnouncementController@update');
+    $router->delete('/delete-announcement/{announcementId}', 'Dashboard\Notifications\AnnouncementController@destroy');
+
+
+    /**
+     * Notifications
+     */
+    $router->get('/all-notifications', 'Dashboard\Notifications\NotificationController@allNotifications');
+    $router->get('/user-notifications/{user_id}', 'Dashboard\Notifications\NotificationController@userNotifications');
 
     //$router->post('/clockInOld', 'Attendance\AttenderController@ClockIn');
 
@@ -135,15 +155,31 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
         $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
     });
+
+    /**
+     * Project Management [For Management Creating Project ]
+     */
+    $router->post('/create-project', 'Project_Management\ProjectController@createProject');
+    $router->post('/edit-project/{id}', 'Project_Management\ProjectController@editProject');
+    $router->post('/delete-project/{id}', 'Project_Management\ProjectController@deleteProject');
+    $router->get('/project/{id}', 'Project_Management\ProjectController@detailProject');
+    $router->get('/status-projects', 'Project_Management\ProjectController@statusProjects');
+    $router->get('/all-projects', 'Project_Management\ProjectController@allProjects');
+
+    /**
+     * FAQ Controller
+     */
+    $router->get('/faq', 'Dashboard\Profile\FAQController@index');
+    $router->get('/faq/{id}', 'Dashboard\Profile\FAQController@show');
+    $router->post('/faq', 'Dashboard\Profile\FAQController@store');
+    $router->put('/faq/{id}', 'Dashboard\Profile\FAQController@update');
+    $router->delete('/faq/{id}', 'Dashboard\Profile\FAQController@destroy');
 });
 
-/**
- * Google Auth Router
- */
 
-$router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
-$router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+  /**
+     * Google Auth Router
+  * */
 
-/**
- * API DOCS
- */
+     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
+     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');

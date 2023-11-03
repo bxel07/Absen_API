@@ -37,7 +37,6 @@ class MemberController extends Controller
          $this->middleware('auth');
      }
 
-     
     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
