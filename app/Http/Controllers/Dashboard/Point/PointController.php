@@ -21,7 +21,7 @@ class PointController extends Controller
      *     path="/api/point",
      *     summary="Retrieve the point associated with the current user",
      *     description="Retrieve the point associated with the current user based on the user's ID.",
-     *     tags={"Profile"},
+     *     tags={"Points"},
      *     security={{ "bearerAuth": {} }},
      *     @OA\Response(
      *         response=200,
@@ -33,7 +33,7 @@ class PointController extends Controller
      *     ),
      * )
      */
-    
+
     public function __construct()
      {
          $this->middleware('auth');

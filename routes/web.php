@@ -56,9 +56,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/projectmanager/history', 'Attendance\History\UserAttendenceHistory@ManagerLog');
 
         // Router Informasi Point Project Manager
-        $router->get('data-points', 'Dashboard\Point\ProjectManagerController@getData');
-        $router->post('/add-main-points', 'Dashboard\Point\ProjectManagerController@addMainPoint');
-        $router->post('/add-reward', 'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
+        $router->get('data-points', 'Dashboard\Point\PointController@getData');
+        $router->post('/add-main-points', 'Dashboard\Point\PointController@addMainPoint');
+        $router->post('/add-reward', 'Dashboard\Point\PointController@addRewardPointBeforeClaims');
 
         $router->get('task-all', 'Task\ApprovedTaskController@index');
         $router->post('approve-task', 'Task\ApprovedTaskController@edit');
@@ -98,9 +98,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
 
          // Router Informasi Point Member
-         $router->get('/point', 'Dashboard\Point\MemberController@index');
-         $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
-         $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
+        $router->get('/point', 'Dashboard\Point\PointController@index');
+        $router->post('/claim-reward', 'Dashboard\Point\PointController@claimReward');
+        $router->post('/transfer-points', 'Dashboard\Point\PointController@transferPoint');
     });
 
 

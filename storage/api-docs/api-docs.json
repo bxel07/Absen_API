@@ -938,11 +938,11 @@
         "/api/point": {
             "get": {
                 "tags": [
-                    "Profile"
+                    "Points"
                 ],
                 "summary": "Retrieve the point associated with the current user",
                 "description": "Retrieve the point associated with the current user based on the user's ID.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\PointController::index",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\PointController::__construct",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
