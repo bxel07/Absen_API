@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Project;
+namespace App\Http\Controllers\Dashboard\Project;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task_Member;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Models\TaskMember;
 
 class ProjectController extends Controller
 {
@@ -13,13 +14,13 @@ class ProjectController extends Controller
     {
         $this->middleware('auth');
     }
-    public function getProjectsAndTasks($user_id)
+    public function getProjectsAndTasks($user_id): JsonResponse
     {
         // Mendapatkan user yang sedang login.
         $user = Auth::user();
 
         // Memeriksa apakah user ID yang diberikan adalah anggota dari proyek yang dimaksud.
-        $isMember = TaskMember::where('user_id', $user->id)
+        $isMember = Task_Member::where('user_id', $user->id)
             ->whereHas('projects', function ($query) use ($user_id) {
                 $query->where('id', $user_id);
             })
@@ -30,7 +31,7 @@ class ProjectController extends Controller
         }
 
         // Mendapatkan daftar project dan tugas yang terkait dengan user tersebut.
-        $taskMembers = TaskMember::where('user_id', $user->id)
+        $taskMembers = Task_Member::where('user_id', $user->id)
             ->whereHas('projects', function ($query) use ($user_id) {
                 $query->where('id', $user_id);
             })
