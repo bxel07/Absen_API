@@ -61,6 +61,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post('/add-reward', 'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
 
         $router->get('task-all', 'Task\ApprovedTaskController@index');
+        $router->post('approve-task', 'Task\ApprovedTaskController@edit');
         $router->post('approve-task/{id}', 'Task\ApprovedTaskController@edit');
 
         $router->get('/task-pending', 'Task\ApprovedTaskController@taskPending');
@@ -102,6 +103,12 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          *
          */
         $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
+
+        /**
+         * Router data data project dan task setiap user
+         *
+         */
+        $router->get('/get-projects-and-tasks/{user_id}', 'Dashboard\Project\ProjectController@getProjectsAndTasks');
     });
 
 
@@ -169,10 +176,10 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->delete('/faq/{id}', 'Dashboard\Profile\FAQController@destroy');
 });
 
+
   /**
      * Google Auth Router
   * */
 
      $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
      $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
-
