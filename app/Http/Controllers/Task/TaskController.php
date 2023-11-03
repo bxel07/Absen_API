@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\ApprovedTask;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -42,7 +43,7 @@ class TaskController extends Controller
     public function addTaskToProject(Request $request, $project_id)
     {
         // Validasi data yang diterima dari permintaan
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'description' => 'required|string',
         ]);
@@ -78,7 +79,7 @@ class TaskController extends Controller
     public function addCommentToTask(Request $request, $task_id)
     {
         // Validasi data yang diterima dari permintaan
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'comment' => 'required|string',
         ]);
         if ($validator->fails()) {

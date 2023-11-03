@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('project_title');
             $table->dateTime('deadline');
             $table->text('description');
+            $table->integer('reward_point');
             $table->string('file')->nullable();
             $table->enum('status', ['to-do', 'in progress', 'completed']);
             $table->timestamps();
