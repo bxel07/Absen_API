@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Task_Member extends Model
+class TaskMember extends Model
 {
     protected $fillable = ['user_id'];
-    protected $table ='task_members';
+    protected $table = 'task_members';
 
     public function user(): BelongsTo
     {

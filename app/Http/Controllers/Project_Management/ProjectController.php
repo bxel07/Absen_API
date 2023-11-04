@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
-use App\Models\Task_Member;
+use App\Models\TaskMember;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
@@ -42,7 +42,7 @@ class ProjectController extends Controller
         // Invite member ke project baru.
         $taskMemberIds = $request->input('members');
         foreach ($taskMemberIds as $memberId) {
-            $taskMember = new Task_Member();
+            $taskMember = new TaskMember();
             $taskMember->user_id = $memberId;
             $taskMember->save();
         }
@@ -99,7 +99,7 @@ class ProjectController extends Controller
         // Invite member ke project yang diedit.
         $taskMemberIds = $request->input('members');
         foreach ($taskMemberIds as $memberId) {
-            $taskMember = new Task_Member();
+            $taskMember = new TaskMember();
             $taskMember->user_id = $memberId;
             $taskMember->save();
         }
@@ -178,7 +178,7 @@ class ProjectController extends Controller
         if (!$project) {
             return response()->json(['message' => 'Project Tidak Ditemukan'], 404);
         }
-        $taskMemberIds = Task_Member::where('id', $project->task_member_id)->get('user_id')->toArray();
+        $taskMemberIds = TaskMember::where('id', $project->task_member_id)->get('user_id')->toArray();
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
         $projectDetails = [
             'id' => $project->id,
