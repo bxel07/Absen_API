@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Models\FAQ;
+use App\Models\Faq;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -12,7 +12,7 @@ class FAQController extends Controller
 {
     public function index()
     {
-        $faqs = FAQ::all();
+        $faqs = Faq::all();
 
         if (!$faqs) {
             return response()->json([
@@ -30,7 +30,7 @@ class FAQController extends Controller
 
     public function show($id): JsonResponse
     {
-        $faq = FAQ::find($id);
+        $faq = Faq::find($id);
         if (!$faq) {
             return response()->json(['message' => 'FAQ not found'], 404);
         }
@@ -44,7 +44,7 @@ class FAQController extends Controller
             'answer' => 'required',
         ]);
 
-        $faq = new FAQ;
+        $faq = new Faq;
         $faq->question = $request->question;
         $faq->answer = $request->answer;
         $faq->save();
@@ -62,7 +62,7 @@ class FAQController extends Controller
             'answer' => 'required',
         ]);
 
-        $faq = FAQ::find($id);
+        $faq = Faq::find($id);
         if (!$faq) {
             return response()->json(['message' => 'FAQ not found'], 404);
         }
@@ -76,7 +76,7 @@ class FAQController extends Controller
 
     public function destroy($id): JsonResponse
     {
-        $faq = FAQ::find($id);
+        $faq = Faq::find($id);
         if (!$faq) {
             return response()->json(['message' => 'FAQ not found'], 404);
         }

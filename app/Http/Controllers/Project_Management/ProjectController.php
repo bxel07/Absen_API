@@ -47,12 +47,13 @@ class ProjectController extends Controller
             $taskMember->save();
         }
 
-        // Simpan file project (opsional).
-        $filePath = null;
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filePath = $file->storeAs('public/documents/project', $file->hashName());
-        }
+        //upload file
+        $file = $request->file('file');
+        $file->storeAs('public/documents', $file->hashName());
+
+        $getAllRequest = $request->all();
+        $getAllRequest['file'] = $file->hashName();
+        $url = Storage::url('public/documents/' . $getAllRequest['file']);
 
         // Buat project baru.
         $project = new Project();
@@ -64,7 +65,7 @@ class ProjectController extends Controller
         $project->reward_point = $request->input('reward_point');
         $project->status = $request->input('status');
         $project->task_member_id = $taskMember->id;
-        $project->file = $filePath;
+        $project->file = $url;
         $project->save();
 
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
@@ -103,12 +104,14 @@ class ProjectController extends Controller
             $taskMember->user_id = $memberId;
             $taskMember->save();
         }
-        // Simpan file project (opsional).
-        $filePath = null;
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filePath = $file->storeAs('public/documents/project', $file->hashName());
-        }
+        //upload file
+        $file = $request->file('file');
+        $file->storeAs('public/documents', $file->hashName());
+
+        $getAllRequest = $request->all();
+        $getAllRequest['file'] = $file->hashName();
+        $url = Storage::url('public/documents/' . $getAllRequest['file']);
+
 
         // Perbarui data project.
         $project = Project::find($id); // Cari project berdasarkan ID.
@@ -121,7 +124,7 @@ class ProjectController extends Controller
         $project->reward_point = $request->input('reward_point');
         $project->status = $request->input('status');
         $project->task_member_id = $taskMember->id;
-        $project->file = $filePath;
+        $project->file = $url;
         $project->save();
 
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
@@ -133,22 +136,21 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function deleteProject(Request $request, $id)
+    public function deleteProject($id)
     {
-        $project = Project::find($id);
-        if (!$project) {
-            return response()->json([
-                'message' => 'Project tidak ditemukan',
-            ], 404);
+        $project = Project::where('id', $id)->first();
+        if (!is_null($project->file)) {
+            $data = basename($project->file);
+            Storage::delete('public/documents/' . $data);
         }
-
-        Storage::delete($project->file);
-
-        $project->delete();
-
-        return response()->json([
-            'message' => 'Project telah berhasil dihapus',
-        ]);
+        $delProject = Project::find($id)->delete();
+        if ($delProject) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data ID project ' . $id . ' berhasil dihapus!',
+                'data' => null,
+            ], 200);
+        }
     }
 
     public function statusProjects(Request $request)
