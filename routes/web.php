@@ -72,10 +72,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/member', 'Dashboard\Member\MemberController@index');
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
 
-        // Router Informasi Point Member
-        $router->get('/point', 'Dashboard\Point\MemberController@index');
-        $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
-        $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
+
     });
 
     $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
@@ -109,6 +106,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          *
          */
         $router->get('/get-projects-and-tasks/{user_id}', 'Dashboard\Project\ProjectController@getProjectsAndTasks');
+
+          // Router Informasi Point Member
+          $router->get('/point', 'Dashboard\Point\MemberController@index');
+          $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
+          $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
     });
 
 
