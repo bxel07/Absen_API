@@ -32,7 +32,7 @@ class GAuthController_rev extends Controller
      *     )
      * )
      */
-    public function redirectToGoogle()
+    public function redirectToGoogle(): JsonResponse
     {
         $clientId = env('GOOGLE_CLIENT_ID');
         $redirectUri = env('GOOGLE_REDIRECT');

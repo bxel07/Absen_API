@@ -8,10 +8,12 @@ use App\Models\Task;
 use App\Models\Project;
 use App\Models\ApprovedTask;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
-    public function getTaskList()
+    // Mendapatkan semua daftar tugas
+    public function getTaskList(): JsonResponse
     {
         $tasks = Task::all();
         foreach ($tasks as $task) {
@@ -20,7 +22,8 @@ class TaskController extends Controller
         return response()->json(['tasks' => $tasks], 200);
     }
 
-    public function getTasksByProject($project_id)
+    // Mendapatkan daftar tugas berdasarkan project
+    public function getTasksByProject($project_id): JsonResponse
     {
         $tasks = Task::where('project_id', $project_id)->get();
         foreach ($tasks as $task) {
@@ -29,8 +32,8 @@ class TaskController extends Controller
         return response()->json(['tasks' => $tasks], 200);
     }
 
-
-    public function getCommentsForTask($task_id)
+    // Mendapatkan komentar untuk tugas tertentu
+    public function getCommentsForTask($task_id): JsonResponse
     {
         $task = Task::find($task_id);
         if (!$task) {
@@ -40,7 +43,8 @@ class TaskController extends Controller
         return response()->json(['comment' => $comment], 200);
     }
 
-    public function addTaskToProject(Request $request, $project_id)
+    // Menambahkan tugas ke project
+    public function addTaskToProject(Request $request, $project_id): JsonResponse
     {
         // Validasi data yang diterima dari permintaan
         $validator = Validator::make($request->all(), [
@@ -75,8 +79,8 @@ class TaskController extends Controller
         return response()->json(['message' => 'Tugas berhasil ditambahkan'], 201);
     }
 
-
-    public function addCommentToTask(Request $request, $task_id)
+    // Menambahkan komentar ke tugas
+    public function addCommentToTask(Request $request, $task_id): JsonResponse
     {
         // Validasi data yang diterima dari permintaan
         $validator = Validator::make($request->all(), [
@@ -103,5 +107,4 @@ class TaskController extends Controller
         $task->save();
         return response()->json(['message' => 'Komentar berhasil ditambahkan'], 201);
     }
-
 }

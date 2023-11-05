@@ -7,11 +7,12 @@ use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 class AnnouncementController extends Controller
 {
 
-    public function index()
+    public function index(): JsonResponse
     {
         $allAnnouncements = Announcement::latest()->get();
         return response()->json([
@@ -21,7 +22,7 @@ class AnnouncementController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'picture' => 'required|image|mimes:png,jpg,jpeg',
@@ -42,7 +43,7 @@ class AnnouncementController extends Controller
             $getAllRequest['picture'] = $picture->hashName();
             $url = Storage::url('public/images/' . $getAllRequest['picture']);
 
-//            $createAnnouncement = Announcement::create($getAllRequest);
+            //            $createAnnouncement = Announcement::create($getAllRequest);
             $createAnnouncement = Announcement::create([
                 'picture' => $url,
                 'message' => $request->message
@@ -51,7 +52,7 @@ class AnnouncementController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Berhasil membuat pengumuman baru!',
-                    'data' =>[ 'picture' => $url, 'message' => $request->message]
+                    'data' => ['picture' => $url, 'message' => $request->message]
                 ], 201);
             } else {
                 return response()->json([
@@ -63,7 +64,7 @@ class AnnouncementController extends Controller
         }
     }
 
-    public function update(Request $request, $announcementId)
+    public function update(Request $request, $announcementId): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'picture' => 'image|mimes:png,jpg,jpeg',
@@ -105,12 +106,12 @@ class AnnouncementController extends Controller
         }
     }
 
-    public function destroy($announcementId)
+    public function destroy($announcementId): JsonResponse
     {
         $announcement = Announcement::where('id', $announcementId)->first();
         if (!is_null($announcement->picture)) {
             $data = basename($announcement->picture);
-            Storage::delete('public/images/'.$data);
+            Storage::delete('public/images/' . $data);
         }
         $delAnnouncement = Announcement::find($announcementId)->delete();
         if ($delAnnouncement) {

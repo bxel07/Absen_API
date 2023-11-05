@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
-     /**
+    /**
      * Retrieve the point associated with the current user.
      *
      * @return JsonResponse
@@ -32,10 +32,10 @@ class MemberController extends Controller
      * )
      */
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index(): JsonResponse
     {
@@ -45,20 +45,19 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'data' => $point
-        ],200);
-
+        ], 200);
     }
 
-    public function claimReward(Request $request)
+    public function claimReward(Request $request): JsonResponse
     {
         $user = Auth::user()->id;
 
-        if($user){
+        if ($user) {
             $reward_point_before_claims = $request->reward_point_before_claims;
             $point = Point::where('user_id', $user)->first();
 
-            if  ($point) {
-                if($point->reward_point_before_claims >= $reward_point_before_claims){
+            if ($point) {
+                if ($point->reward_point_before_claims >= $reward_point_before_claims) {
                     $point->reward_point_before_claims -= $reward_point_before_claims;
                     $point->flag_reward_points = false;
                     $point->reward_points += $reward_point_before_claims;
@@ -79,7 +78,7 @@ class MemberController extends Controller
         }
     }
 
-    public function transferPoint(Request $request)
+    public function transferPoint(Request $request): JsonResponse
     {
         $user = Auth::user()->id;
 
@@ -123,6 +122,4 @@ class MemberController extends Controller
             ], 401);
         }
     }
-
-
 }

@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class NotificationController extends Controller
 {
-    public function allNotifications()
+    public function allNotifications(): JsonResponse
     {
         $allNotifications = Notification::latest()->get();
         return response()->json([
@@ -19,7 +20,7 @@ class NotificationController extends Controller
         ], 200);
     }
 
-    public function userNotifications($user_id)
+    public function userNotifications($user_id): JsonResponse
     {
         $userNotifications = Notification::where('user_id', $user_id)->latest()->get();
         return response()->json([

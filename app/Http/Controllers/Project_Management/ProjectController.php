@@ -19,8 +19,10 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
+    //Membuat project baru.
     public function createProject(Request $request): JsonResponse
     {
+        // Validasi request.
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'project_title' => 'required|string|max:255',
@@ -31,7 +33,7 @@ class ProjectController extends Controller
             'members' => 'required|array',
             // 'file' => 'nullable|mimes:pdf'
         ]);
-
+        // Jika validasi gagal, kembalikan respon JSON dengan pesan kesalahan.
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
@@ -67,7 +69,7 @@ class ProjectController extends Controller
         $project->task_member_id = $taskMember->id;
         $project->file = $url;
         $project->save();
-
+        // Dapatkan nama lengkap member project.
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
         // Kembalikan respon JSON dengan pesan sukses dan data project.
         return response()->json([
@@ -77,7 +79,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function editProject(Request $request, $id)
+    //Mengedit project yang ada.
+    public function editProject(Request $request, $id): JsonResponse
     {
         // Validasi request.
         $validator = Validator::make($request->all(), [
@@ -97,6 +100,9 @@ class ProjectController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
+
+        $project = Project::find($id); // Cari project berdasarkan ID.
+
         // Invite member ke project yang diedit.
         $taskMemberIds = $request->input('members');
         foreach ($taskMemberIds as $memberId) {
@@ -105,20 +111,18 @@ class ProjectController extends Controller
             $taskMember->save();
         }
         //upload file
+        $request->hasFile('file');  // Hapus file sebelumnya jika ada.
+        Storage::delete('public/documents/' . $project->file);
+        // Upload file baru jika ada.
         $file = $request->file('file');
-        $file->storeAs('public/documents', $file->hashName());
-
+        $file->storeAs('public/documents/', $file->hashName());
         $getAllRequest = $request->all();
         $getAllRequest['file'] = $file->hashName();
         $url = Storage::url('public/documents/' . $getAllRequest['file']);
 
-
         // Perbarui data project.
-        $project = Project::find($id); // Cari project berdasarkan ID.
-
         $project->name = $request->input('name');
         $project->project_title = $request->input('project_title');
-
         $project->deadline = $request->input('deadline');
         $project->description = $request->input('description');
         $project->reward_point = $request->input('reward_point');
@@ -126,7 +130,7 @@ class ProjectController extends Controller
         $project->task_member_id = $taskMember->id;
         $project->file = $url;
         $project->save();
-
+        // Dapatkan nama lengkap member project.
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
         // Kembalikan respon JSON dengan pesan sukses dan data project.
         return response()->json([
@@ -136,14 +140,19 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function deleteProject($id)
+    // Menghapus project berdasarkan ID.
+    public function deleteProject($id): JsonResponse
     {
+        // Cari project berdasarkan ID.
         $project = Project::where('id', $id)->first();
+        // Hapus file project jika ada.
         if (!is_null($project->file)) {
             $data = basename($project->file);
             Storage::delete('public/documents/' . $data);
         }
+        // Hapus project.
         $delProject = Project::find($id)->delete();
+        // Kembalikan respon JSON dengan pesan sukses.
         if ($delProject) {
             return response()->json([
                 'success' => true,
@@ -153,35 +162,47 @@ class ProjectController extends Controller
         }
     }
 
-    public function statusProjects(Request $request)
+    // Mendapatkan project berdasarkan status.
+    public function statusProjects(Request $request): JsonResponse
     {
+        // Dapatkan user saat ini.
         $user = Auth::user();
+        // Query project berdasarkan user ID.
         $projects = Project::where('user_id', $user->id);
-
+        // Jika ada parameter status, filter project berdasarkan status.
         if ($request->has('status')) {
             $projects = $projects->where('project_status', $request->input('status'));
         }
-
+        // Dapatkan project.
         $projects = $projects->get();
+        // Kembalikan respon JSON dengan data project.
         return response()->json(['projects' => $projects]);
     }
 
-    public function allProjects()
+    // Mendapatkan semua project.
+    public function allProjects(): JsonResponse
     {
+        // Dapatkan project.
         $projects = Project::get();
-
+        // Kembalikan respon JSON dengan data project.
         return response()->json(['projects' => $projects]);
     }
 
-    public function detailProject($id)
+    // Mendapatkan detail project berdasarkan ID.
+    public function detailProject($id): JsonResponse
     {
+        // Cari project berdasarkan ID.
         $project = Project::find($id);
-
+        // Jika project tidak ditemukan, kembalikan respon JSON dengan pesan kesalahan.
         if (!$project) {
             return response()->json(['message' => 'Project Tidak Ditemukan'], 404);
         }
+        // Dapatkan ID member project.
         $taskMemberIds = TaskMember::where('id', $project->task_member_id)->get('user_id')->toArray();
+        // Dapatkan nama lengkap member project.
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
+
+        // Buat array detail project.
         $projectDetails = [
             'id' => $project->id,
             'task_member_id' => $project->task_member_id,
@@ -196,6 +217,7 @@ class ProjectController extends Controller
             'task_member_fullname' => $memberFullnames,
         ];
 
+        // Kembalikan respon JSON dengan data detail project.
         return response()->json([
             'project' => $projectDetails,
 

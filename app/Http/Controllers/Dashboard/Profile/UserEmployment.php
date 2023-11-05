@@ -31,6 +31,7 @@ class UserEmployment extends Controller
      *     ),
      * )
      */
+    // Mengambil data seluruh employment milik pengguna yang sedang login.
     public function index(): JsonResponse
     {
 

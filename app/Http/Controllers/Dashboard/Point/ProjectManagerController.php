@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class ProjectManagerController extends Controller
 {
-      /**
+    /**
      * Retrieve the point associated with the current user.
      *
      * @return JsonResponse
@@ -31,29 +31,29 @@ class ProjectManagerController extends Controller
      * )
      */
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-     
-    public function getData()
+
+    public function getData(): JsonResponse
     {
         point::all();
         return response()->json([
-            'success'=> true,
-            'data'=> Point::all()
-            ],200);
+            'success' => true,
+            'data' => Point::all()
+        ], 200);
     }
 
-    public function addMainPoint(Request $request)
+    public function addMainPoint(Request $request): JsonResponse
     {
         $user_id = $request->user_id;
         $main_points = $request->main_points;
 
         $point = Point::where('user_id', $user_id)->first();
 
-        if($point){
+        if ($point) {
             $point->main_points += $main_points;
             $point->save();
         } else {
@@ -67,15 +67,14 @@ class ProjectManagerController extends Controller
             'success' => true,
             'data' => $point
         ], 200);
-
     }
-    public function addRewardPointBeforeClaims(Request $request)
+    public function addRewardPointBeforeClaims(Request $request): JsonResponse
     {
         $user_id = $request->user_id;
         $add_points = $request->reward_point_before_claims;
 
         $point = Point::where('user_id', $user_id)->first();
-        if($point){
+        if ($point) {
             $point->reward_point_before_claims += $add_points;
             $point->flag_reward_points = true;
             $point->save();
@@ -91,6 +90,4 @@ class ProjectManagerController extends Controller
             'data' => $point
         ], 200);
     }
-
-
 }
