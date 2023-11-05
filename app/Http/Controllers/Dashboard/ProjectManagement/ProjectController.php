@@ -49,13 +49,8 @@ class ProjectController extends Controller
             $taskMember->save();
         }
 
-        //upload file
-        $file = $request->file('file');
-        $file->storeAs('public/documents', $file->hashName());
-
-        $getAllRequest = $request->all();
-        $getAllRequest['file'] = $file->hashName();
-        $url = Storage::url('public/documents/' . $getAllRequest['file']);
+        // Upload the file
+        $url = $this->uploadFile($request);
 
         // Buat project baru.
         $project = new Project();
@@ -114,11 +109,7 @@ class ProjectController extends Controller
         $request->hasFile('file');  // Hapus file sebelumnya jika ada.
         Storage::delete('public/documents/' . $project->file);
         // Upload file baru jika ada.
-        $file = $request->file('file');
-        $file->storeAs('public/documents/', $file->hashName());
-        $getAllRequest = $request->all();
-        $getAllRequest['file'] = $file->hashName();
-        $url = Storage::url('public/documents/' . $getAllRequest['file']);
+        $url = $this->uploadFile($request);
 
         // Perbarui data project.
         $project->name = $request->input('name');
@@ -222,5 +213,18 @@ class ProjectController extends Controller
             'project' => $projectDetails,
 
         ]);
+    }
+
+    public function uploadFile(Request $request): string
+    {
+        //upload file
+        $file = $request->file('file');
+        $file->storeAs('public/documents', $file->hashName());
+
+        $getAllRequest = $request->all();
+        $getAllRequest['file'] = $file->hashName();
+        $url = Storage::url('public/documents/' . $getAllRequest['file']);
+
+        return $url;
     }
 }

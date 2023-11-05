@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Profile;
+namespace App\Http\Controllers\Dashboard\Account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
