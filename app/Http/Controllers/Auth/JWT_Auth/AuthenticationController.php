@@ -88,7 +88,7 @@ class AuthenticationController extends Controller
 
         $credentials = $request->only(['email', 'password']);
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 

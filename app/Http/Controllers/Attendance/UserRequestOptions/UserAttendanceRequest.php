@@ -48,17 +48,17 @@ class UserAttendanceRequest extends Controller
      *     security={{ "bearerAuth": {} }}
      * )
      */
-    public function getSchedule (): JsonResponse
+    public function getSchedule(): JsonResponse
     {
         // Method untuk mendapatkan jadwal pengguna yang terautentikasi
         $user_id = Auth::user()->id;
 
-      if (!$user_id) {
-          return response()->json([
-                  'success' => false,
-                  'error' => "Data not found"
-              ], 400);
-      }
+        if (!$user_id) {
+            return response()->json([
+                'success' => false,
+                'error' => "Data not found"
+            ], 400);
+        }
         /**
          * Getting schedule time
          */
@@ -71,10 +71,9 @@ class UserAttendanceRequest extends Controller
             ->get();
 
         return response()->json([
-           'success' => true,
-           'data' => $results
-        ],201);
-
+            'success' => true,
+            'data' => $results
+        ], 201);
     }
 
 
@@ -152,13 +151,13 @@ class UserAttendanceRequest extends Controller
          */
         $data = $this->User_Lat_Long($PointUserLocations);
 
-        if($this->RadiusCalc($data->latitude, $data->longitude, $this->OfficeLatitude, $this->OfficeLongitude) <= $this->MaxRadius){
+        if ($this->RadiusCalc($data->latitude, $data->longitude, $this->OfficeLatitude, $this->OfficeLongitude) <= $this->MaxRadius) {
             $getAllRequest = $this->getArr($request);
 
             /**
              * get user shift time id
              */
-            $schedule_shift = ScheduleShift::where('user_id' ,Auth::user()->id)->pluck('id');
+            $schedule_shift = ScheduleShift::where('user_id', Auth::user()->id)->pluck('id');
 
             /**
              * Insert to DB
@@ -187,19 +186,16 @@ class UserAttendanceRequest extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' =>'Anda Berhasil Clock in !',
+                'message' => 'Anda Berhasil Clock in !',
                 'data'    => $getAllRequest
             ], 201);
-
-
-
         } else {
             return response()->json([
                 'success' => true,
-                'message' =>'Anda tidak dapat melakukan attendance di lokasi ini!',
+                'message' => 'Anda tidak dapat melakukan attendance di lokasi ini!',
                 'data'    => null
             ], 201);
-       }
+        }
     }
 
 
@@ -276,12 +272,12 @@ class UserAttendanceRequest extends Controller
          * Get explode latitude and logitude falue as string
          */
         $data = $this->User_Lat_Long($PointUserLocations);
-        if($this->RadiusCalc($data->latitude, $data->longitude, $this->OfficeLatitude, $this->OfficeLongitude) <= $this->MaxRadius){
+        if ($this->RadiusCalc($data->latitude, $data->longitude, $this->OfficeLatitude, $this->OfficeLongitude) <= $this->MaxRadius) {
             $getAllRequest = $this->getArr($request);
             /**
              * get user shift time id
              */
-            $schedule_shift = ScheduleShift::where('user_id' ,Auth::user()->id)->pluck('id');
+            $schedule_shift = ScheduleShift::where('user_id', Auth::user()->id)->pluck('id');
 
             /**
              * Insert to DB
@@ -309,13 +305,13 @@ class UserAttendanceRequest extends Controller
             ]);
             return response()->json([
                 'success' => true,
-                'message' =>'Anda berhasil ClockOut!!',
+                'message' => 'Anda berhasil ClockOut!!',
                 'data'    => $getAllRequest
             ], 201);
         } else {
             return response()->json([
                 'success' => true,
-                'message' =>'Anda tidak dapat melakukan attendance di lokasi ini!',
+                'message' => 'Anda tidak dapat melakukan attendance di lokasi ini!',
                 'data'    => null
             ], 201);
         }
@@ -376,10 +372,10 @@ class UserAttendanceRequest extends Controller
         $A = 1 + $uSq / 16384 * (4096 + $uSq * (-768 + $uSq * (320 - 175 * $uSq)));
         $B = $uSq / 1024 * (256 + $uSq * (-128 + $uSq * (74 - 47 * $uSq)));
         $deltaSigma = $B * $sinSigma * ($cos2SigmaM + $B / 4 *
-                ($cosSigma * (-1 + 2 * $cos2SigmaM * $cos2SigmaM) -
-                    $B / 6 * $cos2SigmaM *
-                    (-3 + 4 * $sinSigma * $sinSigma) *
-                    (-3 + 4 * $cos2SigmaM * $cos2SigmaM)));
+            ($cosSigma * (-1 + 2 * $cos2SigmaM * $cos2SigmaM) -
+                $B / 6 * $cos2SigmaM *
+                (-3 + 4 * $sinSigma * $sinSigma) *
+                (-3 + 4 * $cos2SigmaM * $cos2SigmaM)));
         return $b * $A * ($sigma - $deltaSigma);
     }
 

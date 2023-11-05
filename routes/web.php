@@ -184,7 +184,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->get('/list-announcements',                     'Dashboard\Notifications\AnnouncementController@index');
     $router->post('/add-announcement',                      'Dashboard\Notifications\AnnouncementController@store');
     $router->put('/update-announcement/{announcementId}',   'Dashboard\Notifications\AnnouncementController@update');
-    $router->delete('/delete-announcement/{announcementId}','Dashboard\Notifications\AnnouncementController@destroy');
+    $router->delete('/delete-announcement/{announcementId}', 'Dashboard\Notifications\AnnouncementController@destroy');
 
 
     /**

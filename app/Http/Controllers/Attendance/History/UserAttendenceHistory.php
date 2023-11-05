@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Attendance\History;
+
 use App\Models\Attendances;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;

@@ -15,11 +15,11 @@ use Illuminate\Validation\ValidationException;
 class SendMailController extends Controller
 {
 
-     public function pageForgotPassword()
-     {
+    public function pageForgotPassword()
+    {
         // Method: Menampilkan halaman form "forgot password"
-         return view('forgot-password');
-     }
+        return view('forgot-password');
+    }
 
     /**
      * Send email verification with OTP for password reset.
@@ -62,7 +62,7 @@ class SendMailController extends Controller
         ]);
 
         $token = Str::random(60);
-        $otp = random_int(1111,9999);
+        $otp = random_int(1111, 9999);
 
         // Contoh penggunaan fasilitas email Laravel:
         $email = $request->input('email');
@@ -146,5 +146,4 @@ class SendMailController extends Controller
             return response()->json(['message' => 'OTP expired'], 400);
         }
     }
-
 }
