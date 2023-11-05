@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class job_departments extends Seeder
+class JobDepartmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.

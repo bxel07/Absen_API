@@ -6,22 +6,22 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Task_MemberSeeder extends Seeder
+class CompanySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-      DB::table('task_members')->insert([
+        DB::table('companies')->insert([
             [
-                'user_id' => 1,
+                'name' => 'PT Otak Kanan',
             ],
             [
-                'user_id' => 2,
+                'name' => 'Jawa Post',
             ],
             [
-                'user_id' => 3,
+                'name' => 'Full-time'
             ]
         ]);
     }

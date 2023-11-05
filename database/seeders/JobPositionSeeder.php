@@ -6,21 +6,25 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class branch extends Seeder
+class JobPositionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('branches')->insert([
+        DB::table('job_positions')->insert([
             [
-                'company_id' => 1,
-                'name' => 'Surabaya',
+                'name' => 'UI/UX Developer',
             ],
             [
-                'company_id' => 2,
-                'name' => 'Surabaya',
+                'name' => 'Back-End',
+            ],
+            [
+                'name' => 'Front-End'
+            ],
+            [
+                'name' => 'Mobile'
             ]
         ]);
     }

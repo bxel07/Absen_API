@@ -15,22 +15,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RolesSeeder::class);
-        $this->call(UserSeeder::class);
+        $this->call(AnnouncementSeeder::class);
+        $this->call(ApprovedRequestSeeder::class);
+        $this->call(ApprovedTaskSeeder::class);
+        $this->call(AttendanceRequestSeeder::class);
+        $this->call(AttendanceSeeder::class);
+        $this->call(BranchSeeder::class);
+        $this->call(CompanySeeder::class);
+        $this->call(DepartmentSeeder::class);
+        $this->call(EmploymentSeeder::class);
+        $this->call(FaqSeeder::class);
+        $this->call(JobDepartmentSeeder::class);
+        $this->call(JobLevelSeeder::class);
+        $this->call(JobPositionSeeder::class);
+        $this->call(LeaveRequestSeeder::class);
+        $this->call(NotificationSeeder::class);
+        $this->call(PointSeeder::class);
         $this->call(ProjectsTableSeeder::class);
-
-
-        $this->call(job_levels ::class);
-        $this->call(job_positions::class);
-        $this->call(job_departments::class);
-
-        $this->call(companies::class);
-        $this->call(branch::class);
-        $this->call(employment::class);
-
-        $this->call(schedule_seeder::class);
-        $this->call(shift_seeder::class);
-        $this->call(schedule_shift_seeder::class);
-        $this->call(Task_MemberSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(ScheduleSeeder::class);
+        $this->call(ScheduleShiftSeeder::class);
+        $this->call(ShiftRequestSeeder::class);
+        $this->call(ShiftSeeder::class);
+        $this->call(TaskMemberSeeder::class);
+        $this->call(TaskSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
