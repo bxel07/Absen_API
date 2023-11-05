@@ -34,6 +34,7 @@ class GAuthController_rev extends Controller
      */
     public function redirectToGoogle(): JsonResponse
     {
+        //Method: Mengarahkan ke Google untuk otentikasi
         $clientId = env('GOOGLE_CLIENT_ID');
         $redirectUri = env('GOOGLE_REDIRECT');
         $url = "https://accounts.google.com/o/oauth2/auth";
@@ -72,6 +73,7 @@ class GAuthController_rev extends Controller
      */
     public function handleGoogleCallback(Request $request): JsonResponse
     {
+        //Method: Menangani Callback Google
         $code = $request->input('code');
         $clientId = env('GOOGLE_CLIENT_ID');
         $clientSecret = env('GOOGLE_CLIENT_SECRET');

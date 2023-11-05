@@ -14,6 +14,13 @@ class ProjectAndTaskController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Method: Mendapatkan daftar proyek dan tugas terkait dengan pengguna.
+     *
+     * @param int $user_id
+     * @return JsonResponse
+     */
     public function getProjectsAndTasks($user_id): JsonResponse
     {
         // Mendapatkan user yang sedang login.

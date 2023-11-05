@@ -55,6 +55,7 @@ class UpdatePasswordController extends Controller
      */
     public function updatePassword(Request $request): JsonResponse
     {
+        //Method: Memperbarui kata sandi pengguna.
         $this->validate($request, [
             'email' => 'required|email',
             'new_password' => 'required|min:6',

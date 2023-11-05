@@ -15,7 +15,11 @@ class ApprovedTaskController extends Controller
         $this->middleware('auth');
     }
 
-    // Mendapatkan semua daftar tugas yang telah disetujui
+    /**
+     * Method: Mendapatkan semua daftar tugas yang telah disetujui.
+     *
+     * @return JsonResponse
+     */
     public function index()
     {
         ApprovedTask::join('tasks', 'approved_tasks.task_id', '=', 'tasks.id')->get();
@@ -25,7 +29,12 @@ class ApprovedTaskController extends Controller
         ], 200);
     }
 
-    // Menytujui tugas tertentu
+    /**
+     * Method: Mengedit tugas yang telah disetujui berdasarkan ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
     public function edit($id): JsonResponse
     {
         $task = ApprovedTask::find($id);
@@ -38,7 +47,11 @@ class ApprovedTaskController extends Controller
         ], 200);
     }
 
-    // Mendapatkan daftar tugas yang belum disetujui
+    /**
+     * Method: Mendapatkan daftar tugas yang belum disetujui.
+     *
+     * @return JsonResponse
+     */
     public function taskPending(): JsonResponse
     {
         $task = ApprovedTask::join('tasks', 'approved_tasks.task_id', '=', 'tasks.id')->where('approved_tasks.status', 'pending')->get();
@@ -48,7 +61,11 @@ class ApprovedTaskController extends Controller
         ], 200);
     }
 
-    // Mendapatkan daftar tugas yang telah disetujui
+    /**
+     * Method: Mendapatkan daftar tugas yang telah disetujui.
+     *
+     * @return JsonResponse
+     */
     public function taskApproved(): JsonResponse
     {
         $task = ApprovedTask::join('tasks', 'approved_tasks.task_id', '=', 'tasks.id')->where('approved_tasks.status', 'approved')->get();

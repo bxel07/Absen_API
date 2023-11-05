@@ -57,6 +57,7 @@ class UserLeaveRequest extends Controller
      */
     public function LeaveRequestProcess(Request $request): JsonResponse
     {
+        // Method untuk memproses permintaan cuti pengguna
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'start_date' => 'required',
@@ -66,12 +67,14 @@ class UserLeaveRequest extends Controller
         ]);
 
         if ($validator->fails()) {
+            // Jika validasi gagal, kembalikan respons dengan pesan kesalahan
             return response()->json([
                 'success' => false,
                 'message' => 'Mohon lengkapi seluruh kolom input yang ada!',
                 'data' => $validator->errors(),
             ], 422);
         } else {
+            // Simpan dokumen cuti dan data permintaan cuti ke database
 
             /**
              * Save Document Permission
@@ -95,6 +98,7 @@ class UserLeaveRequest extends Controller
             /**
              * Entry to Approved Request
              */
+            // Masukkan data ke Tabel 'approved_requests' dengan status 'pending'
             DB::table('approved_requests')->insert([
                 'user_id' => Auth::user()->id,
                 'leave_request_id' => $LeaveRequestData->id,

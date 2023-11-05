@@ -50,6 +50,7 @@ class UserAttendanceRequest extends Controller
      */
     public function getSchedule (): JsonResponse
     {
+        // Method untuk mendapatkan jadwal pengguna yang terautentikasi
         $user_id = Auth::user()->id;
 
       if (!$user_id) {
@@ -131,6 +132,7 @@ class UserAttendanceRequest extends Controller
 
     public function ClockIn_Rev(Request $request): JsonResponse
     {
+        // Method untuk melakukan "Clock in" absensi pengguna
         $credential = Validator::make($request->all(), [
             'clock_in' => 'required',
             'description' => 'required',
@@ -253,6 +255,7 @@ class UserAttendanceRequest extends Controller
      */
     public function ClockOut(Request $request): JsonResponse
     {
+        // Method untuk melakukan "Clock out" absensi pengguna
         $credential = Validator::make($request->all(), [
             'clock_out' => 'required',
             'description' => 'required',
@@ -320,6 +323,7 @@ class UserAttendanceRequest extends Controller
 
     private function RadiusCalc(float $lat1, float $lon1, float $lat2, float $lon2): float|int|null
     {
+        // Method untuk menghitung jarak antara dua titik geografis
         $a = 6378137; // Earth's semi-major axis in meters
         $b = 6356752.3142; // Earth's semi-minor axis in meters
         $f = 1 / 298.257223563; // Earth's flattening
@@ -381,6 +385,7 @@ class UserAttendanceRequest extends Controller
 
     private function User_Lat_Long(array $userLoc): object
     {
+        // Method untuk mengambil koordinat latitude dan longitude dari array
         return (object) ['latitude' => (float)$userLoc[0], 'longitude' => (float)$userLoc[1]];
     }
 
@@ -390,6 +395,7 @@ class UserAttendanceRequest extends Controller
      */
     private function getArr(Request $request): array
     {
+        // Method untuk mengelola file upload dan mengembalikan data request
         $selfie = $request->file('upload_file');
         $selfie->storeAs('public/attendance', $selfie->hashName());
         $url = Storage::url('public/images/' . $selfie->hashName());

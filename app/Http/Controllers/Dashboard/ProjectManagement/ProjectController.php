@@ -19,7 +19,12 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
-    //Membuat project baru.
+    /**
+     * Method: Membuat project baru.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function createProject(Request $request): JsonResponse
     {
         // Validasi request.
@@ -74,7 +79,13 @@ class ProjectController extends Controller
         ]);
     }
 
-    //Mengedit project yang ada.
+    /**
+     * Method: Mengedit project yang ada.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
     public function editProject(Request $request, $id): JsonResponse
     {
         // Validasi request.
@@ -131,7 +142,12 @@ class ProjectController extends Controller
         ]);
     }
 
-    // Menghapus project berdasarkan ID.
+    /**
+     * Method: Menghapus project berdasarkan ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
     public function deleteProject($id): JsonResponse
     {
         // Cari project berdasarkan ID.
@@ -153,7 +169,12 @@ class ProjectController extends Controller
         }
     }
 
-    // Mendapatkan project berdasarkan status.
+    /**
+     * Method: Mendapatkan project berdasarkan status.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function statusProjects(Request $request): JsonResponse
     {
         // Dapatkan user saat ini.
@@ -170,7 +191,11 @@ class ProjectController extends Controller
         return response()->json(['projects' => $projects]);
     }
 
-    // Mendapatkan semua project.
+    /**
+     * Method: Mendapatkan semua project.
+     *
+     * @return JsonResponse
+     */
     public function allProjects(): JsonResponse
     {
         // Dapatkan project.
@@ -179,7 +204,12 @@ class ProjectController extends Controller
         return response()->json(['projects' => $projects]);
     }
 
-    // Mendapatkan detail project berdasarkan ID.
+    /**
+     * Method: Mendapatkan detail project berdasarkan ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
     public function detailProject($id): JsonResponse
     {
         // Cari project berdasarkan ID.
@@ -215,6 +245,12 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * Method: Mengunggah file.
+     *
+     * @param Request $request
+     * @return string
+     */
     public function uploadFile(Request $request): string
     {
         //upload file

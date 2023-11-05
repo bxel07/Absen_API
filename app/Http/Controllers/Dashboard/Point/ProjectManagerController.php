@@ -36,7 +36,11 @@ class ProjectManagerController extends Controller
         $this->middleware('auth');
     }
 
-
+    /**
+     * Method: Mengambil poin yang terkait dengan pengguna saat ini.
+     *
+     * @return JsonResponse
+     */
     public function getData(): JsonResponse
     {
         point::all();
@@ -46,6 +50,12 @@ class ProjectManagerController extends Controller
         ], 200);
     }
 
+    /**
+     * Method: Menambahkan poin utama (main_points) ke akun pengguna.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function addMainPoint(Request $request): JsonResponse
     {
         $user_id = $request->user_id;
@@ -68,6 +78,13 @@ class ProjectManagerController extends Controller
             'data' => $point
         ], 200);
     }
+
+    /**
+     * Method: Menambahkan poin hadiah sebelum klaim (reward_point_before_claims) ke akun pengguna.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function addRewardPointBeforeClaims(Request $request): JsonResponse
     {
         $user_id = $request->user_id;

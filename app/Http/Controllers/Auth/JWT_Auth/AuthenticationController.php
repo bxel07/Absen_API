@@ -80,6 +80,7 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
+        //Method: Login dan Dapatkan JWT dengan kredensial yang diberikan.
         $this->validate($request, [
             'email' => 'required|string',
             'password' => 'required|string',
@@ -114,6 +115,7 @@ class AuthenticationController extends Controller
      */
     public function me(): JsonResponse
     {
+        //Method: Dapatkan Pengguna yang terotentikasi.
         return response()->json(auth()->user());
     }
 
@@ -139,6 +141,7 @@ class AuthenticationController extends Controller
      */
     public function logout(): JsonResponse
     {
+        //Method: Logout pengguna (Invalidate token).
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -169,6 +172,7 @@ class AuthenticationController extends Controller
      */
     public function refresh(): JsonResponse
     {
+        //Method: Perbarui token.
         return $this->jsonResponse(auth()->refresh());
     }
 
@@ -181,6 +185,7 @@ class AuthenticationController extends Controller
      */
     protected function jsonResponse($token): JsonResponse
     {
+        //Method: Dapatkan struktur array token.
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',

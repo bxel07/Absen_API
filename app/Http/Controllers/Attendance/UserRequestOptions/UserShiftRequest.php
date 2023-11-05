@@ -59,6 +59,7 @@ class UserShiftRequest extends Controller
      */
     public function ShiftRequestProcess(Request $request): JsonResponse
     {
+        // Method untuk memproses permintaan perubahan shift pengguna
         $validator = Validator::make($request->all(), [
             'on_date' => 'required',
             'old_shift_start' => 'required',
@@ -69,12 +70,14 @@ class UserShiftRequest extends Controller
         ]);
 
         if ($validator->fails()) {
+            // Jika validasi gagal, kembalikan respons dengan pesan kesalahan
             return response()->json([
                 'success' => false,
                 'message' => 'Mohon lengkapi seluruh kolom input yang ada!',
                 'data' => $validator->errors(),
             ], 422);
         } else {
+            // Simpan data permintaan perubahan shift ke database
             $ShiftRequestData = ShiftRequest::create([
                 'user_id' => Auth::user()->id,
                 'on_date' => $request->on_date,
@@ -88,6 +91,7 @@ class UserShiftRequest extends Controller
             /**
              * Entry to Approved Request
              */
+            // Masukkan data ke Tabel 'approved_requests' dengan status 'pending'
             DB::table('approved_requests')->insert([
                 'user_id' => Auth::user()->id,
                 'shift_request_id' => $ShiftRequestData->id,

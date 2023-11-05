@@ -12,6 +12,11 @@ use Illuminate\Http\JsonResponse;
 class AnnouncementController extends Controller
 {
 
+    /**
+     * Method: Menampilkan daftar pengumuman terbaru.
+     *
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $allAnnouncements = Announcement::latest()->get();
@@ -22,6 +27,12 @@ class AnnouncementController extends Controller
         ], 200);
     }
 
+    /**
+     * Method: Menyimpan pengumuman baru.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -64,6 +75,13 @@ class AnnouncementController extends Controller
         }
     }
 
+    /**
+     * Method: Memperbarui pengumuman berdasarkan ID.
+     *
+     * @param Request $request
+     * @param int $announcementId
+     * @return JsonResponse
+     */
     public function update(Request $request, $announcementId): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -106,6 +124,12 @@ class AnnouncementController extends Controller
         }
     }
 
+    /**
+     * Method: Menghapus pengumuman berdasarkan ID.
+     *
+     * @param int $announcementId
+     * @return JsonResponse
+     */
     public function destroy($announcementId): JsonResponse
     {
         $announcement = Announcement::where('id', $announcementId)->first();

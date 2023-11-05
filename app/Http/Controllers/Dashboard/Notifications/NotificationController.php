@@ -10,6 +10,11 @@ use Illuminate\Http\JsonResponse;
 
 class NotificationController extends Controller
 {
+    /**
+     * Method: Menampilkan semua notifikasi.
+     *
+     * @return JsonResponse
+     */
     public function allNotifications(): JsonResponse
     {
         $allNotifications = Notification::latest()->get();
@@ -20,6 +25,12 @@ class NotificationController extends Controller
         ], 200);
     }
 
+    /**
+     * Method: Menampilkan notifikasi berdasarkan ID pengguna.
+     *
+     * @param int $user_id
+     * @return JsonResponse
+     */
     public function userNotifications($user_id): JsonResponse
     {
         $userNotifications = Notification::where('user_id', $user_id)->latest()->get();

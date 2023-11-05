@@ -37,6 +37,11 @@ class MemberController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Method: Mengambil poin yang terkait dengan pengguna saat ini.
+     *
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
@@ -48,6 +53,12 @@ class MemberController extends Controller
         ], 200);
     }
 
+    /**
+     * Method: Klaim Hadiah dengan menggunakan poin.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function claimReward(Request $request): JsonResponse
     {
         $user = Auth::user()->id;
@@ -78,6 +89,12 @@ class MemberController extends Controller
         }
     }
 
+    /**
+     * Method: Transfer poin antara reward_points dan main_points.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function transferPoint(Request $request): JsonResponse
     {
         $user = Auth::user()->id;

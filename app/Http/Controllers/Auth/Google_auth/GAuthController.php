@@ -12,6 +12,7 @@ class GAuthController extends Controller
 {
     public function redirectToGoogle()
     {
+        //Method: Mengarahkan ke Google untuk otentikasi
         $query = http_build_query([
             'client_id' => env('GOOGLE_CLIENT_ID'),
             'redirect_uri' => env('GOOGLE_REDIRECT'),
@@ -24,6 +25,7 @@ class GAuthController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        //Method: Menangani Callback Google
         $verifySSL = env('VERIFY_SSL');
         $client = new Client([
             'verify' => $verifySSL,

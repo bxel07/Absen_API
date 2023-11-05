@@ -17,6 +17,7 @@ class SendMailController extends Controller
 
      public function pageForgotPassword()
      {
+        // Method: Menampilkan halaman form "forgot password"
          return view('forgot-password');
      }
 
@@ -55,6 +56,7 @@ class SendMailController extends Controller
      */
     public function sendMailVerification(Request $request): JsonResponse
     {
+        //Method: Mengirim verifikasi email dengan OTP untuk reset password
         $this->validate($request, [
             'email' => 'required|email|exists:users,email',
         ]);
@@ -123,6 +125,7 @@ class SendMailController extends Controller
      */
     public function verifyOtp(Request $request): JsonResponse
     {
+        //Method: Memverifikasi OTP yang dikirim ke email pengguna.
         $this->validate($request, [
             'email' => 'required|email|exists:users,email',
             'otp' => 'required|numeric',
