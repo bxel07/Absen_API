@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace App\Http\Controllers\Dashboard\Profile;
+namespace App\Http\Controllers\Dashboard\Account;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;

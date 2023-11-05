@@ -37,11 +37,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     $router->post('/refresh', 'Auth\JWT_Auth\AuthenticationController@refresh');
     $router->post('/me', 'Auth\JWT_Auth\AuthenticationController@me');
 
-
     /**
      * Router reset password
      */
-
     $router->get('/forgot-password', 'Auth\Email_Verification\SendMailController@pageForgotPassword');
     $router->post('/send-mail', 'Auth\Email_Verification\SendMailController@sendMailVerification');
     $router->post('/verify-otp', 'Auth\Email_Verification\SendMailController@verifyOtp');
@@ -67,12 +65,20 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/task-pending', 'Task\ApprovedTaskController@taskPending');
         $router->get('task-approved', 'Task\ApprovedTaskController@taskApproved');
 
+        /**
+         * Project Management [For Management Creating Project ]
+         */
+        $router->post('/create-project', 'Dashboard\ProjectManagement\ProjectController@createProject');
+        $router->post('/edit-project/{id}', 'Dashboard\ProjectManagement\ProjectController@editProject');
+        $router->post('/delete-project/{id}', 'Dashboard\ProjectManagement\ProjectController@deleteProject');
+        $router->get('/project/{id}', 'Dashboard\ProjectManagement\ProjectController@detailProject');
+        $router->get('/status-projects', 'Dashboard\ProjectManagement\ProjectController@statusProjects');
+        $router->get('/all-projects', 'Dashboard\ProjectManagement\ProjectController@allProjects');
     });
+
     $router->group(['middleware' => 'checkRole:Member'], function () use ($router) {
         $router->get('/member', 'Dashboard\Member\MemberController@index');
         $router->get('/member/history', 'Attendance\History\UserAttendenceHistory@MemberLog');
-
-
     });
 
     $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
@@ -92,25 +98,25 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         /**
          * Router Informasi Akun
          */
-        $router->get('/user-info', 'Dashboard\Profile\UserProfile@show');
-        $router->post('/update-profile', 'Dashboard\Profile\UserProfile@update');
-        $router->put('/change-password', 'Dashboard\Profile\UserProfile@changePassword');
+        $router->get('/user-info', 'Dashboard\Account\UserProfile@show');
+        $router->post('/update-profile', 'Dashboard\Account\UserProfile@update');
+        $router->put('/change-password', 'Dashboard\Account\UserProfile@changePassword');
         /**
          * Router Informasi Pekerjaan dari status user di perusahaan
          *
          */
-        $router->get('/user-employment', 'Dashboard\Profile\UserEmployment@index');
+        $router->get('/user-employment', 'Dashboard\Account\UserEmployment@index');
 
         /**
          * Router data data project dan task setiap user
          *
          */
-        $router->get('/get-projects-and-tasks/{user_id}', 'Dashboard\Project\ProjectController@getProjectsAndTasks');
+        $router->get('/get-projects-and-tasks/{user_id}', 'Dashboard\ProjectManagement\ProjectAndTaskController@getProjectsAndTasks');
 
-          // Router Informasi Point Member
-          $router->get('/point', 'Dashboard\Point\MemberController@index');
-          $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
-          $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
+        // Router Informasi Point Member
+        $router->get('/point', 'Dashboard\Point\MemberController@index');
+        $router->post('/claim-reward', 'Dashboard\Point\MemberController@claimReward');
+        $router->post('/transfer-points', 'Dashboard\Point\MemberController@transferPoint');
     });
 
 
@@ -146,42 +152,34 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
      */
     $router->group(['middleware' => 'GroupAccess:Project Manager,Member'], function () use ($router) {
         // Semua List Task
-        $router->get('/project-manager/list-task', 'Task\TaskController@getTaskList');
+        $router->get('/project-manager/list-task', 'Dashboard\Task\TaskController@getTaskList');
         // List Task by Project
-        $router->get('/project-manager/{project_id}/list-task', 'Task\TaskController@getTasksByProject');
+        $router->get('/project-manager/{project_id}/list-task', 'Dashboard\Task\TaskController@getTasksByProject');
         // List Comment by Task
-        $router->get('/project-manager/{task_id}/list-comment', 'Task\TaskController@getCommentsForTask');
+        $router->get('/project-manager/{task_id}/list-comment', 'Dashboard\Task\TaskController@getCommentsForTask');
         // Add Task by Project
-        $router->post('/project-manager/{project_id}/add-task', 'Task\TaskController@addTaskToProject');
+        $router->post('/project-manager/{project_id}/add-task', 'Dashboard\Task\TaskController@addTaskToProject');
     });
     $router->group(['middleware' => 'checkRole:Project Manager'], function () use ($router) {
-        $router->post('/project-manager/{task_id}/add-comment', 'Task\TaskController@addCommentToTask');
+        $router->post('/project-manager/{task_id}/add-comment', 'Dashboard\Task\TaskController@addCommentToTask');
     });
 
-    /**
-     * Project Management [For Management Creating Project ]
-     */
-    $router->post('/create-project', 'Project_Management\ProjectController@createProject');
-    $router->post('/edit-project/{id}', 'Project_Management\ProjectController@editProject');
-    $router->post('/delete-project/{id}', 'Project_Management\ProjectController@deleteProject');
-    $router->get('/project/{id}', 'Project_Management\ProjectController@detailProject');
-    $router->get('/status-projects', 'Project_Management\ProjectController@statusProjects');
-    $router->get('/all-projects', 'Project_Management\ProjectController@allProjects');
+
 
     /**
      * FAQ Controller
      */
-    $router->get('/faq', 'Dashboard\Profile\FAQController@index');
-    $router->get('/faq/{id}', 'Dashboard\Profile\FAQController@show');
-    $router->post('/faq', 'Dashboard\Profile\FAQController@store');
-    $router->put('/faq/{id}', 'Dashboard\Profile\FAQController@update');
-    $router->delete('/faq/{id}', 'Dashboard\Profile\FAQController@destroy');
+    $router->get('/faq', 'Dashboard\Account\FAQController@index');
+    $router->get('/faq/{id}', 'Dashboard\Account\FAQController@show');
+    $router->post('/faq', 'Dashboard\Account\FAQController@store');
+    $router->put('/faq/{id}', 'Dashboard\Account\FAQController@update');
+    $router->delete('/faq/{id}', 'Dashboard\Account\FAQController@destroy');
 });
 
 
-  /**
-     * Google Auth Router
-  * */
+/**
+ * Google Auth Router
+ * */
 
-     $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
-     $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+$router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
+$router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');

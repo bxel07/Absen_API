@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Project;
+namespace App\Http\Controllers\Dashboard\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\TaskMember;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class ProjectController extends Controller
+class ProjectAndTaskController extends Controller
 {
     // Middleware untuk memastikan bahwa pengguna ini telah login.
     public function __construct()

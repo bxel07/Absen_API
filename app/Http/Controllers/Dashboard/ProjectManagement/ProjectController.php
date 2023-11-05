@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project_Management;
+namespace App\Http\Controllers\Dashboard\ProjectManagement;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
