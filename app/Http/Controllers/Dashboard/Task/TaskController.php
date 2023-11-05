@@ -133,14 +133,14 @@ class TaskController extends Controller
         $task->save();
         return response()->json(['message' => 'Komentar berhasil ditambahkan'], 201);
     }
-    
+
     /**
-    * Mengubah status tugas berdasarkan ID tugas.
-    *
-    * @param Request $request
-    * @param int $task_id
-    * @return JsonResponse
-    */
+     * Mengubah status tugas berdasarkan ID tugas.
+     *
+     * @param Request $request
+     * @param int $task_id
+     * @return JsonResponse
+     */
     public function updateTaskStatus(Request $request, $task_id): JsonResponse
     {
         // Validasi data yang diterima dari permintaan
