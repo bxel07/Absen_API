@@ -37,16 +37,26 @@ class MemberController extends Controller
          $this->middleware('auth');
      }
 
-    public function index(): JsonResponse
+     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
-        $point = Point::where('user_id', $user)->first();
+        $point = Point::where('user_id', $user)
+        ->select('user_id','main_points', 'reward_points')
+        ->first();
 
-        return response()->json([
-            'success' => true,
-            'data' => $point
-        ],200);
+        if (!$point) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => 'No data points found for the logged-in user.'
+            ], 404); // Menggunakan status 404 untuk menunjukkan data tidak ditemukan.
+        }
 
+            return response()->json([
+                'success' => true,
+                'data' => $point,
+                'message' => 'Data points retrieved successfully.'
+            ], 200);
     }
 
     public function claimReward(Request $request)
