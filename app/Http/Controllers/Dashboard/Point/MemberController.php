@@ -10,28 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
-    /**
-     * Retrieve the point associated with the current user.
-     *
-     * @return JsonResponse
-     *
-     * @OA\Get(
-     *     path="/api/point",
-     *     summary="Retrieve the point associated with the current user",
-     *     description="Retrieve the point associated with the current user based on the user's ID.",
-     *     tags={"Profile"},
-     *     security={{ "bearerAuth": {} }},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="data"),
-     *         ),
-     *     ),
-     * )
-     */
-
     public function __construct()
     {
         $this->middleware('auth');

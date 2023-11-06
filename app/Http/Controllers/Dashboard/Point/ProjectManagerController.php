@@ -9,16 +9,21 @@ use Illuminate\Http\JsonResponse;
 
 class ProjectManagerController extends Controller
 {
-    /**
-     * Retrieve the point associated with the current user.
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+      /**
+     * Retrieve the points associated with all current users.
      *
      * @return JsonResponse
      *
      * @OA\Get(
-     *     path="/api/point",
-     *     summary="Retrieve the point associated with the current user",
-     *     description="Retrieve the point associated with the current user based on the user's ID.",
-     *     tags={"Profile"},
+     *     path="/api/data-points",
+     *     summary="Retrieve the points associated with all current users",
+     *     description="Project Manager takes data points from all members.",
+     *     tags={"Points"},
      *     security={{ "bearerAuth": {} }},
      *     @OA\Response(
      *         response=200,
@@ -31,16 +36,6 @@ class ProjectManagerController extends Controller
      * )
      */
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Method: Mengambil poin yang terkait dengan pengguna saat ini.
-     *
-     * @return JsonResponse
-     */
     public function getData(): JsonResponse
     {
         point::all();
@@ -56,6 +51,34 @@ class ProjectManagerController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
+       /**
+     * Send email verification with OTP for password reset.
+     *
+     * @OA\Post(
+     *     path="/api/add-main-points",
+     *     summary="Sending main points to users",
+     *     description="Send key points from the project manager to the project manager or members.",
+     *     tags={"Points"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="user_id", type="integer",  format="int64", description="Id users."),
+     *             @OA\Property(property="main_points", type="integer", format="int64", description="Points"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Point sent.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
+
     public function addMainPoint(Request $request): JsonResponse
     {
         $user_id = $request->user_id;
@@ -75,7 +98,7 @@ class ProjectManagerController extends Controller
         }
         return response()->json([
             'success' => true,
-            'data' => $point
+            'data' => $point,
         ], 200);
     }
 
