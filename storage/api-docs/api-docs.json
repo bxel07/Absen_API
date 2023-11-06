@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My First API",
+        "title": "Absen Ok API",
         "version": "0.1"
     },
     "paths": {
@@ -935,42 +935,6 @@
                 ]
             }
         },
-        "/api/point": {
-            "get": {
-                "tags": [
-                    "Profile"
-                ],
-                "summary": "Retrieve the point associated with the current user",
-                "description": "Retrieve the point associated with the current user based on the user's ID.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\PointController::index",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "description": "Retrieve the point associated with the current user.",
-                                            "type": "boolean"
-                                        },
-                                        "data": {
-                                            "description": "Retrieve the point associated with the current user."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/user-employment": {
             "get": {
                 "tags": [
@@ -978,7 +942,7 @@
                 ],
                 "summary": "Retrieve employment details for the authenticated user",
                 "description": "Retrieve employment details for the authenticated user based on the user's ID.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserEmployment::index",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\UserEmployment::index",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -1008,7 +972,7 @@
                 ],
                 "summary": "Get user info",
                 "description": "Retrieve information about the logged-in user. Requires authentication.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserProfile::show",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\UserProfile::show",
                 "responses": {
                     "200": {
                         "description": "Success: User information retrieved.",
@@ -1075,7 +1039,7 @@
                 ],
                 "summary": "Update the user's profile information",
                 "description": "Update the user's profile information based on the provided request data.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Profile\\UserProfile::update",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\UserProfile::update",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1207,6 +1171,425 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/list-announcements": {
+            "get": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Displays entire list of announcements",
+                "description": "All users can see announcements made by the project manager.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\AnnouncementController::index",
+                "responses": {
+                    "200": {
+                        "description": "Success: Announcement data list was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "string",
+                                            "example": "Announcement Data List"
+                                        },
+                                        "data": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Displays entire list of announcements.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "picture": {
+                                                        "description": "Displays entire list of announcements.",
+                                                        "type": "string",
+                                                        "example": "xTZCMwEpjGda3cIy4up6nMhu5urO5vufMaKjsBzP.jpg"
+                                                    },
+                                                    "message": {
+                                                        "description": "Displays entire list of announcements.",
+                                                        "type": "string",
+                                                        "example": "Announcement Title"
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Displays entire list of announcements.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Displays entire list of announcements.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Announcement Data List Not Found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "string",
+                                            "example": "Announcement Data List Not Found"
+                                        },
+                                        "data": {
+                                            "description": "Displays entire list of announcements.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/all-notifications": {
+            "get": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Shows all notifications",
+                "description": "Project Manager can view/retrieve clock in and clock out request data from users (members).",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\NotificationController::allNotifications",
+                "responses": {
+                    "200": {
+                        "description": "Success: Notification data list was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Shows all notifications.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Shows all notifications.",
+                                            "type": "string",
+                                            "example": "Notification Data List"
+                                        },
+                                        "data": {
+                                            "description": "Shows all notifications.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "string",
+                                                        "example": "Clock In"
+                                                    },
+                                                    "message": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "string",
+                                                        "example": "User makes a clock in request."
+                                                    },
+                                                    "user_id": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "read_status_for_admin": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "read_status_for_user": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Shows all notifications.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Notification Data List Not Found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Shows all notifications.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Shows all notifications.",
+                                            "type": "string",
+                                            "example": "Notification Data List Not Found"
+                                        },
+                                        "data": {
+                                            "description": "Shows all notifications.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user-notifications/{user_id}": {
+            "get": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Display notification history based on user ID",
+                "description": "Users can view their own notification history.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\NotificationController::userNotifications",
+                "responses": {
+                    "200": {
+                        "description": "Success: User notification data history was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": "List of Notification Data from User ID (1)"
+                                        },
+                                        "data": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "title": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "example": "Clock In"
+                                                    },
+                                                    "message": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "example": "User makes a clock out request."
+                                                    },
+                                                    "user_id": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "read_status_for_admin": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "read_status_for_user": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: User Notification Data History Not Found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": "User Notification Data History Not Found"
+                                        },
+                                        "data": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/data-points": {
+            "get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Retrieve the points associated with all current users",
+                "description": "Project Manager takes data points from all members.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::getData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "description": "Retrieve the points associated with all current users."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/add-main-points": {
+            "post": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Sending main points to users",
+                "description": "Send key points from the project manager to the project manager or members.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::addMainPoint",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "Id users.",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "main_points": {
+                                        "description": "Points",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: Point sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Send email verification with OTP for password reset.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

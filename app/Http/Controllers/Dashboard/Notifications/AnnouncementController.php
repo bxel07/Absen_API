@@ -13,18 +13,61 @@ class AnnouncementController extends Controller
 {
 
     /**
-     * Method: Menampilkan daftar pengumuman terbaru.
+     * Displays entire list of announcements.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *     path="/api/list-announcements",
+     *     summary="Displays entire list of announcements",
+     *     description="All users can see announcements made by the project manager.",
+     *     tags={"Announcement"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Announcement data list was successfully retrieved.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="Announcement Data List"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="picture", type="string", example="xTZCMwEpjGda3cIy4up6nMhu5urO5vufMaKjsBzP.jpg"),
+     *                     @OA\Property(property="message", type="string", example="Announcement Title"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-26T06:20:35.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-26T06:20:35.000000Z"),
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: Announcement Data List Not Found!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Announcement Data List Not Found"),
+     *             @OA\Property(property="data", type="string", example=null),
+     *         ),
+     *     ),
+     * )
      */
     public function index(): JsonResponse
     {
         $allAnnouncements = Announcement::latest()->get();
-        return response()->json([
-            'success' => true,
-            'message' => 'List Data Pengumuman',
-            'data'    => $allAnnouncements
-        ], 200);
+        if ($allAnnouncements) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Announcement Data List',
+                'data'    => $allAnnouncements
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Announcement Data List Not Found!',
+                'data'    => null
+            ], 404);
+        }
     }
 
     /**
