@@ -14,7 +14,7 @@ class ProjectManagerController extends Controller
         $this->middleware('auth');
     }
 
-      /**
+    /**
      * Retrieve the points associated with all current users.
      *
      * @return JsonResponse
@@ -25,12 +25,20 @@ class ProjectManagerController extends Controller
      *     description="Project Manager takes data points from all members.",
      *     tags={"Points"},
      *     security={{ "bearerAuth": {} }},
-     *     @OA\Response(
+     *    @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Success: Data points retrieved successfully.",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="data"),
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: No data points found for the logged-in user.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      * )
@@ -38,27 +46,29 @@ class ProjectManagerController extends Controller
 
     public function getData(): JsonResponse
     {
-        point::all();
+        $point = point::all();
+
+        if(!$point) {
+        return response()->json([
+            'message' => "Didn't find any user data points"
+        ],404);
+        }
+
         return response()->json([
             'success' => true,
-            'data' => Point::all()
+            'data' => Point::all(),
+            'message' => 'User points found',
         ], 200);
     }
 
-    /**
-     * Method: Menambahkan poin utama (main_points) ke akun pengguna.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
 
-       /**
-     * Send email verification with OTP for password reset.
+    /**
+     * Sending main points to users.
      *
      * @OA\Post(
      *     path="/api/add-main-points",
      *     summary="Sending main points to users",
-     *     description="Send key points from the project manager to the project manager or members.",
+     *     description="Send main points from the project manager to the project manager or members.",
      *     tags={"Points"},
      *     @OA\RequestBody(
      *         required=true,
@@ -77,6 +87,11 @@ class ProjectManagerController extends Controller
      *         ),
      *     ),
      * )
+     */
+
+     /**
+     * @param Request $request
+     * @return JsonResponse
      */
 
     public function addMainPoint(Request $request): JsonResponse
@@ -99,8 +114,37 @@ class ProjectManagerController extends Controller
         return response()->json([
             'success' => true,
             'data' => $point,
+            'message' => 'Point Sent'
         ], 200);
     }
+
+
+    /**
+     * Method: Add reward points before claiming (reward_point_before_claims) to the user's account
+     *
+     * @OA\Post(
+     *     path="/api/add-rewards",
+     *     summary="Sending reward points to users",
+     *     description="Send reward points from the project manager to the project manager or members.",
+     *     tags={"Points"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="user_id", type="integer",  format="int64", description="Id users."),
+     *             @OA\Property(property="main_points", type="integer", format="int64", description="Points"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Point sent.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
 
     /**
      * Method: Menambahkan poin hadiah sebelum klaim (reward_point_before_claims) ke akun pengguna.

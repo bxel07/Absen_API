@@ -16,21 +16,67 @@ class MemberController extends Controller
     }
 
     /**
-     * Method: Mengambil poin yang terkait dengan pengguna saat ini.
+     * Retrieve data points based on logged in users.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *     path="/api/points",
+     *     summary="Retrieve data points based on logged in users",
+     *     description="user retrieves data points based on login",
+     *     tags={"Points"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Data points retrieved successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="user_id", type="integer", example= 1),
+     *                     @OA\Property(property="main_points", type="integer", example= 300),
+     *                     @OA\Property(property="reward_points", type="integer", example= 500),
+     *           ),
+     *         ),
+     *       ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: No data points found for the logged-in user.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="No data points found for the logged-in user."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *         ),
+
+     *
+     *         ),
+     *     ),
+     * )
      */
+
     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
         $point = Point::where('user_id', $user)->first();
 
-        return response()->json([
-            'success' => true,
-            'data' => $point
-        ], 200);
-    }
+        if (!$point) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => 'No data points found for the logged-in user.'
+            ], 404); // Menggunakan status 404 untuk menunjukkan data tidak ditemukan.
+        }
 
+            return response()->json([
+                'success' => true,
+                'data' => $point,
+                'message' => 'Data points retrieved successfully.'
+            ], 200);
+    }
     /**
      * Method: Klaim Hadiah dengan menggunakan poin.
      *
