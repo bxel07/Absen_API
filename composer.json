@@ -6,12 +6,15 @@
     "type": "project",
     "require": {
         "php": "^8.1",
+        "darkaonline/l5-swagger": "^8.1.0",
+        "darkaonline/swagger-lume": "10.*",
         "flipbox/lumen-generator": "^9.2",
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/mail": "^10.26",
         "laravel/lumen-framework": "^10.0",
         "league/flysystem": "^3.16",
-        "tymon/jwt-auth": "*"
+        "tymon/jwt-auth": "*",
+        "zircote/swagger-php": "3.2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -22,7 +25,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "OpenApi\\": "vendor/zircote/swagger-php/src/"
         }
     },
     "autoload-dev": {

@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ApprovedRequest extends Model
 {
+    protected $table = 'approved_requests';
+    protected $fillable = [
+        'user_id',
+        'shift_request_id',
+        'leave_request_id',
+        'attendance_request_id',
+        'status',
+        'reward_flag'
+
+
+    ];
 
 
     public function users(): BelongsTo

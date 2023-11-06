@@ -62,6 +62,7 @@ $app->singleton(
 $app->configure('app');
 
 $app->configure('mail');
+$app->configure('swagger-lume');
 
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
 $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
@@ -110,6 +111,8 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
