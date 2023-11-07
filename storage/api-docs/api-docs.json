@@ -3039,6 +3039,514 @@
                 }
             }
         },
+        "/get-projects-and-tasks/{user_id}": {
+            "get": {
+                "tags": [
+                    "Projects Mangements and Task"
+                ],
+                "summary": "Get a list of projects and user tasks by ID",
+                "description": "Retrieve the points associated with all current users.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectAndTaskController::getProjectsAndTasks",
+                "responses": {
+                    "200": {
+                        "description": "Success: Data Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "projects_and_tasks": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 1001
+                                                    },
+                                                    "main_points": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 120
+                                                    },
+                                                    "reward_points": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 50
+                                                    },
+                                                    "projects": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "properties": {
+                                                            "id": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "task_member_id": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "user_id": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "integer",
+                                                                "example": 1001
+                                                            },
+                                                            "name": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "John"
+                                                            },
+                                                            "project_title": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "Project A"
+                                                            },
+                                                            "deadline": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "2023-11-10 15:00:00"
+                                                            },
+                                                            "description": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "Project A details"
+                                                            },
+                                                            "reward_point": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "integer",
+                                                                "example": 50
+                                                            },
+                                                            "file": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": null
+                                                            },
+                                                            "status": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "in progress"
+                                                            },
+                                                            "created_at": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "2023-11-08 10:05:00"
+                                                            },
+                                                            "updated_at": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "string",
+                                                                "example": "2023-11-08 10:35:00"
+                                                            },
+                                                            "tasks": {
+                                                                "description": "Retrieve the points associated with all current users.",
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "user_id": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "integer",
+                                                                            "example": 1001
+                                                                        },
+                                                                        "name": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "Task1"
+                                                                        },
+                                                                        "project_id": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "deadline": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "2023-11-09 10:00:00"
+                                                                        },
+                                                                        "description": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "Task1 details"
+                                                                        },
+                                                                        "status": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "in progress"
+                                                                        },
+                                                                        "comment": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "Good job"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "2023-11-08 10:10:00"
+                                                                        },
+                                                                        "updated_at": {
+                                                                            "description": "Retrieve the points associated with all current users.",
+                                                                            "type": "string",
+                                                                            "example": "2023-11-08 10:40:00"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Cannot access this page",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "string",
+                                            "example": "Anda tidak memiliki akses pada halaman ini"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/create-project": {
+            "post": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Create new Project",
+                "description": "Add Project Task to Project",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::createProject",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Add Task to Project.",
+                                        "type": "string"
+                                    },
+                                    "project_title": {
+                                        "description": "Add Task to Project.",
+                                        "type": "string"
+                                    },
+                                    "deadline": {
+                                        "description": "Add Task to Project.",
+                                        "type": "date"
+                                    },
+                                    "description": {
+                                        "description": "Add Task to Project.",
+                                        "type": "string"
+                                    },
+                                    "reward_point": {
+                                        "description": "Add Task to Project.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: ptoject added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Task to Project.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Add Task to Project.",
+                                            "type": "string",
+                                            "example": "project added successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/edit-project/{id}": {
+            "post": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Create new Project",
+                "description": "Add Project Task to Project",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::editProject",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "project_title": {
+                                        "type": "string"
+                                    },
+                                    "deadline": {
+                                        "type": "date"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "reward_point": {
+                                        "type": "integer"
+                                    },
+                                    "file": {
+                                        "type": "mimes:pdf",
+                                        "example": "this is for pdf"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: ptoject added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "project added successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-project/{id}": {
+            "post": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Delete existing Project",
+                "description": "Delete Project",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::deleteProject",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: ptoject added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "project Data ID project ' .1 . ' berhasil dihapus!."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/status-projects": {
+            "get": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Get Project status for each user",
+                "description": "Get Project status for each user",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::statusProjects",
+                "responses": {
+                    "200": {
+                        "description": "Success: ptoject added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "projects": {
+                                            "type": "object",
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/all-projects": {
+            "get": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Get all available Project",
+                "description": "Get all available Project",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::allProjects",
+                "responses": {
+                    "200": {
+                        "description": "Success: ptoject added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "projects": {
+                                            "type": "object",
+                                            "example": "[]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/project/{id}": {
+            "get": {
+                "tags": [
+                    "Project Managements"
+                ],
+                "summary": "Get Project details by ID",
+                "description": "Get Project details by ID",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\ProjectManagement\\ProjectController::detailProject",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the project",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success: Project details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "project": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Project not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Project not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/task/task-all": {
             "get": {
                 "tags": [
