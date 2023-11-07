@@ -1274,6 +1274,385 @@
                 ]
             }
         },
+        "/api/add-announcement": {
+            "post": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Save new announcements.",
+                "description": "Project manager makes a new announcement for users.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\AnnouncementController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "picture": {
+                                        "description": "Supporting images for announcements.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "message": {
+                                        "description": "Announcement message.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Validation failed. Please check your input data!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new announcements.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Save new announcements.",
+                                            "type": "string",
+                                            "example": "Validation failed. Please check your input data!"
+                                        },
+                                        "data": {
+                                            "description": "Save new announcements.",
+                                            "properties": {
+                                                "picture": {
+                                                    "description": "Pesan kesalahan untuk bidang 'picture'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The picture field is required."
+                                                    ]
+                                                },
+                                                "message": {
+                                                    "description": "Pesan kesalahan untuk bidang 'message'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The message field is required."
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Successfully added a new announcement.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new announcements.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Save new announcements.",
+                                            "type": "boolean",
+                                            "example": "Successfully added a new announcement."
+                                        },
+                                        "data": {
+                                            "description": "Save new announcements.",
+                                            "properties": {
+                                                "picture": {
+                                                    "description": "URL gambar.",
+                                                    "type": "string",
+                                                    "example": "/storage/images/a9qy0q3d1xCkrVy55m34vxuIx9dbXcvmLmQLDwnO.jpg"
+                                                },
+                                                "message": {
+                                                    "description": "Pesan atau informasi terkait gambar.",
+                                                    "type": "string",
+                                                    "example": "Announcement message."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Failed to make a new announcement!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new announcements.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Save new announcements.",
+                                            "type": "string",
+                                            "example": "Failed to make a new announcement!"
+                                        },
+                                        "data": {
+                                            "description": "Save new announcements.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-announcement/{announcementId}": {
+            "put": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Updates announcements by ID.",
+                "description": "Project managers can change announcements based on selected data.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\AnnouncementController::update",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "picture": {
+                                        "description": "Supporting images for announcements.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "message": {
+                                        "description": "Announcement message.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Validation failed. Please check your input data!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Updates announcements by ID.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Updates announcements by ID.",
+                                            "type": "string",
+                                            "example": "Validation failed. Please check your input data!"
+                                        },
+                                        "data": {
+                                            "description": "Updates announcements by ID.",
+                                            "properties": {
+                                                "picture": {
+                                                    "description": "Pesan kesalahan untuk bidang 'picture'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The picture field is required."
+                                                    ]
+                                                },
+                                                "message": {
+                                                    "description": "Pesan kesalahan untuk bidang 'message'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The message field is required."
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Successfully updated the announcement.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Updates announcements by ID.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Updates announcements by ID.",
+                                            "type": "boolean",
+                                            "example": "Successfully updated the announcement."
+                                        },
+                                        "data": {
+                                            "description": "Updates announcements by ID.",
+                                            "properties": {
+                                                "picture": {
+                                                    "description": "URL gambar.",
+                                                    "type": "string",
+                                                    "example": "/storage/images/a9qy0q3d1xCkrVy55m34vxuIx9dbXcvmLmQLDwnO.jpg"
+                                                },
+                                                "message": {
+                                                    "description": "Pesan atau informasi terkait gambar.",
+                                                    "type": "string",
+                                                    "example": "Announcement message."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-announcement/{announcementId}": {
+            "delete": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Remove the specified announcement.",
+                "description": "Remove the specified announcement.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Notifications\\AnnouncementController::destroy",
+                "parameters": [
+                    {
+                        "name": "announcementId",
+                        "in": "path",
+                        "description": "Project managers can delete specified announcements.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Announcement successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "Announcement ID data ($announcementId) deleted successfully!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID Announcement ($announcementId) not found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "ID Announcement ($announcementId) not found!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to delete announcement!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "Failed to delete announcement!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/all-notifications": {
             "get": {
                 "tags": [
@@ -1506,6 +1885,95 @@
                 ]
             }
         },
+        "/api/points": {
+            "get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Retrieve data points based on logged in users",
+                "description": "user retrieves data points based on login",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\MemberController::index",
+                "responses": {
+                    "200": {
+                        "description": "Success: Data points retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Retrieve data points based on logged in users.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "description": "Retrieve data points based on logged in users.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "main_points": {
+                                                        "description": "Retrieve data points based on logged in users.",
+                                                        "type": "integer",
+                                                        "example": 300
+                                                    },
+                                                    "reward_points": {
+                                                        "description": "Retrieve data points based on logged in users.",
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: No data points found for the logged-in user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "string",
+                                            "example": "No data points found for the logged-in user."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/data-points": {
             "get": {
                 "tags": [
@@ -1516,17 +1984,30 @@
                 "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::getData",
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Success: Data points retrieved successfully.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "success": {
+                                        "message": {
                                             "description": "Retrieve the points associated with all current users.",
-                                            "type": "boolean"
-                                        },
-                                        "data": {
-                                            "description": "Retrieve the points associated with all current users."
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: No data points found for the logged-in user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -1548,8 +2029,7 @@
                     "Points"
                 ],
                 "summary": "Sending main points to users",
-                "description": "Send key points from the project manager to the project manager or members.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::addMainPoint",
+                "description": "Send main points from the project manager to the project manager or members.",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1580,7 +2060,56 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Send email verification with OTP for password reset.",
+                                            "description": "Sending main points to users.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/add-rewards": {
+            "post": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Sending reward points to users",
+                "description": "Send reward points from the project manager to the project manager or members.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "Id users.",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "main_points": {
+                                        "description": "Points",
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: Point sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
                                             "type": "string"
                                         }
                                     },

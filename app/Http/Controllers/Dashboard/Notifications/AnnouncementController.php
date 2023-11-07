@@ -71,10 +71,75 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Method: Menyimpan pengumuman baru.
+     * Save new announcements.
      *
      * @param Request $request
      * @return JsonResponse
+     *
+     * @OA\Post(
+     *     path="/api/add-announcement",
+     *     summary="Save new announcements.",
+     *     description="Project manager makes a new announcement for users.",
+     *     tags={"Announcement"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="picture", type="string", format="binary", description="Supporting images for announcements."),
+     *             @OA\Property(property="message", type="string", description="Announcement message."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Validation failed. Please check your input data!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Validation failed. Please check your input data!"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(
+     *                     property="picture",
+     *                     type="array",
+     *                     @OA\Items(type="string"),
+     *                     example={"The picture field is required."},
+     *                     description="Pesan kesalahan untuk bidang 'picture'."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="message",
+     *                     type="array",
+     *                     @OA\Items(type="string"),
+     *                     example={"The message field is required."},
+     *                     description="Pesan kesalahan untuk bidang 'message'."
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Successfully added a new announcement.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="boolean", example="Successfully added a new announcement."),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="picture", type="string", example="/storage/images/a9qy0q3d1xCkrVy55m34vxuIx9dbXcvmLmQLDwnO.jpg", description="URL gambar."),
+     *                 @OA\Property(property="message", type="string", example="Announcement message.",
+     *                     description="Pesan atau informasi terkait gambar."),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: Failed to make a new announcement!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Failed to make a new announcement!"),
+     *             @OA\Property(property="data", type="string", example=null),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }}
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -86,7 +151,7 @@ class AnnouncementController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Data input harus dilengkapi!',
+                'message' => 'Validation failed. Please check your input data!',
                 'data' => $validator->errors(),
             ], 422);
         } else {
@@ -105,25 +170,80 @@ class AnnouncementController extends Controller
             if ($createAnnouncement) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil membuat pengumuman baru!',
+                    'message' => 'Successfully added a new announcement.',
                     'data' => ['picture' => $url, 'message' => $request->message]
-                ], 201);
+                ], 200);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal membuat pengumuman baru!',
+                    'message' => 'Failed to make a new announcement!',
                     'data' => null,
-                ], 404);
+                ], 400);
             }
         }
     }
 
     /**
-     * Method: Memperbarui pengumuman berdasarkan ID.
+     * Updates announcements by ID.
      *
      * @param Request $request
      * @param int $announcementId
      * @return JsonResponse
+     *
+     * @OA\Put(
+     *     path="/api/update-announcement/{announcementId}",
+     *     summary="Updates announcements by ID.",
+     *     description="Project managers can change announcements based on selected data.",
+     *     tags={"Announcement"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="picture", type="string", format="binary", description="Supporting images for announcements."),
+     *             @OA\Property(property="message", type="string", description="Announcement message."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Validation failed. Please check your input data!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Validation failed. Please check your input data!"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(
+     *                     property="picture",
+     *                     type="array",
+     *                     @OA\Items(type="string"),
+     *                     example={"The picture field is required."},
+     *                     description="Pesan kesalahan untuk bidang 'picture'."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="message",
+     *                     type="array",
+     *                     @OA\Items(type="string"),
+     *                     example={"The message field is required."},
+     *                     description="Pesan kesalahan untuk bidang 'message'."
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Successfully updated the announcement.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="boolean", example="Successfully updated the announcement."),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="picture", type="string", example="/storage/images/a9qy0q3d1xCkrVy55m34vxuIx9dbXcvmLmQLDwnO.jpg", description="URL gambar."),
+     *                 @OA\Property(property="message", type="string", example="Announcement message.",
+     *                     description="Pesan atau informasi terkait gambar."),
+     *             ),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }}
+     * )
      */
     public function update(Request $request, $announcementId): JsonResponse
     {
@@ -137,7 +257,7 @@ class AnnouncementController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Data input harus dilengkapi!',
+                'message' => 'Validation failed. Please check your input data!',
                 'data' => $validator->errors(),
             ], 422);
         } else {
@@ -151,7 +271,7 @@ class AnnouncementController extends Controller
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil memperbarui pengumuman!',
+                    'message' => 'Successfully updated the announcement.',
                     'data' => $request->all(),
                 ], 201);
             } else {
@@ -160,7 +280,7 @@ class AnnouncementController extends Controller
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil memperbarui pengumuman!',
+                    'message' => 'Successfully updated the announcement.',
                     'data' => $request->all(),
                 ], 201);
             }
@@ -168,25 +288,82 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Method: Menghapus pengumuman berdasarkan ID.
+     * Remove the specified announcement.
      *
      * @param int $announcementId
      * @return JsonResponse
+     *
+     * @OA\Delete(
+     *     path="/api/delete-announcement/{announcementId}",
+     *     summary="Remove the specified announcement.",
+     *     tags={"Announcement"},
+     *     @OA\Parameter(
+     *         name="announcementId",
+     *         in="path",
+     *         required=true,
+     *         description="Project managers can delete specified announcements.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Announcement successfully deleted.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Announcement ID data ($announcementId) deleted successfully!"),
+     *             @OA\Property(property="data", type="null", example=null),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="ID Announcement ($announcementId) not found!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="ID Announcement ($announcementId) not found!"),
+     *             @OA\Property(property="data", type="null", example=null),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Failed to delete announcement!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Failed to delete announcement!"),
+     *             @OA\Property(property="data", type="null", example=null),
+     *         )
+     *     )
+     * )
      */
     public function destroy($announcementId): JsonResponse
     {
-        $announcement = Announcement::where('id', $announcementId)->first();
-        if (!is_null($announcement->picture)) {
-            $data = basename($announcement->picture);
-            Storage::delete('public/images/' . $data);
-        }
-        $delAnnouncement = Announcement::find($announcementId)->delete();
-        if ($delAnnouncement) {
+        $announcement = Announcement::find($announcementId);
+
+        if ($announcement) {
+            if (!is_null($announcement->picture)) {
+                $data = basename($announcement->picture);
+                Storage::delete('public/images/' . $data);
+            }
+            if ($announcement->delete()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Announcement ID data (' . $announcementId . ') deleted successfully!',
+                    'data' => null,
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to delete announcement!',
+                    'data' => null,
+                ], 400);
+            }
+        } else {
             return response()->json([
-                'success' => true,
-                'message' => 'Data ID pengumuman ' . $announcementId . ' berhasil dihapus!',
+                'success' => false,
+                'message' => 'ID Announcement ' . $announcementId . ' not found!',
                 'data' => null,
-            ], 200);
+            ], 404);
         }
     }
 }
