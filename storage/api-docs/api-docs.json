@@ -1890,8 +1890,8 @@
                 "tags": [
                     "Points"
                 ],
-                "summary": "Retrieve data points based on logged in users",
-                "description": "user retrieves data points based on login",
+                "summary": "Project Manager & Member Access - Get Data Points",
+                "description": "User retrieves data points based on login",
                 "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\MemberController::index",
                 "responses": {
                     "200": {
@@ -1904,15 +1904,19 @@
                                             "description": "Retrieve data points based on logged in users.",
                                             "type": "boolean"
                                         },
+                                        "message": {
+                                            "description": "Retrieve data points based on logged in users.",
+                                            "type": "string",
+                                            "example": "Data points retrieved successfully."
+                                        },
                                         "data": {
                                             "description": "Retrieve data points based on logged in users.",
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "id": {
+                                                    "success": {
                                                         "description": "Retrieve data points based on logged in users.",
-                                                        "type": "integer",
-                                                        "example": 1
+                                                        "type": "boolean"
                                                     },
                                                     "user_id": {
                                                         "description": "Retrieve data points based on logged in users.",
@@ -1974,24 +1978,66 @@
                 ]
             }
         },
-        "/api/data-points": {
-            "get": {
+        "/api/claim-rewards": {
+            "post": {
                 "tags": [
                     "Points"
                 ],
-                "summary": "Retrieve the points associated with all current users",
-                "description": "Project Manager takes data points from all members.",
-                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::getData",
+                "summary": "Project Manager & Member Access - Claim Rewards",
+                "description": "User Claim Rewards",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\MemberController::claimReward",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reward_point_before_claims": {
+                                        "description": "Claim Reward Points.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Success: Data points retrieved successfully.",
+                        "description": "Success: Claim successful.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "description": "Claim Reward Points.",
+                                            "type": "boolean"
+                                        },
                                         "message": {
-                                            "description": "Retrieve the points associated with all current users.",
-                                            "type": "string"
+                                            "description": "Claim Reward Points.",
+                                            "type": "string",
+                                            "example": "Claim successful."
+                                        },
+                                        "data": {
+                                            "description": "Claim Reward Points.",
+                                            "properties": {
+                                                "main_points": {
+                                                    "description": "Claim Reward Points.",
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "reward_points": {
+                                                    "description": "Claim Reward Points.",
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "reward_point_before_claims": {
+                                                    "description": "Claim Reward Points.",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2000,14 +2046,216 @@
                         }
                     },
                     "404": {
-                        "description": "Error: No data points found for the logged-in user.",
+                        "description": "Error: Not enough points to claim.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "description": "Claim Reward Points.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Claim Reward Points.",
+                                            "type": "string",
+                                            "example": "Not enough points to claim."
+                                        },
+                                        "data": {
+                                            "description": "Claim Reward Points.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/transfer-points": {
+            "post": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Project Manager & Member Access - Transfer Points",
+                "description": "User Transfer reward Points to Main Points",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\MemberController::transferPoint",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reward_points": {
+                                        "description": "Transfer reward_points to main_points",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: Transfer successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "type": "string",
+                                            "example": "Claim successful."
+                                        },
+                                        "data": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "properties": {
+                                                "main_points": {
+                                                    "description": "Transfer reward_points to main_points",
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "reward_points": {
+                                                    "description": "Transfer reward_points to main_points",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "reward_point_before_claims": {
+                                                    "description": "Transfer reward_points to main_points",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: User points not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "type": "string",
+                                            "example": "User points not found."
+                                        },
+                                        "data": {
+                                            "description": "Transfer reward_points to main_points",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/data-points": {
+            "get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Project Manager Access - List All Points User",
+                "description": "Project Manager takes data points from all members.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::getData",
+                "responses": {
+                    "200": {
+                        "description": "Success: User points found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "boolean"
+                                        },
                                         "message": {
                                             "description": "Retrieve the points associated with all current users.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "User points found."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "main_points": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 300
+                                                    },
+                                                    "reward_points": {
+                                                        "description": "Retrieve the points associated with all current users.",
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Didn't find any user data points.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "string",
+                                            "example": "Didn't find any user data points."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve the points associated with all current users.",
+                                            "type": "string",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -2028,8 +2276,9 @@
                 "tags": [
                     "Points"
                 ],
-                "summary": "Sending main points to users",
+                "summary": "Project Manager Access - Send Main Points",
                 "description": "Send main points from the project manager to the project manager or members.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::addMainPoint",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2059,9 +2308,35 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "description": "Sending main points to users",
+                                            "type": "boolean"
+                                        },
                                         "message": {
-                                            "description": "Sending main points to users.",
-                                            "type": "string"
+                                            "description": "Sending main points to users",
+                                            "type": "string",
+                                            "example": "Point Sent"
+                                        },
+                                        "data": {
+                                            "description": "Sending main points to users",
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "Sending main points to users",
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "main_points": {
+                                                    "description": "Sending main points to users",
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "reward_points": {
+                                                    "description": "Sending main points to users",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2077,8 +2352,9 @@
                 "tags": [
                     "Points"
                 ],
-                "summary": "Sending reward points to users",
+                "summary": "Project Manager Access - Send Reward Points",
                 "description": "Send reward points from the project manager to the project manager or members.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Point\\ProjectManagerController::addRewardPointBeforeClaims",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2090,7 +2366,7 @@
                                         "type": "integer",
                                         "format": "int64"
                                     },
-                                    "main_points": {
+                                    "reward_point_before_claims": {
                                         "description": "Points",
                                         "type": "integer",
                                         "format": "int64"
@@ -2103,14 +2379,45 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success: Point sent.",
+                        "description": "Success: Reward points added successfully.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                            "type": "boolean"
+                                        },
                                         "message": {
                                             "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Reward points added successfully"
+                                        },
+                                        "data": {
+                                            "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "main_points": {
+                                                    "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "reward_points": {
+                                                    "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "reward_point_before_claims": {
+                                                    "description": "Method: Add reward points before claiming (reward_point_before_claims) to the user's account",
+                                                    "type": "integer",
+                                                    "example": 500
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2147,6 +2454,60 @@
                     }
                 },
                 "type": "object"
+            },
+            "Point": {
+                "properties": {
+                    "user_id": {
+                        "type": "bigInteger",
+                        "example": 3
+                    },
+                    "main_points": {
+                        "type": "bigInteger",
+                        "example": 200
+                    },
+                    "reward_points": {
+                        "type": "bigInteger",
+                        "example": 300
+                    },
+                    "flag_reward_points": {
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "reward_point_before_claims": {
+                        "type": "bigInteger",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "401": {
+                "description": "Error: User not authenticated.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "description": "Transfer reward_points to main_points",
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "description": "Transfer reward_points to main_points",
+                                    "type": "string",
+                                    "example": "User not authenticated."
+                                },
+                                "data": {
+                                    "description": "Transfer reward_points to main_points",
+                                    "type": "string",
+                                    "example": null
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     }

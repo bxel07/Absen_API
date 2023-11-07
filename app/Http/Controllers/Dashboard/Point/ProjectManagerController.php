@@ -13,6 +13,17 @@ class ProjectManagerController extends Controller
     {
         $this->middleware('auth');
     }
+    /**
+     * @OA\Schema(
+     *     schema="Point",
+     *     type="object",
+     *     @OA\Property(property="user_id", type="bigInteger", example = 3),
+     *     @OA\Property(property="main_points", type="bigInteger", example = 200),
+     *     @OA\Property(property="reward_points", type="bigInteger", example = 300),
+     *     @OA\Property(property="flag_reward_points", type="boolean", example = 1),
+     *     @OA\Property(property="reward_point_before_claims", type="bigInteger", example = 100),
+     * )
+     */
 
     /**
      * Retrieve the points associated with all current users.
@@ -21,26 +32,38 @@ class ProjectManagerController extends Controller
      *
      * @OA\Get(
      *     path="/api/data-points",
-     *     summary="Retrieve the points associated with all current users",
+     *     summary="Project Manager Access - List All Points User",
      *     description="Project Manager takes data points from all members.",
      *     tags={"Points"},
      *     security={{ "bearerAuth": {} }},
      *    @OA\Response(
      *         response=200,
-     *         description="Success: Data points retrieved successfully.",
+     *         description="Success: User points found.",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="success", type="boolean"),
+     *              @OA\Property(property="message", type="string", example="User points found."),
+
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="user_id", type="integer", example= 1),
+     *                     @OA\Property(property="main_points", type="integer", example= 300),
+     *                     @OA\Property(property="reward_points", type="integer", example= 500),
+     *           ),
      *         ),
+     *       ),
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Error: No data points found for the logged-in user.",
+     *         description="Error: Didn't find any user data points.",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string"),
-     *         ),
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="Didn't find any user data points."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
      *     ),
+     *   ),
      * )
      */
 
@@ -50,6 +73,8 @@ class ProjectManagerController extends Controller
 
         if(!$point) {
         return response()->json([
+            'succcess' => false,
+            'data' => null,
             'message' => "Didn't find any user data points"
         ],404);
         }
@@ -63,11 +88,14 @@ class ProjectManagerController extends Controller
 
 
     /**
-     * Sending main points to users.
+     * Sending main points to users
+     *
+     * @param Request $request
+     * @return JsonResponse
      *
      * @OA\Post(
      *     path="/api/add-main-points",
-     *     summary="Sending main points to users",
+     *     summary="Project Manager Access - Send Main Points",
      *     description="Send main points from the project manager to the project manager or members.",
      *     tags={"Points"},
      *     @OA\RequestBody(
@@ -78,20 +106,22 @@ class ProjectManagerController extends Controller
      *             @OA\Property(property="main_points", type="integer", format="int64", description="Points"),
      *         ),
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Success: Point sent.",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="success", type="boolean"),
+     *              @OA\Property(property="message", type="string", example="Point Sent"),
+     *             @OA\Property(property="data", type="object",
+     *                     @OA\Property(property="user_id", type="integer", example= 3),
+     *                     @OA\Property(property="main_points", type="integer", example= 500),
+     *                     @OA\Property(property="reward_points", type="integer", example= 0),
+     *         ),
      *         ),
      *     ),
      * )
-     */
-
-     /**
-     * @param Request $request
-     * @return JsonResponse
      */
 
     public function addMainPoint(Request $request): JsonResponse
@@ -122,9 +152,12 @@ class ProjectManagerController extends Controller
     /**
      * Method: Add reward points before claiming (reward_point_before_claims) to the user's account
      *
+     * @param Request $request
+     * @return JsonResponse
+     *
      * @OA\Post(
      *     path="/api/add-rewards",
-     *     summary="Sending reward points to users",
+     *     summary="Project Manager Access - Send Reward Points",
      *     description="Send reward points from the project manager to the project manager or members.",
      *     tags={"Points"},
      *     @OA\RequestBody(
@@ -132,26 +165,28 @@ class ProjectManagerController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="user_id", type="integer",  format="int64", description="Id users."),
-     *             @OA\Property(property="main_points", type="integer", format="int64", description="Points"),
+     *             @OA\Property(property="reward_point_before_claims", type="integer", format="int64", description="Points"),
      *         ),
      *     ),
-     *     @OA\Response(
+     *
+     *      @OA\Response(
      *         response=200,
-     *         description="Success: Point sent.",
+     *         description="Success: Reward points added successfully.",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="success", type="boolean"),
+     *              @OA\Property(property="message", type="string", example="Reward points added successfully"),
+     *             @OA\Property(property="data", type="object",
+     *                   @OA\Property(property="user_id", type="integer", example= 3),
+     *                     @OA\Property(property="main_points", type="integer", example= 0),
+     *                     @OA\Property(property="reward_points", type="integer", example= 0),
+     *                     @OA\Property(property="reward_point_before_claims", type="integer", example= 500),
+     *         ),
      *         ),
      *     ),
      * )
      */
 
-    /**
-     * Method: Menambahkan poin hadiah sebelum klaim (reward_point_before_claims) ke akun pengguna.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function addRewardPointBeforeClaims(Request $request): JsonResponse
     {
         $user_id = $request->user_id;
@@ -171,7 +206,8 @@ class ProjectManagerController extends Controller
         }
         return response()->json([
             'success' => true,
-            'data' => $point
+            'data' => $point,
+            'message'=> 'Reward points added successfully.'
         ], 200);
     }
 }
