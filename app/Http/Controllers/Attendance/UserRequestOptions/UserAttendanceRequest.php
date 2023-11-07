@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Annotations as OA;
 
 class UserAttendanceRequest extends Controller
 {
@@ -391,8 +392,8 @@ class UserAttendanceRequest extends Controller
     private function getArr(Request $request): array
     {
         $selfie = $request->file('upload_file');
-        $selfie->storeAs('public/attendance', $selfie->hashName());
-        $url = Storage::url('public/images/' . $selfie->hashName());
+        $selfie->storeAs('public/attendance/', $selfie->hashName());
+        $url = Storage::url('public/attendance/' . $selfie->hashName());
 
         $getAllRequest = $request->all();
         $getAllRequest['upload_file'] = $url;

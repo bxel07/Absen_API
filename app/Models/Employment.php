@@ -28,9 +28,9 @@ class Employment extends Model
         return $this->belongsTo('companies', 'company_id');
     }
 
-    public function departments(): BelongsTo
+    public function department(): BelongsTo
     {
-        return $this->belongsTo('departments', 'department_id');
+        return $this->belongsTo(Department::class);
     }
 
     public function branches(): BelongsTo

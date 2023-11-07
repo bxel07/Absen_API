@@ -15,13 +15,16 @@ class ApprovedRequest extends Model
         'attendance_request_id',
         'status',
         'reward_flag'
-
-
     ];
 
 
     public function users(): BelongsTo
     {
         return $this->belongsTo('users', 'user_id');
+    }
+
+    public function attendance_request(): BelongsTo
+    {
+        return $this->belongsTo(AttendanceRequest::class);
     }
 }

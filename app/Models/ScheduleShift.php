@@ -21,4 +21,14 @@ class ScheduleShift extends Model
         return $this->belongsTo('users', 'user_id');
     }
 
+    public function shift(): BelongsTo
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function schedule(): BelongsTo
+    {
+        return $this->belongsTo(Schedules::class);
+    }
+
 }

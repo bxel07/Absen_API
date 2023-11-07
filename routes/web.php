@@ -183,3 +183,5 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
      $router->get('/auth/google/login', 'Auth\Google_auth\GAuthController_rev@redirectToGoogle');
      $router->get('/auth/google/callback', 'Auth\Google_auth\GAuthController_rev@handleGoogleCallback');
+
+    $router->get('/data', 'Attendance\UserRequestOptions\AttendanceStatusController@index');
