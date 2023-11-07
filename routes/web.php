@@ -173,7 +173,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/task/{project_id}/list-task',    'Dashboard\Task\TaskController@getTasksByProject');
         $router->get('/task/{task_id}/list-comment',    'Dashboard\Task\TaskController@getCommentsForTask');
         $router->post('/task/{project_id}/add-task',    'Dashboard\Task\TaskController@addTaskToProject');
-        $router->put('/task/{task_id}/edit-status',     'Dashboard\Task\TaskController@editTaskStatus');
+        $router->put('/task/{task_id}/edit-status',     'Dashboard\Task\TaskController@updateTaskStatus');
     });
 
     /**
