@@ -935,6 +935,617 @@
                 ]
             }
         },
+        "/api/faq": {
+            "get": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Displays entire list of FAQ",
+                "description": "All users can see FAQ made by the project manager.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\FAQController::index",
+                "responses": {
+                    "200": {
+                        "description": "Success: FAQ data list was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "string",
+                                            "example": "FAQ Data List"
+                                        },
+                                        "data": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Displays entire list of FAQ.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "question": {
+                                                        "description": "Displays entire list of FAQ.",
+                                                        "type": "string",
+                                                        "example": "Buat Tugas Baru"
+                                                    },
+                                                    "answer": {
+                                                        "description": "Displays entire list of FAQ.",
+                                                        "type": "text",
+                                                        "example": " Lorem ipsum dolor sit amets"
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Displays entire list of FAQ.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Displays entire list of FAQ.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-26T06:20:35.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: FAQ Data List Not Found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "string",
+                                            "example": "FAQ Data List Not Found"
+                                        },
+                                        "data": {
+                                            "description": "Displays entire list of FAQ.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Save new FAQ.",
+                "description": "Project manager makes a new FAQ for users.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\FAQController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Unique ID to identify specific data.",
+                                        "type": "integer"
+                                    },
+                                    "question": {
+                                        "description": "Create a new FAQ question.",
+                                        "type": "string"
+                                    },
+                                    "answer": {
+                                        "description": "FAQ answer.",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Validation failed. Please check your input data!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new FAQ.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Save new FAQ.",
+                                            "type": "string",
+                                            "example": "Validation failed. Please check your input data!"
+                                        },
+                                        "data": {
+                                            "description": "Save new FAQ.",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Pesan kesalahan untuk bidang 'id'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer"
+                                                    },
+                                                    "example": [
+                                                        "The id field is required."
+                                                    ]
+                                                },
+                                                "question": {
+                                                    "description": "Pesan kesalahan untuk bidang 'question'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The question field is required."
+                                                    ]
+                                                },
+                                                "answer": {
+                                                    "description": "Pesan kesalahan untuk bidang 'answer'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "text"
+                                                    },
+                                                    "example": [
+                                                        "The answer field is required."
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Successfully added a new FAQ.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new FAQ.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Save new FAQ.",
+                                            "type": "boolean",
+                                            "example": "Successfully added a new FAQ."
+                                        },
+                                        "data": {
+                                            "description": "Save new FAQ.",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Unique ID to identify specific data.",
+                                                    "type": "integer",
+                                                    "example": "3"
+                                                },
+                                                "question": {
+                                                    "description": "New question.",
+                                                    "type": "string",
+                                                    "example": "Klaim Poin"
+                                                },
+                                                "answer": {
+                                                    "description": "New answer.",
+                                                    "type": "text",
+                                                    "example": "Lorem ipsum dolor sit amets."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Failed to make a new FAQ!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Save new FAQ.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Save new FAQ.",
+                                            "type": "string",
+                                            "example": "Failed to make a new FAQ!"
+                                        },
+                                        "data": {
+                                            "description": "Save new FAQ.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/faq/{id}": {
+            "get": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Display FAQ history based on user ID",
+                "description": "All users can see FAQ made by ID the project manager.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\FAQController::show",
+                "responses": {
+                    "200": {
+                        "description": "Success: User notification data history was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": "List of Notification Data from User ID (2)"
+                                        },
+                                        "data": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "question": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "example": "Tentang Perusahaan"
+                                                    },
+                                                    "answer": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "text",
+                                                        "example": " Lorem ipsum dolor sit amets"
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-9-26T06:20:35.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Display notification history based on user ID.",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-9-26T06:20:35.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: User FAQ Data History Not Found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": "User FAQ Data History Not Found"
+                                        },
+                                        "data": {
+                                            "description": "Display notification history based on user ID.",
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Updates FAQ by ID.",
+                "description": "Project managers can change FAQ based on selected data.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\FAQController::update",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Unique ID to identify specific data.",
+                                        "type": "integer"
+                                    },
+                                    "question": {
+                                        "description": "Create a new FAQ question.",
+                                        "type": "string"
+                                    },
+                                    "answer": {
+                                        "description": "FAQ answer.",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Error: Validation failed. Please check your input data!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Updates FAQ by ID.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Updates FAQ by ID.",
+                                            "type": "string",
+                                            "example": "Validation failed. Please check your input data!"
+                                        },
+                                        "data": {
+                                            "description": "Updates FAQ by ID.",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Pesan kesalahan untuk bidang 'id'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer"
+                                                    },
+                                                    "example": [
+                                                        "The id field is required."
+                                                    ]
+                                                },
+                                                "question": {
+                                                    "description": "Pesan kesalahan untuk bidang 'question'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "The question field is required."
+                                                    ]
+                                                },
+                                                "answer": {
+                                                    "description": "Pesan kesalahan untuk bidang 'answer'.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "text"
+                                                    },
+                                                    "example": [
+                                                        "The answer field is required."
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success: Successfully updated the FAQ.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Updates FAQ by ID.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Updates FAQ by ID.",
+                                            "type": "boolean",
+                                            "example": "Successfully updated the announcement."
+                                        },
+                                        "data": {
+                                            "description": "Updates FAQ by ID.",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Unique ID to identify specific data.",
+                                                    "type": "integer",
+                                                    "example": "3"
+                                                },
+                                                "question": {
+                                                    "description": "New question.",
+                                                    "type": "string",
+                                                    "example": "Tambahkan Anggota Proyek"
+                                                },
+                                                "answer": {
+                                                    "description": "New answer.",
+                                                    "type": "text",
+                                                    "example": "Lorem ipsum dolor sit amets."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Remove the specified FAQ.",
+                "description": "Remove the specified announcement.",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Account\\FAQController::destroy",
+                "parameters": [
+                    {
+                        "name": "announcementId",
+                        "in": "path",
+                        "description": "Project managers can delete specified FAQ.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FAQ successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "Announcement ID data ($id) deleted successfully!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID FAQ ($id) not found!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "ID FAQ ($id) not found!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to delete FAQ!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "string",
+                                            "example": "Failed to delete FAQ!"
+                                        },
+                                        "data": {
+                                            "description": "Remove the specified announcement.",
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user-employment": {
             "get": {
                 "tags": [

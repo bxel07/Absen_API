@@ -75,7 +75,8 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'All Task retrieved successfully',
-            'tasks' => $tasks], 200);
+            'tasks' => $tasks
+        ], 200);
     }
 
 
@@ -130,7 +131,8 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Assignments based on Project have been successfully taken',
-            'tasks' => $tasks], 200);
+            'tasks' => $tasks
+        ], 200);
     }
 
     /**
@@ -383,7 +385,7 @@ class TaskController extends Controller
             'success' => true,
             'message' => 'comment added successfully',
             'data' => $task,
-           ], 201);
+        ], 201);
     }
 
 
