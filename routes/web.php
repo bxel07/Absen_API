@@ -90,7 +90,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post('/add-main-points',   'Dashboard\Point\ProjectManagerController@addMainPoint');
         $router->post('/add-rewards',        'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
         $router->get('task-all',            'Dashboard\Task\ApprovedTaskController@index');
-        $router->post('approve-task/{id}',  'Dashboard\Task\ApprovedTaskController@edit');
+        $router->put('approve-task/{id}',  'Dashboard\Task\ApprovedTaskController@edit');
         $router->get('/task-pending',       'Dashboard\Task\ApprovedTaskController@taskPending');
         $router->get('task-approved',       'Dashboard\Task\ApprovedTaskController@taskApproved');
 

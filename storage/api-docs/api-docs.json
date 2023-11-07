@@ -2427,6 +2427,1028 @@
                     }
                 }
             }
+        },
+        "/api/task/task-all": {
+            "get": {
+                "tags": [
+                    "Approved Tasks"
+                ],
+                "summary": "Project Manager Access - Retrieve all to-do lists",
+                "description": "Project Manager retrieves all task data",
+                "responses": {
+                    "200": {
+                        "description": "Success: The task was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve all to-do lists.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Retrieve all to-do lists.",
+                                            "type": "string",
+                                            "example": "The task was successfully retrieved."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve all to-do lists.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "string",
+                                                        "example": "Tugas Pertama pada Project Pertama"
+                                                    },
+                                                    "project_id": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "deadline": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "string",
+                                                        "example": "2023-11-27 10:50:10"
+                                                    },
+                                                    "description": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "text",
+                                                        "example": "Ini adalah tugas pertama saya dari Project pertama"
+                                                    },
+                                                    "status": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "to-do",
+                                                            "in progress",
+                                                            "completed"
+                                                        ],
+                                                        "example": "completed"
+                                                    },
+                                                    "comment": {
+                                                        "description": "Retrieve all to-do lists.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "comment": {
+                                                                    "description": "Retrieve all to-do lists.",
+                                                                    "type": "text",
+                                                                    "example": "Ini adalah komentar 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/task-list": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Get All Task",
+                "description": "The user retrieves all task data",
+                "operationId": "App\\Http\\Controllers\\Dashboard\\Task\\TaskController::getTaskList",
+                "responses": {
+                    "200": {
+                        "description": "Success: All Task retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get All Task.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Get All Task.",
+                                            "type": "string",
+                                            "example": "All Task retrieved successfully."
+                                        },
+                                        "data": {
+                                            "description": "Get All Task.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Get All Task.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Get All Task.",
+                                                        "type": "string",
+                                                        "example": "Tugas Pertama pada Project Pertama"
+                                                    },
+                                                    "project_id": {
+                                                        "description": "Get All Task.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "deadline": {
+                                                        "description": "Get All Task.",
+                                                        "type": "string",
+                                                        "example": "2023-11-27 10:50:10"
+                                                    },
+                                                    "description": {
+                                                        "description": "Get All Task.",
+                                                        "type": "text",
+                                                        "example": "Ini adalah tugas pertama saya dari Project pertama"
+                                                    },
+                                                    "status": {
+                                                        "description": "Get All Task.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "to-do",
+                                                            "in progress",
+                                                            "completed"
+                                                        ],
+                                                        "example": "completed"
+                                                    },
+                                                    "comment": {
+                                                        "description": "Get All Task.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "comment": {
+                                                                    "description": "Get All Task.",
+                                                                    "type": "text",
+                                                                    "example": "Ini adalah komentar 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Approved Tasks"
+                ],
+                "summary": "Project Manager Access - edit the status in the approved task table",
+                "description": "The user retrieves all task data",
+                "responses": {
+                    "200": {
+                        "description": "Success: status changed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "edit the status in the approved task table.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "edit the status in the approved task table.",
+                                            "type": "string",
+                                            "example": "status changed successfully."
+                                        },
+                                        "data": {
+                                            "description": "edit the status in the approved task table.",
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "edit the status in the approved task table.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "task_id": {
+                                                    "description": "edit the status in the approved task table.",
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "status": {
+                                                    "description": "edit the status in the approved task table.",
+                                                    "type": "string",
+                                                    "example": "approved"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task-pending": {
+            "get": {
+                "tags": [
+                    "Approved Tasks"
+                ],
+                "summary": "Project Manager Access - Retrieve all tasks that have pending status",
+                "description": "Project Manager retrieves all task data Pending",
+                "responses": {
+                    "200": {
+                        "description": "Success: The task was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve all tasks that have pending status.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Retrieve all tasks that have pending status.",
+                                            "type": "string",
+                                            "example": "The task was successfully retrieved."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve all tasks that have pending status.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "string",
+                                                        "example": "Tugas Pertama pada Project Pertama"
+                                                    },
+                                                    "project_id": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "deadline": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "string",
+                                                        "example": "2023-11-27 10:50:10"
+                                                    },
+                                                    "description": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "text",
+                                                        "example": "Ini adalah tugas pertama saya dari Project pertama"
+                                                    },
+                                                    "status": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "to-do",
+                                                            "in progress",
+                                                            "completed"
+                                                        ],
+                                                        "example": "completed"
+                                                    },
+                                                    "comment": {
+                                                        "description": "Retrieve all tasks that have pending status.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "comment": {
+                                                                    "description": "Retrieve all tasks that have pending status.",
+                                                                    "type": "text",
+                                                                    "example": "Ini adalah komentar 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task-approved": {
+            "get": {
+                "tags": [
+                    "Approved Tasks"
+                ],
+                "summary": "Project Manager Access - Retrieve all tasks that have Approved status",
+                "description": "Project Manager retrieves all task data Approved",
+                "responses": {
+                    "200": {
+                        "description": "Success: The task was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Retrieve all tasks that have Approved status.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Retrieve all tasks that have Approved status.",
+                                            "type": "string",
+                                            "example": "The task was successfully retrieved."
+                                        },
+                                        "data": {
+                                            "description": "Retrieve all tasks that have Approved status.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "string",
+                                                        "example": "Tugas Pertama pada Project Pertama"
+                                                    },
+                                                    "project_id": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "deadline": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "string",
+                                                        "example": "2023-11-27 10:50:10"
+                                                    },
+                                                    "description": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "text",
+                                                        "example": "Ini adalah tugas pertama saya dari Project pertama"
+                                                    },
+                                                    "status": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "to-do",
+                                                            "in progress",
+                                                            "completed"
+                                                        ],
+                                                        "example": "completed"
+                                                    },
+                                                    "comment": {
+                                                        "description": "Retrieve all tasks that have Approved status.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "comment": {
+                                                                    "description": "Retrieve all tasks that have Approved status.",
+                                                                    "type": "text",
+                                                                    "example": "Ini adalah komentar 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{project_id}/list-task": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Get Task by Project",
+                "description": "Users take Tasks based on Projects",
+                "responses": {
+                    "200": {
+                        "description": "Success: Assignments based on Project have been successfully taken.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get Task by Project.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Get Task by Project.",
+                                            "type": "string",
+                                            "example": "Assignments based on Project have been successfully taken."
+                                        },
+                                        "tasks": {
+                                            "description": "Get Task by Project.",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "user_id": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "string",
+                                                        "example": "Tugas Pertama pada Project Pertama"
+                                                    },
+                                                    "project_id": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "deadline": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "string",
+                                                        "example": "2023-11-27 10:50:10"
+                                                    },
+                                                    "description": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "text",
+                                                        "example": "Ini adalah tugas pertama saya dari Project pertama"
+                                                    },
+                                                    "status": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "to-do",
+                                                            "in progress",
+                                                            "completed"
+                                                        ],
+                                                        "example": "completed"
+                                                    },
+                                                    "comment": {
+                                                        "description": "Get Task by Project.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "comment": {
+                                                                    "description": "Get Task by Project.",
+                                                                    "type": "text",
+                                                                    "example": "Ini adalah komentar 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{task_id}/list-comment": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Get comments for a specific task",
+                "description": "Users take comment based on Projects",
+                "responses": {
+                    "200": {
+                        "description": "Success: comments based on the task being successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get comments for a specific task.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Get comments for a specific task.",
+                                            "type": "string",
+                                            "example": "comments based on the task being successfully retrieved."
+                                        },
+                                        "tasks": {
+                                            "description": "Get comments for a specific task.",
+                                            "properties": {
+                                                "comment": {
+                                                    "description": "Get comments for a specific task.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "comment": {
+                                                                "description": "Get comments for a specific task.",
+                                                                "type": "text",
+                                                                "example": "Ini adalah komentar 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: task not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Get comments for a specific task.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Get comments for a specific task.",
+                                            "type": "string",
+                                            "example": "task not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{project_id}/add-task": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Add Task to Project",
+                "description": "User Add Task to Project",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Add Task to Project.",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Add Task to Project.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: task added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Task to Project.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Add Task to Project.",
+                                            "type": "string",
+                                            "example": "task added successfully."
+                                        },
+                                        "data": {
+                                            "description": "Add Task to Project.",
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Add Task to Project.",
+                                                    "type": "string",
+                                                    "example": "Testing input tugas 1 dari project 1"
+                                                },
+                                                "description": {
+                                                    "description": "Add Task to Project.",
+                                                    "type": "string",
+                                                    "example": "ini isi dari Tugas 1"
+                                                },
+                                                "user_id": {
+                                                    "description": "Add Task to Project.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "project_id": {
+                                                    "description": "Add Task to Project.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Error: You do not have permission to add tasks to this project.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Task to Project.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Add Task to Project.",
+                                            "type": "string",
+                                            "example": "You do not have permission to add tasks to this project."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Project not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Task to Project.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Add Task to Project.",
+                                            "type": "string",
+                                            "example": "Project not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{task_id}/add-comment": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Add Comment to Task",
+                "description": "User Add Comment to Task",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "comment": {
+                                        "description": "Add Comment to Task.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: comment added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "string",
+                                            "example": "comment added successfully."
+                                        },
+                                        "data": {
+                                            "description": "Add Comment to Task.",
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Add Comment to Task.",
+                                                    "type": "string",
+                                                    "example": "Testing input tugas 1 dari project 1"
+                                                },
+                                                "description": {
+                                                    "description": "Add Comment to Task.",
+                                                    "type": "string",
+                                                    "example": "ini isi dari Tugas 1"
+                                                },
+                                                "user_id": {
+                                                    "description": "Add Comment to Task.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "project_id": {
+                                                    "description": "Add Comment to Task.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "comment": {
+                                                    "description": "Add Comment to Task.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "comment": {
+                                                                "description": "Add Comment to Task.",
+                                                                "type": "text",
+                                                                "example": "Ini adalah komentar 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Comment is Required.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "string",
+                                            "example": "Comment is Required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Task not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Add Comment to Task.",
+                                            "type": "string",
+                                            "example": "Task not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{task_id}/edit-status": {
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Project Manager & Member Access - Update Task Status",
+                "description": "User Update Task Status",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "description": "Update Task Status.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success: task status updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update Task Status.",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Update Task Status.",
+                                            "type": "string",
+                                            "example": "task status updated successfully."
+                                        },
+                                        "data": {
+                                            "description": "Update Task Status.",
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "string",
+                                                    "example": "Testing input tugas 1 dari project 1"
+                                                },
+                                                "project_id": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "deadline": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "string",
+                                                    "example": "2023-11-27 10:50:10"
+                                                },
+                                                "description": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "string",
+                                                    "example": "ini isi dari Tugas 1"
+                                                },
+                                                "status": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "string",
+                                                    "example": "to-do"
+                                                },
+                                                "comment": {
+                                                    "description": "Update Task Status.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "comment": {
+                                                                "description": "Update Task Status.",
+                                                                "type": "text",
+                                                                "example": "Ini adalah komentar 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error: Status is Required.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update Task Status.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Update Task Status.",
+                                            "type": "string",
+                                            "example": "Status is Required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Task not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Update Task Status.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Update Task Status.",
+                                            "type": "string",
+                                            "example": "Task not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -2476,6 +3498,68 @@
                     "reward_point_before_claims": {
                         "type": "bigInteger",
                         "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "Approved Tasks": {
+                "properties": {
+                    "user_id": {
+                        "type": "BigInteger",
+                        "example": 1
+                    },
+                    "task_id": {
+                        "type": "BigInteger",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "approved"
+                        ],
+                        "example": "completed"
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Testing Comment"
+                    }
+                },
+                "type": "object"
+            },
+            "Task": {
+                "properties": {
+                    "user_id": {
+                        "type": "Integer",
+                        "example": 3
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Task 1"
+                    },
+                    "project_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "deadline": {
+                        "type": "date"
+                    },
+                    "description": {
+                        "type": "text",
+                        "example": "Ini task 1 dari Project 1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "to-do",
+                            "in progress",
+                            "completed"
+                        ],
+                        "example": "completed"
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Testing Comment"
                     }
                 },
                 "type": "object"
