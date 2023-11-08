@@ -23,7 +23,7 @@ class AttendanceSeeder extends Seeder
                 'photo' => 'photo.png',
                 'shift_schedule' => '2022-01-01',
                 'shift' => 'Shift 1',
-                'location' => 'location 1',
+                'location' => DB::raw("POINT(123.456, 78.90)"),
                 'notes' => 'notes 1',
             ],
             [
@@ -35,7 +35,7 @@ class AttendanceSeeder extends Seeder
                 'photo' => 'photo.png',
                 'shift_schedule' => '2022-01-01',
                 'shift' => 'Shift 2',
-                'location' => 'location 2',
+                'location' => DB::raw("POINT(123.456, 78.90)"),
                 'notes' => 'notes 2',
             ]
         ]);

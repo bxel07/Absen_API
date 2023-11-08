@@ -21,7 +21,7 @@ class AttendanceRequestSeeder extends Seeder
                 'clock_out' => '2022-01-01 00:00:00',
                 'description' => 'description 1',
                 'upload_file' => 'photo.png',
-                'point' => 10,
+                'point' => DB::raw("ST_GeomFromText('POINT(10 10)')"),
             ],
             [
                 'user_id' => 2,
@@ -30,7 +30,7 @@ class AttendanceRequestSeeder extends Seeder
                 'clock_out' => '2022-01-01 00:00:00',
                 'description' => 'description 2',
                 'upload_file' => 'photo.png',
-                'point' => 20,
+                'point' => DB::raw("ST_GeomFromText('POINT(20 20)')"),
             ]
         ]);
     }
