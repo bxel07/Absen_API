@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\TaskMember;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
 class ProjectController extends Controller
 {
@@ -20,10 +21,35 @@ class ProjectController extends Controller
     }
 
     /**
-     * Method: Membuat project baru.
+     * Add Task to Project.
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/create-project",
+     *     summary="Create new Project",
+     *     description="Add Project Task to Project",
+     *     tags={"Project Managements"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="project_title", type="string"),
+     *             @OA\Property(property="deadline", type="date"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="reward_point", type="integer"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: ptoject added successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="project added successfully."),
+     *         ),
+     *     ),
+     * )
      */
     public function createProject(Request $request): JsonResponse
     {
@@ -86,6 +112,38 @@ class ProjectController extends Controller
      * @param int $id
      * @return JsonResponse
      */
+    /**
+     *
+     * @OA\Post(
+     *     path="/api/edit-project/{id}",
+     *     summary="Create new Project",
+     *     description="Add Project Task to Project",
+     *     tags={"Project Managements"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="project_title", type="string"),
+     *             @OA\Property(property="deadline", type="date"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="reward_point", type="integer"),
+     *             @OA\Property(property="file", type="mimes:pdf", example="this is for pdf"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: ptoject added successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="project added successfully."),
+     *         ),
+     *     ),
+     * )
+     */
+
     public function editProject(Request $request, $id): JsonResponse
     {
         // Validasi request.
@@ -97,7 +155,7 @@ class ProjectController extends Controller
             'reward_point' => 'required|integer',
             'status' => 'required|string|in:to-do,in progress, completed',
             'members' => 'required|array',
-            // 'file' => 'nullable|mimes:pdf'
+             'file' => 'nullable|mimes:pdf'
         ]);
         // Jika validasi gagal, kembalikan respon JSON dengan pesan kesalahan.
         if ($validator->fails()) {
@@ -148,6 +206,34 @@ class ProjectController extends Controller
      * @param int $id
      * @return JsonResponse
      */
+
+    /**
+     *
+     * @OA\Post(
+     *     path="/api/delete-project/{id}",
+     *     summary="Delete existing Project",
+     *     description="Delete Project",
+     *     tags={"Project Managements"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer"),
+     *         ),
+     *     ),
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: ptoject added successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="project Data ID project ' .1 . ' berhasil dihapus!."),
+     *         ),
+     *     ),
+     * )
+     * */
+
     public function deleteProject($id): JsonResponse
     {
         // Cari project berdasarkan ID.
@@ -175,6 +261,25 @@ class ProjectController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
+    /**
+     *
+     * @OA\Get(
+     *     path="/api/status-projects",
+     *     summary="Get Project status for each user",
+     *     description="Get Project status for each user",
+     *     tags={"Project Managements"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: ptoject added successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="projects", type="object", example="[]"),
+     *         ),
+     *     ),
+     * )
+     * */
     public function statusProjects(Request $request): JsonResponse
     {
         // Dapatkan user saat ini.
@@ -196,6 +301,25 @@ class ProjectController extends Controller
      *
      * @return JsonResponse
      */
+
+    /**
+     *
+     * @OA\Get(
+     *     path="/api/all-projects",
+     *     summary="Get all available Project",
+     *     description="Get all available Project",
+     *     tags={"Project Managements"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: ptoject added successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="projects", type="object", example="[]"),
+     *         ),
+     *     ),
+     * )
+     * */
     public function allProjects(): JsonResponse
     {
         // Dapatkan project.
@@ -209,6 +333,40 @@ class ProjectController extends Controller
      *
      * @param int $id
      * @return JsonResponse
+     */
+
+    /**
+     * @OA\Get(
+     *     path="/api/project/{id}",
+     *     summary="Get Project details by ID",
+     *     description="Get Project details by ID",
+     *     tags={"Project Managements"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the project",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Project details retrieved successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="project", type="object"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Project not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Project not found")
+     *         )
+     *     )
+     * )
      */
     public function detailProject($id): JsonResponse
     {

@@ -10,54 +10,121 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
-    /**
-     * Retrieve the point associated with the current user.
-     *
-     * @return JsonResponse
-     *
-     * @OA\Get(
-     *     path="/api/point",
-     *     summary="Retrieve the point associated with the current user",
-     *     description="Retrieve the point associated with the current user based on the user's ID.",
-     *     tags={"Profile"},
-     *     security={{ "bearerAuth": {} }},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="data"),
-     *         ),
-     *     ),
-     * )
-     */
-
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-     * Method: Mengambil poin yang terkait dengan pengguna saat ini.
+     * Retrieve data points based on logged in users.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *     path="/api/points",
+     *     summary="Project Manager & Member Access - Get Data Points",
+     *     description="User retrieves data points based on login",
+     *     tags={"Points"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Data points retrieved successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="Data points retrieved successfully."),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="success", type="boolean"),
+     *                     @OA\Property(property="user_id", type="integer", example= 1),
+     *                     @OA\Property(property="main_points", type="integer", example= 300),
+     *                     @OA\Property(property="reward_points", type="integer", example= 500),
+     *           ),
+     *         ),
+     *       ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: No data points found for the logged-in user.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="No data points found for the logged-in user."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
+     *     ),
+     *   ),
+     * )
      */
+
     public function index(): JsonResponse
     {
         $user = Auth::user()->id;
-        $point = Point::where('user_id', $user)->first();
+        $point = Point::where('user_id', $user)
+        ->select('user_id','main_points', 'reward_points')
+        ->first();
 
-        return response()->json([
-            'success' => true,
-            'data' => $point
-        ], 200);
+        if (!$point) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => 'No data points found for the logged-in user.'
+            ], 404); // Menggunakan status 404 untuk menunjukkan data tidak ditemukan.
+        }
+
+            return response()->json([
+                'success' => true,
+                'data' => $point,
+                'message' => 'Data points retrieved successfully.'
+            ], 200);
     }
 
-    /**
-     * Method: Klaim Hadiah dengan menggunakan poin.
+     /**
+     * Claim Reward Points.
      *
-     * @param Request $request
      * @return JsonResponse
+     * @param Request $request
+     * @OA\Post(
+     *     path="/api/claim-rewards",
+     *     summary="Project Manager & Member Access - Claim Rewards",
+     *     description="User Claim Rewards",
+     *     tags={"Points"},
+    *       @OA\RequestBody(
+    *         required=true,
+    *         @OA\JsonContent(
+    *             type="object",
+    *             @OA\Property(property="reward_point_before_claims", type="integer"),
+    *         ),
+    *     ),
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Claim successful.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="Claim successful."),
+     *             @OA\Property(property="data", type="object",
+
+     *                     @OA\Property(property="main_points", type="integer", example= 500),
+     *                     @OA\Property(property="reward_points", type="integer", example= 500),
+     *                     @OA\Property(property="reward_point_before_claims", type="integer", example= 0),
+
+     *         ),
+     *       ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: Not enough points to claim.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="Not enough points to claim."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
+     *     ),
+     *   ),
+     * )
      */
     public function claimReward(Request $request): JsonResponse
     {
@@ -83,17 +150,78 @@ class MemberController extends Controller
                     return response()->json([
                         'success' => false,
                         'message' => 'Not enough points to claim'
-                    ], 400);
+                    ], 404);
                 }
             }
         }
     }
 
     /**
-     * Method: Transfer poin antara reward_points dan main_points.
+     * Transfer reward_points to main_points
      *
-     * @param Request $request
      * @return JsonResponse
+     * @param Request $request
+     * @OA\Post(
+     *     path="/api/transfer-points",
+     *     summary="Project Manager & Member Access - Transfer Points",
+     *     description="User Transfer reward Points to Main Points",
+     *     tags={"Points"},
+     *  @OA\RequestBody(
+    *         required=true,
+    *         @OA\JsonContent(
+    *             type="object",
+    *             @OA\Property(property="reward_points", type="integer"),
+    *         ),
+    *     ),
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success: Transfer successful.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string", example="Claim successful."),
+     *             @OA\Property(property="data", type="object",
+     *                     @OA\Property(property="main_points", type="integer", example= 500),
+     *                     @OA\Property(property="reward_points", type="integer", example= 0),
+     *                     @OA\Property(property="reward_point_before_claims", type="integer", example= 0),
+     *
+     *       ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error: Not enough points to Transfer.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="Not enough points to Transfer."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
+     *     ),
+     *   ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error: User points not found.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="User points not found."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
+     *     ),
+     *   ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Error: User not authenticated.",
+     *         @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="success", type="boolean", example = false),
+     *             @OA\Property(property="message", type="string", example="User not authenticated."),
+     *             @OA\Property(property="data", type="string", example= null),
+     *       ),
+     *     ),
+     *   ),
+     * )
      */
     public function transferPoint(Request $request): JsonResponse
     {

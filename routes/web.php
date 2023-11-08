@@ -88,10 +88,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          */
         $router->get('data-points',         'Dashboard\Point\ProjectManagerController@getData');
         $router->post('/add-main-points',   'Dashboard\Point\ProjectManagerController@addMainPoint');
-        $router->post('/add-reward',        'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
+        $router->post('/add-rewards',        'Dashboard\Point\ProjectManagerController@addRewardPointBeforeClaims');
         $router->get('task-all',            'Dashboard\Task\ApprovedTaskController@index');
-        $router->post('approve-task',       'Dashboard\Task\ApprovedTaskController@edit');
-        $router->post('approve-task/{id}',  'Dashboard\Task\ApprovedTaskController@edit');
+        $router->put('approve-task/{id}',  'Dashboard\Task\ApprovedTaskController@edit');
         $router->get('/task-pending',       'Dashboard\Task\ApprovedTaskController@taskPending');
         $router->get('task-approved',       'Dashboard\Task\ApprovedTaskController@taskApproved');
 
@@ -163,8 +162,8 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         /**
          * Router for Point Member
          */
-        $router->get('/point',              'Dashboard\Point\MemberController@index');
-        $router->post('/claim-reward',      'Dashboard\Point\MemberController@claimReward');
+        $router->get('/points',              'Dashboard\Point\MemberController@index');
+        $router->post('/claim-rewards',      'Dashboard\Point\MemberController@claimReward');
         $router->post('/transfer-points',   'Dashboard\Point\MemberController@transferPoint');
 
         /**
@@ -174,7 +173,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/task/{project_id}/list-task',    'Dashboard\Task\TaskController@getTasksByProject');
         $router->get('/task/{task_id}/list-comment',    'Dashboard\Task\TaskController@getCommentsForTask');
         $router->post('/task/{project_id}/add-task',    'Dashboard\Task\TaskController@addTaskToProject');
-        $router->put('/task/{task_id}/edit-status',     'Dashboard\Task\TaskController@editTaskStatus');
+        $router->put('/task/{task_id}/edit-status',     'Dashboard\Task\TaskController@updateTaskStatus');
     });
 
     /**

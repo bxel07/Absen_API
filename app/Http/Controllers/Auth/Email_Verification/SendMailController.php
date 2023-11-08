@@ -81,13 +81,7 @@ class SendMailController extends Controller
 
         // Tampilkan pesan sukses atau pesan error jika ada
         return response()->json(['message' => 'Email send'], 200);
-        //   return view('verify-otp', ['email' => $email]);
     }
-
-    // public function pageResetPassword()
-    // {
-    //     return view('verify-otp');
-    // }
 
     /**
      * Verify the OTP sent to the user's email.
