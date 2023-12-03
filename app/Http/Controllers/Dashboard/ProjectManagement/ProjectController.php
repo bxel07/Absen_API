@@ -55,13 +55,13 @@ class ProjectController extends Controller
     {
         // Validasi request.
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            // 'name' => 'required|string|max:255',
             'project_title' => 'required|string|max:255',
             'deadline' => 'required|date',
             'description' => 'required|string',
             'reward_point' => 'required|integer',
             'status' => 'required|string|in:to-do,in progress, completed',
-            'members' => 'required|array',
+            'members' => 'nullable|array',
             // 'file' => 'nullable|mimes:pdf'
         ]);
         // Jika validasi gagal, kembalikan respon JSON dengan pesan kesalahan.
@@ -86,7 +86,7 @@ class ProjectController extends Controller
         // Buat project baru.
         $project = new Project();
         $project->user_id = Auth::id(); // Set user ID proyek ke ID pengguna yang sedang login.
-        $project->name = $request->input('name');
+        // $project->name = $request->input('name');
         $project->project_title = $request->input('project_title');
         $project->deadline = $request->input('deadline');
         $project->description = $request->input('description');
@@ -148,14 +148,14 @@ class ProjectController extends Controller
     {
         // Validasi request.
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            // 'name' => 'required|string|max:255',
             'project_title' => 'required|string|max:255',
             'deadline' => 'required|date',
             'description' => 'required|string',
             'reward_point' => 'required|integer',
             'status' => 'required|string|in:to-do,in progress, completed',
-            'members' => 'required|array',
-             'file' => 'nullable|mimes:pdf'
+            'members' => 'nullable|array',
+            // 'file' => 'nullable|mimes:pdf'
         ]);
         // Jika validasi gagal, kembalikan respon JSON dengan pesan kesalahan.
         if ($validator->fails()) {
@@ -175,13 +175,18 @@ class ProjectController extends Controller
             $taskMember->save();
         }
         //upload file
-        $request->hasFile('file');  // Hapus file sebelumnya jika ada.
-        Storage::delete('public/documents/' . $project->file);
-        // Upload file baru jika ada.
-        $url = $this->uploadFile($request);
+        if ($request->hasFile('file')) {  // Hapus file sebelumnya jika ada.
+            if ($project->file) {
+                Storage::delete('public/documents/' . $project->file);
+            }
+            // Upload file baru jika ada.
+            $url = $this->uploadFile($request);
+        } else {
+            $url = "";
+        }
 
         // Perbarui data project.
-        $project->name = $request->input('name');
+        // $project->name = $request->input('name');
         $project->project_title = $request->input('project_title');
         $project->deadline = $request->input('deadline');
         $project->description = $request->input('description');
@@ -386,7 +391,7 @@ class ProjectController extends Controller
             'id' => $project->id,
             'task_member_id' => $project->task_member_id,
             'user_id' => $project->user_id,
-            'name' => $project->name,
+            // 'name' => $project->name,
             'project_title' => $project->project_title,
             'deadline' => $project->deadline,
             'description' => $project->description,
@@ -411,14 +416,18 @@ class ProjectController extends Controller
      */
     public function uploadFile(Request $request): string
     {
-        //upload file
-        $file = $request->file('file');
-        $file->storeAs('public/documents', $file->hashName());
+        if ($request->hasFile('file')) {
+            //upload file
+            $file = $request->file('file');
+            $file->storeAs('public/documents', $file->hashName());
 
-        $getAllRequest = $request->all();
-        $getAllRequest['file'] = $file->hashName();
-        $url = Storage::url('public/documents/' . $getAllRequest['file']);
+            $getAllRequest = $request->all();
+            $getAllRequest['file'] = $file->hashName();
+            $url = Storage::url('public/documents/' . $getAllRequest['file']);
 
-        return $url;
+            return $url;
+        } else {
+            return "";
+        }
     }
 }

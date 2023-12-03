@@ -98,8 +98,8 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          * Router for Project Management
          */
         $router->post('/create-project',        'Dashboard\ProjectManagement\ProjectController@createProject');
-        $router->post('/edit-project/{id}',     'Dashboard\ProjectManagement\ProjectController@editProject');
-        $router->post('/delete-project/{id}',   'Dashboard\ProjectManagement\ProjectController@deleteProject');
+        $router->put('/edit-project/{id}',     'Dashboard\ProjectManagement\ProjectController@editProject');
+        $router->delete('/delete-project/{id}',   'Dashboard\ProjectManagement\ProjectController@deleteProject');
         $router->get('/project/{id}',           'Dashboard\ProjectManagement\ProjectController@detailProject');
         $router->get('/status-projects',        'Dashboard\ProjectManagement\ProjectController@statusProjects');
         $router->get('/all-projects',           'Dashboard\ProjectManagement\ProjectController@allProjects');

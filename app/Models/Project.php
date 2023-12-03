@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Project extends Model
 {
     protected $table = 'projects';
-    protected $fillable = ['task_member_id', 'user_id', 'name', 'project_title', 'deadline', 'description', 'reward_point', 'status'];
+    protected $fillable = ['task_member_id', 'user_id', 'project_title', 'deadline', 'description', 'reward_point', 'status'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
