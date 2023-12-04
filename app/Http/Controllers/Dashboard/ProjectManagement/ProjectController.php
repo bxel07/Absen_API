@@ -82,10 +82,17 @@ class ProjectController extends Controller
 
         // Upload the file
         $url = $this->uploadFile($request);
-
+        // Dapatkan id pengguna yang sedang login.
+        $userId = Auth::id();
+        // Cek peran pengguna yang sedang login.
+        $userRole = Auth::user()->role->name;
+        // Jika pengguna adalah 'Member' dan mencoba membuat proyek dengan status selain 'to-do', kembalikan pesan error.
+        if ($userRole === 'Member' && $request->input('status') !== 'to-do') {
+            return response()->json(['message' => 'Member hanya dapat membuat proyek hingga tahap to-do'], 403);
+        }
         // Buat project baru.
         $project = new Project();
-        $project->user_id = Auth::id(); // Set user ID proyek ke ID pengguna yang sedang login.
+        $project->user_id = $userId;
         // $project->name = $request->input('name');
         $project->project_title = $request->input('project_title');
         $project->deadline = $request->input('deadline');
@@ -94,7 +101,13 @@ class ProjectController extends Controller
         $project->status = $request->input('status');
         $project->task_member_id = $taskMember->id;
         $project->file = $url;
+        $project->pm_tmp = $userRole === 'Member'; // Tandai sebagai PM sementara jika pengguna adalah 'Member'.
         $project->save();
+        // Jika pengguna adalah 'Member', tambahkan penanda PM sementara pada proyek.
+        if ($userRole === 'Member') {
+            $project->pm_tmp = true;
+            $project->save();
+        }
         // Dapatkan nama lengkap member project.
         $memberFullnames = User::whereIn('id', $taskMemberIds)->get('fullname')->toArray();
         // Kembalikan respon JSON dengan pesan sukses dan data project.

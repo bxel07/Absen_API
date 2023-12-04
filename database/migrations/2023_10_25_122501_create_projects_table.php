@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('reward_point');
             $table->string('file')->nullable();
             $table->enum('status', ['to-do', 'in progress', 'completed']);
+            $table->boolean('pm_tmp')->nullable();
             $table->timestamps();
         });
     }

@@ -97,7 +97,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         /**
          * Router for Project Management
          */
-        $router->post('/create-project',        'Dashboard\ProjectManagement\ProjectController@createProject');
         $router->put('/edit-project/{id}',     'Dashboard\ProjectManagement\ProjectController@editProject');
         $router->delete('/delete-project/{id}',   'Dashboard\ProjectManagement\ProjectController@deleteProject');
         $router->get('/project/{id}',           'Dashboard\ProjectManagement\ProjectController@detailProject');
@@ -152,7 +151,10 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
          *
          */
         $router->get('/user-employment',    'Dashboard\Account\UserEmployment@index');
-
+        /**
+         * Router for Project Management
+         */
+        $router->post('/create-project',        'Dashboard\ProjectManagement\ProjectController@createProject');
         /**
          * Router data data project dan task setiap user
          *
